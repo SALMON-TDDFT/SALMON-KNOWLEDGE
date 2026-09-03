@@ -44,7 +44,7 @@ outputs.
 ## Repository layout
 
 ```text
-cases/                  Reviewed and draft knowledge cards
+cases/                  Reviewed and draft knowledge-card directories
 templates/use-case.md   Template for a new use-case card
 AGENTS.md               Instructions for AI coding tools
 CONTRIBUTING.md          Contribution and review rules
@@ -52,11 +52,12 @@ CONTRIBUTING.md          Contribution and review rules
 
 ## Contributing
 
-Create a branch, copy `templates/use-case.md` into the appropriate year under
-`cases/`, complete the card using evidence from actual work, and submit a pull
-request. AI tools may help organize or translate the material, but the
-contributor remains responsible for verifying every technical claim and
-removing sensitive information.
+Create a branch, create a card directory under the appropriate year, and copy
+`templates/use-case.md` to its `README.md`. Add only small, relevant supporting
+figures or one representative input when needed. Complete the card using
+evidence from actual work, and submit a pull request. AI tools may help
+organize or translate the material, but the contributor remains responsible
+for verifying every technical claim and removing sensitive information.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the complete pilot rules.
 

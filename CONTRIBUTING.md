@@ -3,7 +3,9 @@
 ## Contribution workflow
 
 1. Create a topic branch from the latest `main`.
-2. Copy `templates/use-case.md` to `cases/<year>/<number>-<short-title>.md`.
+2. Create `cases/<year>/<number>-<short-title>/README.md` from
+   `templates/use-case.md`. Keep card-specific figures, representative inputs,
+   and provenance under that directory.
 3. Replace every placeholder. Use `unknown` when a fact cannot be established;
    do not infer a value merely to complete the template.
 4. Check all technical claims against the recorded SALMON version or commit.
