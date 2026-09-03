@@ -33,7 +33,10 @@ State the conflict and narrow the claim to what the evidence supports.
 
 ## Creating and editing cards
 
-- Start from `templates/use-case.md` and keep its required front matter.
+- Start from `templates/use-case.md` and keep its required front matter. Each
+  card is a directory under `cases/<year>/`; its `README.md` is the card body.
+  Supporting figures, representative inputs, provenance manifests, and small
+  regeneration scripts belong in subdirectories of that card.
 - Create one card for one reusable case or conclusion. Split unrelated findings.
 - Use `unknown` for facts that cannot be confirmed. Never fabricate a complete
   value for the sake of presentation.
@@ -49,9 +52,14 @@ State the conflict and narrow the claim to what the evidence supports.
 - Do not add a RAG service, vector database, indexing pipeline, CI workflow, or
   mailing-list ingestion unless a task explicitly requests it.
 - Do not duplicate complete inputs from SALMON-inputs, formal documentation from
-  SALMON-DOCS, or implementation documentation that belongs in SALMON2.
+  SALMON-DOCS, or implementation documentation that belongs in SALMON2. A
+  card may include one small, representative input when it is necessary to
+  reproduce the card's conclusion; link to SALMON-inputs for published input
+  collections and avoid copying multiple variants.
 - Do not add large calculation outputs, build directories, binary artifacts, or
   generated caches.
+- Small derived figures that support a card are allowed under that card's
+  `figures/` directory. Do not commit raw output files or temporary caches.
 - Do not include credentials, personal data, unpublished research, restricted
   data, allocation identifiers, or sensitive machine details.
 
