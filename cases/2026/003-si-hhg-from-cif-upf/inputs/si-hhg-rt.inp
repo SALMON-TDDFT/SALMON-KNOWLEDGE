@@ -1,0 +1,65 @@
+&calculation
+  theory = 'tddft_pulse'
+/
+
+&control
+  sysname = 'Si'
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+&system
+  yn_periodic = 'y'
+  al = 5.430400000000, 5.430400000000, 5.430400000000
+  nelem = 1
+  natom = 8
+  nelec = 32
+  nstate = 32
+/
+
+&pseudo
+  izatom(1) = 14
+  file_pseudo(1) = '../downloads/Si.upf'
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid = 16, 16, 16
+/
+
+&kgrid
+  num_kgrid = 2, 2, 2
+/
+
+&tgrid
+  dt = 0.002d0
+  nt = 6000
+/
+
+&emfield
+  ae_shape1 = 'Acos2'
+  I_wcm2_1 = 1.0d12
+  tw1 = 10.672d0
+  omega1 = 1.55d0
+  epdir_re1 = 0.0d0, 0.0d0, 1.0d0
+/
+
+&analysis
+  de = 0.01d0
+  nenergy = 3000
+/
+
+&atomic_red_coor
+  'Si'  0.000000000000  0.000000000000  0.000000000000  1
+  'Si'  0.250000000000  0.250000000000  0.250000000000  1
+  'Si'  0.000000000000  0.500000000000  0.500000000000  1
+  'Si'  0.750000000000  0.250000000000  0.750000000000  1
+  'Si'  0.250000000000  0.750000000000  0.750000000000  1
+  'Si'  0.750000000000  0.750000000000  0.250000000000  1
+  'Si'  0.500000000000  0.000000000000  0.500000000000  1
+  'Si'  0.500000000000  0.500000000000  0.000000000000  1
+/

@@ -1,0 +1,19 @@
+structure:
+  source: "https://www.crystallography.net/cod/9013102.cif"
+  identifier: "COD 9013102"
+  retrieved_at: "2026-09-04"
+  sha256: "99fb6c6c297f8407aa779de46bf7eaa663ac079f7f12b582c042313f9c82f77e"
+  cif_data_block: "9013102"
+converter:
+  source: "https://github.com/SALMON-TDDFT/SALMON2/tree/b45cd8aa214ece58a30d63ae4c09021b83a1e9cf/utility/cif2salmon"
+  salmon2_commit: "b45cd8aa214ece58a30d63ae4c09021b83a1e9cf"
+  gemmi_version: "0.7.5"
+  coordinate_system: "reduced"
+pseudopotential:
+  source: "http://www.pseudo-dojo.org/pseudos/nc-sr_pw_standard/Si.upf.gz"
+  reference: "https://github.com/SALMON-TDDFT/SALMON2/blob/b45cd8aa214ece58a30d63ae4c09021b83a1e9cf/testsuites/195_bulk_Si_pseudo_upf/preparation"
+  retrieved_at: "2026-09-04"
+  decompressed_filename: "Si.upf"
+  sha256: "56df10485adc6e95f3063bd24baa1822dbd5ffab88838261a3db2dc5ba112b44"
+  atomic_number: 14
+  valence_electrons: 4
