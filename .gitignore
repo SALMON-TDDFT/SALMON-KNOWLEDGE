@@ -1,0 +1,5 @@
+# Per-user downloads, conversion products, and calculation work directories.
+/.local/
+
+# Per-user environment notes; do not commit machine-specific details.
+/LOCAL_ENV.md

@@ -18,6 +18,19 @@ traceability, and future retrieval rather than document volume.
 - Confirm the source version, commit, platform, and verification evidence before
   describing observed behavior.
 
+## Local working convention
+
+- Perform per-user downloads, CIF conversions, temporary inputs, calculation
+  runs, and raw outputs under `/.local/<case-id>/`. The repository ignores
+  `/.local/`; do not stage its contents.
+- Use the ignored root-level `LOCAL_ENV.md` for non-sensitive notes about a
+  local working environment, such as available executables or module names.
+  Do not record credentials, allocation identifiers, internal hostnames, or
+  other sensitive details there.
+- Keep reproducible scripts, provenance manifests, representative inputs, and
+  small derived figures in the relevant card directory. A card must not depend
+  on unrecorded files in `/.local/` to explain or regenerate its conclusion.
+
 ## Source priority
 
 For behavior tied to a particular version, use the following priority:
