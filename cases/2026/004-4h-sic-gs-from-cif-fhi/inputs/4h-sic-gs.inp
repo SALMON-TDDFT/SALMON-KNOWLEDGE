@@ -1,0 +1,71 @@
+&calculation
+  theory = 'dft'
+/
+
+&control
+  sysname = '4H-SiC'
+/
+
+&parallel
+  nproc_k = 4
+  nproc_ob = 1
+  nproc_rgrid = 1, 1, 1
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+
+&system
+  yn_periodic = 'y'
+  al_vec1 = 3.080510000000, 0.000000000000, 0.000000000000
+  al_vec2 = -1.540255000000, 2.667799916612, 0.000000000000
+  al_vec3 = 0.000000000000, 0.000000000000, 10.084800000000
+  nelem = 2
+  natom = 8
+  nelec = 32
+  nstate = 32
+/
+
+&pseudo
+  izatom(1) = 6
+  izatom(2) = 14
+  file_pseudo(1) = '../downloads/06-C.LDA.fhi'
+  file_pseudo(2) = '../downloads/14-Si.LDA.fhi'
+  lloc_ps(1) = 2
+  lloc_ps(2) = 2
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid = 12, 12, 36
+/
+
+&kgrid
+  num_kgrid = 2, 2, 1
+/
+
+&scf
+  ncg = 4
+  nscf = 300
+  threshold = 1.0d-9
+/
+
+&analysis
+  yn_out_dns = 'y'
+  format_voxel_data = 'cube'
+/
+
+&atomic_red_coor
+  'C'  0.000000000000  0.000000000000  0.187840000000  1
+  'C'  0.000000000000  0.000000000000  0.687840000000  1
+  'Si' 0.000000000000  0.000000000000  0.000000000000  2
+  'Si' 0.000000000000  0.000000000000  0.500000000000  2
+  'C'  0.333333333300  0.666666666700  0.436710000000  1
+  'C'  0.666666666600  0.333333333300  0.936710000000  1
+  'Si' 0.333333333300  0.666666666700  0.249820000000  2
+  'Si' 0.666666666600  0.333333333300  0.749820000000  2
+/

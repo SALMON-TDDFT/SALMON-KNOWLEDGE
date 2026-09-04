@@ -1,0 +1,32 @@
+salmon:
+  version: "2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  executable: ".local/salmon-v2.3.0-mpi/build-netlib/salmon"
+  executable_sha256: "faa7877c27249489a86d9bca059b31b649b4ce13b6839a4aa7af5908b6d97fc3"
+  blas_lapack: "Netlib LAPACK 3.12.1 and supplied BLAS, statically linked"
+platform:
+  operating_system: "macOS"
+  architecture: "arm64"
+  fortran_compiler: "GNU Fortran (Homebrew GCC) 16.2.0"
+  mpi: "Open MPI 5.0.10"
+execution:
+  date: "2026-09-04"
+  input: "inputs/4h-sic-gs.inp"
+  input_sha256: "e104ffda7395bc70d2ab1435093b90ca2737ec3d4ff02ca5b1008d64fae0cf9a"
+  coordinate_namelist: "atomic_red_coor"
+  mpi_processes: 4
+  nproc_k: 4
+  omp_num_threads: 1
+  omp_stacksize: "64M"
+  stack_size: "unlimited"
+observed:
+  gs_convergence_marker: "#GS converged at 71 : 0.85476349E-09"
+  final_printed_total_energy_ev: -1059.36255618
+  final_printed_gap_ev: 4.23959072
+  electron_number_at_convergence: 32.000000000000028
+  completion_marker: "end SALMON"
+  stderr_bytes: 0
+  electron_density_cube:
+    filename: "4H-SiC_dns.cube"
+    grid: [12, 12, 36]
+    retained_in: ".local/004-4h-sic-gs-from-cif-fhi/gs/"
