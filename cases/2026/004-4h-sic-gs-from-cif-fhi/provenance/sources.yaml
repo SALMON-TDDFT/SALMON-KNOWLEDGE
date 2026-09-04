@@ -1,0 +1,20 @@
+cif:
+  source: "https://raw.githubusercontent.com/aflow-org/aflow_prototype_encyclopedia/97fa9596493465a4349736abcb8d862d11b8004d/data/AB_hP8_186_ab_ab-001/aflow.cif"
+  aflow_commit: "97fa9596493465a4349736abcb8d862d11b8004d"
+  prototype: "AB_hP8_186_ab_ab-001"
+  sha256: "8d5696467e6ffccb5fd9b45dcf62a616de36e8389a1912c292dcdb9a9771a89a"
+  normalization: "Replace H-M symbol P6_{3}mc with P 63 m c before Gemmi conversion."
+cif_converter:
+  source: "https://github.com/SALMON-TDDFT/SALMON2/tree/b45cd8aa214ece58a30d63ae4c09021b83a1e9cf/utility/cif2salmon"
+  salmon2_commit: "b45cd8aa214ece58a30d63ae4c09021b83a1e9cf"
+  script_sha256: "37db395473860ee42fb95e00120ee897406f1ee793f9f255f7fc17177a893642"
+carbon_fhi:
+  source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/06-C.LDA.fhi"
+  sha256: "cccd183e2f42e0464326a26899c00165daa7ca0d08182e610ce9b09692e24f12"
+  valence_electrons: 4
+  local_channel: 2
+silicon_fhi:
+  source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/14-Si.LDA.fhi"
+  sha256: "835f3f3affacd5bb64dcfbee39b4f68de82289eeeacaea97d6b726ea5ca96b84"
+  valence_electrons: 4
+  local_channel: 2
