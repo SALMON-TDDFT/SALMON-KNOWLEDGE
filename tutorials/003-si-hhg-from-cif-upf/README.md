@@ -1,8 +1,12 @@
 ---
-id: SALMON-CASE-2026-003
+id: SALMON-TUTORIAL-003
 title: Preparing a silicon HHG calculation from COD CIF and PseudoDojo UPF data
 status: draft
 verification_level: tested
+learning_stage: intermediate
+prerequisites: [SALMON-TUTORIAL-001]
+next_tutorials: [SALMON-TUTORIAL-002]
+estimated_cost: one small node
 topics: [silicon, high-harmonic-generation, real-time-tddft, cif, pseudopotential]
 salmon_version: 2.3.0
 salmon_commit: unknown
@@ -13,9 +17,14 @@ contributors: []
 reviewed_by: []
 ---
 
+# Learning objective
+
+Build and validate a Si HHG calculation from externally obtained CIF and UPF
+data, recording enough provenance to reproduce the construction.
+
 # Summary
 
-This card prepares and test-runs ground-state (GS) and real-time (RT) SALMON inputs for
+This tutorial prepares and test-runs ground-state (GS) and real-time (RT) SALMON inputs for
 bulk-Si high-harmonic generation (HHG) without copying the crystal structure
 or pseudopotential from a SALMON sample. The structure is derived from COD CIF
 entry 9013102 with SALMON2's `utility/cif2salmon`, and the Si UPF is the same
@@ -55,9 +64,9 @@ Use the tracked scripts from the repository root. They write only to the
 ignored local work directory:
 
 ```text
-cases/2026/003-si-hhg-from-cif-upf/scripts/fetch_sources.sh
+tutorials/003-si-hhg-from-cif-upf/scripts/fetch_sources.sh
 SALMON2_ROOT=/path/to/SALMON2 \
-  cases/2026/003-si-hhg-from-cif-upf/scripts/convert_structure.sh
+  tutorials/003-si-hhg-from-cif-upf/scripts/convert_structure.sh
 ```
 
 Copy the representative inputs to `.local/003-si-hhg-from-cif-upf/gs/` and
@@ -110,7 +119,7 @@ The source-file SHA-256 checksums and conversion tool version are recorded in
 
 The calculation is a single successful test run, not a numerical-convergence
 study. The PZ functional and the specified PseudoDojo UPF differ from the
-official Si HHG exercise's KY pseudopotential, so this card does not imply
+official Si HHG exercise's KY pseudopotential, so this tutorial does not imply
 matching energies or HHG spectra. It covers only the COD conventional
 diamond-Si cell, the stated external files, and one Wisteria/BDEC-01 run.
 
@@ -120,4 +129,4 @@ diamond-Si cell, the stated external files, and one Wisteria/BDEC-01 run.
 - [SALMON2 cif2salmon utility at the recorded commit](https://github.com/SALMON-TDDFT/SALMON2/tree/b45cd8aa214ece58a30d63ae4c09021b83a1e9cf/utility/cif2salmon)
 - [SALMON2 testsuite 195 at the recorded commit](https://github.com/SALMON-TDDFT/SALMON2/tree/b45cd8aa214ece58a30d63ae4c09021b83a1e9cf/testsuites/195_bulk_Si_pseudo_upf)
 - [PseudoDojo UPF source](http://www.pseudo-dojo.org/pseudos/nc-sr_pw_standard/Si.upf.gz)
-- Companion cards: [official Si HHG exercise](../001-si-hhg-baseline-and-convergence-checks/) and [convergence workflow](../002-si-hhg-convergence-and-restart-validation/)
+- Companion tutorials: [official Si HHG exercise](../001-si-hhg-official-exercise-reproduction/) and [convergence workflow](../002-si-hhg-convergence-and-restart-validation/)

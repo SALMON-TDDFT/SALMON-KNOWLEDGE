@@ -1,8 +1,12 @@
 ---
-id: SALMON-CASE-2026-004
+id: SALMON-TUTORIAL-004
 title: 4H-SiC ground state from AFLOW CIF and FHI pseudopotentials
 status: draft
 verification_level: tested
+learning_stage: intermediate
+prerequisites: []
+next_tutorials: []
+estimated_cost: one small node
 topics: [silicon-carbide, ground-state, cif, fhi-pseudopotential, electron-density]
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
@@ -12,6 +16,11 @@ updated_at: 2026-09-04
 contributors: []
 reviewed_by: []
 ---
+
+# Learning objective
+
+Build and validate a periodic multi-element ground-state calculation from an
+external CIF and compatible pseudopotentials.
 
 # Summary
 
@@ -27,8 +36,8 @@ convergence result.
 The purpose is to provide a traceable path from an external 4H-SiC crystal
 structure and public FHI pseudopotentials to a small periodic SALMON GS run.
 It records the structure conversion, the valence-electron choices, the
-representative input, and completion checks needed before using the case as a
-knowledge-card example.
+representative input, and completion checks needed before using the tutorial as
+an example.
 
 ## Conditions
 
@@ -66,8 +75,8 @@ They write downloads and generated structure fragments only below the ignored
 local work directory:
 
 ```text
-cases/2026/004-4h-sic-gs-from-cif-fhi/scripts/fetch_sources.sh
-cases/2026/004-4h-sic-gs-from-cif-fhi/scripts/convert_structure.sh
+tutorials/004-4h-sic-gs-from-cif-fhi/scripts/fetch_sources.sh
+tutorials/004-4h-sic-gs-from-cif-fhi/scripts/convert_structure.sh
 ```
 
 The representative input is
@@ -80,7 +89,7 @@ Run the input from the repository root with the Netlib-linked executable:
 ```text
 export SALMON=/path/to/build-netlib/salmon
 export NPROCS=4
-cases/2026/004-4h-sic-gs-from-cif-fhi/scripts/run_gs.sh
+tutorials/004-4h-sic-gs-from-cif-fhi/scripts/run_gs.sh
 ```
 
 ## Observed result
@@ -122,7 +131,7 @@ error, electron number, and presence and header dimensions of the cube file.
 
 ## Limitations and applicability
 
-This card covers one 4H-SiC structure source, PZ-LDA FHI pseudopotentials, one
+This tutorial covers one 4H-SiC structure source, PZ-LDA FHI pseudopotentials, one
 small grid, and a single macOS arm64 Netlib-linked build. It does not establish
 k-point, real-space-grid, pseudopotential, or structural convergence; the
 reported energy and gap must not be treated as material reference values. It

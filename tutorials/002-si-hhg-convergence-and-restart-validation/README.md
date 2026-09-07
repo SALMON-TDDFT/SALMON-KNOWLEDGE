@@ -1,8 +1,12 @@
 ---
-id: SALMON-CASE-2026-002
+id: SALMON-TUTORIAL-002
 title: Convergence workflow and restart validation for silicon HHG
 status: draft
 verification_level: tested
+learning_stage: advanced
+prerequisites: [SALMON-TUTORIAL-001, SALMON-TUTORIAL-003]
+next_tutorials: []
+estimated_cost: large parallel allocation
 topics: [silicon, high-harmonic-generation, convergence, restart, validation]
 salmon_version: 2.3.0
 salmon_commit: unknown
@@ -12,6 +16,11 @@ updated_at: 2026-09-03
 contributors: []
 reviewed_by: []
 ---
+
+# Learning objective
+
+Learn to establish the spatial-grid, time-step, and k-point convergence of an
+HHG calculation while keeping GS and RT restart data mutually consistent.
 
 # Summary
 
@@ -84,7 +93,7 @@ z-polarized HHG spectrum, represented by column 10 (`|Jm_z|^2`) of
 
 ## Observed result
 
-The derived comparison figures are included with this card:
+The derived comparison figures are included with this tutorial:
 
 - [rgrid convergence](figures/rgrid-convergence.png)
 - [dt convergence](figures/dt-convergence.png)
