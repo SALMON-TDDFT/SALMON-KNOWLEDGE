@@ -1,10 +1,11 @@
 # SALMON Knowledge
 
 SALMON Knowledge is a curated collection of practical knowledge for developing
-and using [SALMON](https://salmon-tddft.jp/). It records reproducible use cases,
-observations, troubleshooting lessons, and implementation context that do not
-naturally belong in the source code, the formal manuals, or the published-input
-database.
+and using [SALMON](https://salmon-tddft.jp/). Its primary entry point is a
+curated, case-based learning path for SALMON calculations. It also records
+concise answers, troubleshooting lessons, and implementation context that do
+not naturally belong in the source code, the formal manuals, or the
+published-input database.
 
 This repository is initially a small, private pilot. Its Markdown files are
 written so that developers can read and review them directly and so that they
@@ -21,15 +22,15 @@ can later serve as a source for retrieval-augmented generation (RAG).
 - SALMON Knowledge contains reviewed experience and context derived from actual
   development and use.
 
-A knowledge card is not a replacement for source code, tests, or formal
-documentation. If a card conflicts with the relevant version of SALMON2 or
+A tutorial, FAQ entry, or troubleshooting note is not a replacement for source code, tests, or formal
+documentation. If a resource conflicts with the relevant version of SALMON2 or
 SALMON-DOCS, those repositories take precedence. Stable knowledge that becomes
 part of the supported interface should be promoted to the appropriate formal
-repository, with the original card updated or deprecated.
+repository, with the original resource updated or deprecated.
 
 ## Initial scope
 
-The pilot accepts Markdown use-case cards describing:
+The pilot accepts Markdown tutorials describing:
 
 - a calculation or development objective;
 - the relevant SALMON version or commit and execution environment;
@@ -44,17 +45,19 @@ outputs.
 ## Repository layout
 
 ```text
-cases/                  Reviewed and draft knowledge-card directories
-templates/use-case.md   Template for a new use-case card
+tutorials/              Curated, case-based learning path
+faq/                    Short, evidence-backed questions and answers
+troubleshooting/        Reproducible symptoms, diagnoses, and resolutions
+templates/tutorial.md   Template for a new tutorial
 AGENTS.md               Instructions for AI coding tools
 CONTRIBUTING.md          Contribution and review rules
 ```
 
 ## Contributing
 
-Create a branch, create a card directory under the appropriate year, and copy
-`templates/use-case.md` to its `README.md`. Add only small, relevant supporting
-figures or one representative input when needed. Complete the card using
+Create a branch, create a tutorial directory under `tutorials/`, and copy
+`templates/tutorial.md` to its `README.md`. Add only small, relevant supporting
+figures or one representative input when needed. Complete the tutorial using
 evidence from actual work, and submit a pull request. AI tools may help
 organize or translate the material, but the contributor remains responsible
 for verifying every technical claim and removing sensitive information.

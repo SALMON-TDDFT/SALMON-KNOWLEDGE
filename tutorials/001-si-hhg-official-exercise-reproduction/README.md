@@ -1,8 +1,12 @@
 ---
-id: SALMON-CASE-2026-001
+id: SALMON-TUTORIAL-001
 title: Reproducing the official silicon HHG exercise
 status: draft
 verification_level: tested
+learning_stage: foundation
+prerequisites: []
+next_tutorials: [SALMON-TUTORIAL-003]
+estimated_cost: one small node
 topics: [silicon, high-harmonic-generation, real-time-tddft, exercise]
 salmon_version: 2.3.0
 salmon_commit: unknown
@@ -13,21 +17,26 @@ contributors: []
 reviewed_by: []
 ---
 
+# Learning objective
+
+Reproduce the official bulk-Si GS-to-RT HHG exercise without changing its
+inputs, and confirm the completion markers and essential physical diagnostics.
+
 # Summary
 
 SALMON's official bulk-Si ground-state and pulsed-field samples provide a
 small, reproducible starting point for a silicon high-harmonic-generation
-(HHG) calculation. This card records how to reproduce the exercise and how
+(HHG) calculation. This tutorial records how to reproduce the exercise and how
 to verify that it completed correctly. The tutorial settings are not claimed
 to be converged for publication use; numerical convergence is covered by
-[SALMON-CASE-2026-002](../002-si-hhg-convergence-and-restart-validation/).
+[SALMON-TUTORIAL-002](../002-si-hhg-convergence-and-restart-validation/).
 
 ## Context and objective
 
 The objective is to reproduce Exercise 6, "Electron dynamics in crystalline
 silicon under a pulsed electric field," using the SALMON 2.3.0 sample inputs.
 The official structure, functional, pseudopotential, and pulse are retained so
-that this card tests reproducibility rather than model choices.
+that this tutorial tests reproducibility rather than model choices.
 
 ## Conditions
 
@@ -103,11 +112,11 @@ do not infer `nelec` only from the element name.
   check the final step, `end SALMON`, electron number, energies, and output
   files.
 - This exercise is a baseline, not a convergence recommendation. Use the
-  companion convergence card before interpreting a spectrum quantitatively.
+  companion convergence tutorial before interpreting a spectrum quantitatively.
 
 ## Limitations and applicability
 
-This card covers the official eight-atom Si exercise, PZ-LDA, the official KY
+This tutorial covers the official eight-atom Si exercise, PZ-LDA, the official KY
 pseudopotential, one pulse condition, SALMON 2.3.0, and one A64FX HPC
 environment. It does not establish spatial-grid, time-step, or k-point
 convergence, experimental accuracy, or transferability to other systems.
@@ -117,4 +126,4 @@ convergence, experimental accuracy, or transferability to other systems.
 - [SALMON2 v.2.3.0 ground-state Si sample](https://github.com/SALMON-TDDFT/SALMON2/tree/30ba64694ec761cdb6288f01a75b8bcabf05721f/samples/exercise_04_bulkSi_gs)
 - [SALMON2 v.2.3.0 pulsed-field Si sample](https://github.com/SALMON-TDDFT/SALMON2/tree/30ba64694ec761cdb6288f01a75b8bcabf05721f/samples/exercise_06_bulkSi_rt)
 - [SALMON-DOCS Exercise 6](https://github.com/SALMON-TDDFT/SALMON-DOCS/blob/e4d97e0328a559f5f99c706260d9c63763be0dee/source/exercises.rst)
-- Companion card: [Convergence workflow and restart validation](../002-si-hhg-convergence-and-restart-validation/)
+- Companion tutorial: [Convergence workflow and restart validation](../002-si-hhg-convergence-and-restart-validation/)

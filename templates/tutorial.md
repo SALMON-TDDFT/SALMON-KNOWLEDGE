@@ -1,8 +1,12 @@
 ---
-id: SALMON-CASE-YYYY-NNN
+id: SALMON-TUTORIAL-NNN
 title: Replace with a concise descriptive title
 status: draft
 verification_level: reported
+learning_stage: unknown
+prerequisites: []
+next_tutorials: []
+estimated_cost: unknown
 topics: []
 salmon_version: unknown
 salmon_commit: unknown
@@ -13,15 +17,19 @@ contributors: []
 reviewed_by: []
 ---
 
+# Learning objective
+
+State the skill or conclusion that this tutorial teaches.
+
 # Summary
 
 State the reusable conclusion in a few sentences. Distinguish an observation in
-this case from behavior that is documented or verified to be general.
+this tutorial from behavior that is documented or verified to be general.
 
 ## Context and objective
 
 Describe what was being calculated, implemented, diagnosed, or evaluated and
-why the case may be useful to another SALMON developer or user.
+why the tutorial may be useful to another SALMON developer or user.
 
 ## Conditions
 
@@ -38,7 +46,7 @@ Use `unknown` for information that cannot be confirmed.
 ## Procedure
 
 Describe the essential reproducible steps. Include only short commands or input
-excerpts that are necessary to understand the case.
+excerpts that are necessary to understand the tutorial.
 
 ## Observed result
 
