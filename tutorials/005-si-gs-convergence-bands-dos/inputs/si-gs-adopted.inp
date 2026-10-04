@@ -1,0 +1,90 @@
+! Bulk Si (8-atom cubic cell), ground state at the parameter set adopted in
+! SALMON-TUTORIAL-005 for total energy, band structure (relative to the VBM),
+! and DOS: num_rgrid=24^3, num_kgrid=16^3, nstate=32, DOS sigma=0.15 eV.
+! Derived from SALMON2 v.2.3.0 samples/exercise_04_bulkSi_gs/Si_gs.inp.
+! Deviations from that sample: FHI98PP LDA pseudopotential instead of
+! Si_rps.dat; num_rgrid 12->24; num_kgrid 4->16; &analysis DOS output added;
+! explicit &parallel; no restart data written.
+! The confirmation run used num_kgrid=24 written as an explicit list via
+! file_kw (24^3 shifted mesh plus 128 zero-weight band-path points); see the
+! tutorial README.
+
+&calculation
+  theory = 'dft'
+/
+
+&parallel
+  ! Adjust to the number of MPI processes; nproc_k need not divide the
+  ! number of k-points.
+  nproc_k = 20
+  nproc_ob = 1
+  nproc_rgrid(1:3) = 1, 1, 1
+/
+
+&control
+  sysname = 'Si'
+  write_gs_restart_data = 'no'
+  yn_restart = 'n'
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+
+&system
+  yn_periodic = 'y'
+  al(1:3) = 5.43d0, 5.43d0, 5.43d0
+  nelem  = 1
+  natom  = 8
+  nelec  = 32
+  nstate = 32
+/
+
+&pseudo
+  ! ABINIT FHI98PP LDA table, 14-Si.LDA.fhi (4 valence electrons)
+  file_pseudo(1) = './14-Si.LDA.fhi'
+  izatom(1) = 14
+  lloc_ps(1) = 2
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid(1:3) = 24, 24, 24
+/
+
+&kgrid
+  ! default shifted mesh (yn_gamma_centered='n'); it contains neither Gamma
+  ! nor the conduction-band minimum, so the printed "Fundamental gap" is a
+  ! mesh gap, not the band gap
+  num_kgrid(1:3) = 16, 16, 16
+/
+
+&scf
+  nscf      = 300
+  threshold = 1.0d-9
+/
+
+&analysis
+  ! DOS written to Si_dos.data; energies relative to the VBM
+  yn_out_dos = 'y'
+  yn_out_dos_set_fe_origin = 'y'
+  out_dos_start = -14.0d0
+  out_dos_end = 9.0d0
+  out_dos_nenergy = 1841
+  out_dos_width = 0.15d0
+  out_dos_function = 'gaussian'
+/
+
+&atomic_red_coor
+  'Si'	.0	.0	.0	1
+  'Si'	.25	.25	.25	1
+  'Si'	.5	.0	.5	1
+  'Si'	.0	.5	.5	1
+  'Si'	.5	.5	.0	1
+  'Si'	.75	.25	.75	1
+  'Si'	.25	.75	.75	1
+  'Si'	.75	.75	.25	1
+/

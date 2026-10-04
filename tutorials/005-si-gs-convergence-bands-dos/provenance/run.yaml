@@ -1,0 +1,66 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (all convergence and confirmation runs)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler, tcsds-1.2.43 (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+    optional_libraries_linked: "LibXC 4.3.4, ScaLAPACK (SSL2), EigenExa 2.4b (linked; not used by this xc='PZ' calculation)"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+  stack_size: "unlimited"
+pseudopotential:
+  source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/14-Si.LDA.fhi"
+  table: "ABINIT FHI98PP LDA"
+  sha256: "835f3f3affacd5bb64dcfbee39b4f68de82289eeeacaea97d6b726ea5ca96b84"
+  valence_electrons: 4
+  lloc_ps: 2
+  note: "The official sample uses Si_rps.dat; this tutorial uses 14-Si.LDA.fhi throughout."
+representative_input:
+  path: "inputs/si-gs-adopted.inp"
+  sha256: "476790efbdc6d3f833b8e5cbcddb9e7e47fe9ba6332c9358f7d4cd35a31ef656"
+  executed_as_is: false
+  note: "Adopted set (num_rgrid 24^3, num_kgrid 16^3, nstate 32, out_dos_width 0.15 eV). Not executed in exactly this form; see confirmation_run."
+convergence_runs:
+  dates: ["2026-10-03", "2026-10-04"]
+  common: "theory='dft', xc='PZ', al=5.43 A, 8 atoms, nelec=32, threshold=1.0d-9, nscf=300, write_gs_restart_data='no'"
+  ladders:
+    - name: "official-sample baseline and first r/k ladder (no DOS output)"
+      points: "k4r12, k6r12, k8r12, k10r12, k6r16, k6r20, k6r24"
+    - name: "same ladder with &analysis DOS output, extended to r28, r32"
+      points: "k4r12, k6r12, k8r12, k10r12, k6r16, k6r20, k6r24, k6r28, k6r32"
+    - name: "k ladder at num_rgrid=20 with DOS (out_dos_width 0.1 eV)"
+      points: "k6, k8, k10, k12, k14, k16, k20, k24"
+    - name: "band path via file_kw (shifted SCF mesh + 128 path points of weight 1e-9)"
+      points: "k8 at r16, r20, r24, r28; k6 and k12 at r20; k8 r20 with nstate=48"
+    - name: "Gamma-centred mesh control"
+      points: "num_kgrid=8 with yn_gamma_centered='y', r20"
+    - name: "theory='dft_band' on the SCF restart of k8r20 (see SALMON-TS-001)"
+      points: "512 band k-points, nref_band=20, unmodified v2.3.0 and one-line diagnostic patch"
+confirmation_run:
+  date: "2026-10-04"
+  description: "num_rgrid 24^3; file_kw list = 24^3 shifted mesh (13824 points, SALMON's default mesh) + 128 band-path points of weight 1e-9; nstate 32; out_dos_width 0.15 eV"
+  k_list_sha256: "83ccd2c9a46d19414f947fe6c54b177d7ed8d4fd438f8163278f21813c073e7a"
+  nodes: 27
+  mpi_processes: 108
+  nproc_k: 108
+  nproc_ob: 1
+  nproc_rgrid: [1, 1, 1]
+observed:
+  gs_convergence_marker: "#GS converged at 68 : 0.88842326E-09"
+  total_energy_ev: -864.6315589440
+  printed_fundamental_gap_ev: 0.48767448
+  mesh_only_gap_ev: 0.52039813
+  vbm: "Gamma"
+  cbm_reduced_k: [0.1625, 0.0, 0.0]
+  electron_number_range: "32.00000000000007 to 32.00000000000009"
+  completion_marker: "end SALMON"
+  stderr_bytes: 0
+  salmon_total_calculation_time_s: 320.8
+  max_memory_per_node_mib: 23717.0
+raw_outputs: "not committed; figures are derived from *_eigen.data, *_k.data, and *_dos.data of the runs above"

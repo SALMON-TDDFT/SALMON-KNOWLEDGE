@@ -20,6 +20,17 @@ resources. Complete 001 and 003 before applying its convergence workflow.
 
 1. [004: Build and run a 4H-SiC ground state from CIF and FHI pseudopotentials](004-4h-sic-gs-from-cif-fhi/)
 
+### Ground-state convergence
+
+1. [005: Converge bulk-Si ground state for total energy, band structure, and DOS](005-si-gs-convergence-bands-dos/)
+
+Tutorial 005 starts from the official Si ground-state sample used in 001 and
+applies the per-observable convergence approach of 002 to ground-state
+observables. Related troubleshooting entries:
+[SALMON-TS-001](../troubleshooting/SALMON-TS-001-dft-band-off-mesh-eigenvalues.md),
+[SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+[SALMON-TS-003](../troubleshooting/SALMON-TS-003-sample-deck-has-no-dos-output.md).
+
 ## Adding a tutorial
 
 Create `tutorials/NNN-short-title/README.md` from
