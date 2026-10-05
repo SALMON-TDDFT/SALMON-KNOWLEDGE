@@ -1,0 +1,85 @@
+! Diamond ground state, 2-atom primitive fcc cell: total energy and DOS (SALMON v2.3.0).
+! FHI98PP LDA, xc = 'PZ', nelec = 8, nstate = 8, fixed occupations, no symmetry.
+! Provisional grid: num_rgrid = 32^3. The k mesh (24^3 here) is the densest run of the tutorial;
+! the DOS is NOT converged in k at 24^3, so treat this deck as the top of a ladder, not as a result.
+! Run in a directory that holds ./06-C.LDA.fhi (ABINIT LDA_FHI 06-C.LDA.fhi).
+&calculation
+  theory = 'dft'
+/
+
+&control
+  sysname = 'diamond_r32k24'
+  write_gs_restart_data = 'no'
+/
+
+&parallel
+  process_allocation = 'orbital_sequential'
+  ! 24 nodes x 4 MPI processes = 96; nproc_k must divide the number of k points (13824)
+  nproc_k  = 96
+  nproc_ob = 1
+  nproc_rgrid = 1, 1, 1
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+
+&system
+  yn_periodic = 'y'
+  ! primitive fcc vectors, a = 3.567 Angstrom, h = a/2
+  al_vec1 = 0.0d0, 1.7835d0, 1.7835d0
+  al_vec2 = 1.7835d0, 0.0d0, 1.7835d0
+  al_vec3 = 1.7835d0, 1.7835d0, 0.0d0
+  nstate = 8
+  nelec  = 8
+  nelem  = 1
+  natom  = 2
+  yn_symmetry = 'n'
+/
+
+&pseudo
+  izatom(1) = 6
+  file_pseudo(1) = './06-C.LDA.fhi'
+  lloc_ps(1) = 2
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid = 32, 32, 32
+/
+
+&kgrid
+  ! n x n x n on the reciprocal primitive axes: SALMON's half-shifted Monkhorst-Pack mesh
+  ! (no Gamma point for even n), no symmetry reduction
+  num_kgrid = 24, 24, 24
+/
+
+&scf
+  ncg = 4
+  nscf = 800
+  threshold = 1d-9
+  method_mixing = 'broyden'
+/
+
+&analysis
+  yn_out_dos = 'y'
+  ! temperature_k is not set (fixed occupations): the energy origin is the valence-band maximum
+  ! of the k mesh. With temperature_k >= 0 the origin would be the chemical potential, which
+  ! sits at an arbitrary place in the gap.
+  yn_out_dos_set_fe_origin = 'y'
+  ! window relative to the VBM: valence-band bottom (about -21.3 eV) to +10 eV;
+  ! with nstate = 8 the DOS is complete up to about +11 eV above the VBM (printed by SALMON)
+  out_dos_start = -24.0d0
+  out_dos_end = 10.0d0
+  out_dos_nenergy = 2721
+  out_dos_width = 0.1d0
+  out_dos_function = 'gaussian'
+/
+
+&atomic_red_coor
+  'C' 0.05d0 0.05d0 0.05d0 1
+  'C' 0.30d0 0.30d0 0.30d0 1
+/
