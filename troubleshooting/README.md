@@ -14,3 +14,4 @@ Evidence, Diagnosis, Resolution, and Applicability.
 - [SALMON-TS-001: `theory='dft_band'` gives wrong eigenvalues off the SCF mesh (v2.3.0)](SALMON-TS-001-dft-band-off-mesh-eigenvalues.md)
 - [SALMON-TS-002: Printed "Fundamental gap" depends on k-mesh sampling](SALMON-TS-002-printed-gap-depends-on-k-mesh.md)
 - [SALMON-TS-003: Official sample deck writes no DOS, so a convergence ladder cannot be judged](SALMON-TS-003-sample-deck-has-no-dos-output.md)
+- [SALMON-TS-009: Multiscale Maxwell-TDDFT with a coarse k mesh can leave a spurious static field and a negative absorbed energy](SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md)
