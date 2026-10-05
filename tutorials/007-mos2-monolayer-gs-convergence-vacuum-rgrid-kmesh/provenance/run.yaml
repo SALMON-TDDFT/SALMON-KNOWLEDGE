@@ -1,0 +1,57 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (every run in this tutorial)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+pseudopotentials:
+  Mo:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/42-Mo.LDA.fhi"
+    sha256: "3f35f7fb8ec943229298bb5c0a3facb9d4c645d3f231d3c1bcec8b57c8a45c32"
+    valence_electrons: 6
+    lloc_ps: 1
+  S:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/16-S.LDA.fhi"
+    sha256: "c6250b22a4f83a3a698883064d6366f3e3b2f2548fe36313fe4f2cc76acb72c1"
+    valence_electrons: 6
+    lloc_ps: 2
+representative_input:
+  path: "inputs/mos2-gs-adopted.inp"
+  sha256: "d15c1b87b182f872ad4347b50d5fd98216eaa2d37e379dc5fa33bca3b5632482"
+  executed_as_is: false
+  note: "Deck of the (Lz 20, r24, k36) run with sysname, pseudopotential paths and comments changed; all physical and numerical keys are as executed."
+k_list_script:
+  path: "scripts/make_kpoints.py"
+  sha256: "9410b68011dd39dc11847e34947a246c1bba568afc7caf5307a0f1d712514e39"
+  reproduces_executed_lists: "36 54 (reduced), 12 58 (reduced), 12 48 --full: SHA-256 of the output equals that of the executed list"
+runs:
+  dates: ["2026-10-05", "2026-10-06"]
+  common: "hexagonal primitive cell a = 3.18 A, 3 atoms (Mo, 2 S at +-1.5638 A), xc PZ, nelec 18, nstate 24, fixed occupations, yn_symmetry n, method_init_wf random, ncg 5, nscf 500, threshold 1d-9, broyden alpha_mb 0.5 nmemory_mb 8, DOS -18..+5 eV 1841 points gaussian 0.1 eV, file_kw = time-reversal-reduced Gamma-centred mesh + Gamma-M-K-Gamma path of weight 1e-9"
+  ladders:
+    - name: "vacuum Lz (A) at num_rgrid xy 24, 12 x 12 x 1; z spacing 5/36 A fixed"
+      points: "10 (nz 72), 15 (108), 20 (144), 25 (180), 30 (216), 40 (288)"
+    - name: "num_rgrid nxy,nxy,6*nxy at Lz 20, 12 x 12 x 1"
+      points: "12, 18, 24, 30, 36"
+    - name: "k mesh n x n x 1 at Lz 20, num_rgrid 24,24,144"
+      points: "6, 12, 18, 24, 30, 36, 42, 48"
+    - name: "control: full 12 x 12 x 1 mesh without time-reversal reduction"
+      points: "192 k points including 48 path points"
+  intersection_run:
+    description: "(Lz 20, r24, k36) = the k36 rung of the k ladder"
+    nodes: 16
+    mpi_processes: 64
+    k_points: 704
+    gs_convergence_marker: "#GS converged at 116 : 1.7827e-10"
+    total_energy_ev: -782.1438950942
+    direct_gap_at_K_ev: 1.721992196
+    calculation_time_s: 271.8
+    max_memory_per_node_mib: 10670.1
+raw_outputs: "not committed; figures are derived from the *_dos.data files of the runs above"
