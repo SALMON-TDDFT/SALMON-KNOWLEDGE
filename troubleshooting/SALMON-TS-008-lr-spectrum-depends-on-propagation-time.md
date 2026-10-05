@@ -85,8 +85,22 @@ which appears as `Re sigma(0) != 0` and `Im eps ~ 1/omega`; with the default
 - Do not read `eps` below about `2 pi hbar / T` from an undamped run.
   `yn_lr_w0_correction='y'` (periodic systems, fixed occupations) subtracts
   the window-weighted mean current before the transform and is the
-  version's own remedy for the low-frequency part. It was not tested in this
-  campaign.
+  version's own remedy for the low-frequency part. It was checked offline:
+  the transform of `src/io/write.f90` was redone from the `Jm_z` column of
+  `<sysname>_rt.data` (it reproduces the written `_response.data` to
+  3e-7 of the peak), then the mean was subtracted as the option does:
+
+  | run | quantity | as written | with the correction |
+  |---|---|---:|---:|
+  | k 4^3, T 12 fs | `Im eps_z` at 0.01 eV | -4102 | -0.09 |
+  | k 4^3, T 12 fs | `Re eps_z` at 0.01 eV | 237 | 12.5 |
+  | k 8^3, T 12 fs | `Re eps_z` at 0.01 eV | 5.1 | 12.4 |
+  | k 8^3, T 48 fs | `Re eps_z` at 0.01 eV | -113 | 10.1 |
+
+  The main peak (3.65 eV) is unchanged to 0.01%. The corrected static value
+  is close to the known LDA value of Si (about 12-13). Above about
+  `2 pi hbar / T` the option changes almost nothing; it does not remove
+  the `T` dependence of the peaks.
 - The k mesh controls how smooth the undamped spectrum is: in the same
   campaign the point-wise difference of `Im eps_z` between neighbouring k
   meshes fell from 22% (8^3 to 12^3) to 1.2% (20^3 to 24^3) at T = 12 fs.
@@ -98,5 +112,6 @@ which appears as `Re sigma(0) != 0` and `Im eps ~ 1/omega`; with the default
   window over undamped oscillations) is generic to real-time linear response
   and is expected for any insulator; the size of the effect depends on the
   k mesh and on `T`.
-- Not tested: `yn_lr_w0_correction='y'`, an explicit damping applied in
+- Not tested: `yn_lr_w0_correction='y'` inside a SALMON run (only the
+  offline re-transform above), an explicit damping applied in
   post-processing, and other materials.
