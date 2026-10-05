@@ -101,6 +101,16 @@ which appears as `Re sigma(0) != 0` and `Im eps ~ 1/omega`; with the default
   is close to the known LDA value of Si (about 12-13). Above about
   `2 pi hbar / T` the option changes almost nothing; it does not remove
   the `T` dependence of the peaks.
+
+  The same offline check on diamond (2-atom primitive cell, FHI98PP LDA,
+  `num_rgrid=32^3`, `num_kgrid=6^3`, T = 50 fs; reproduction 4.5e-6 of the
+  peak) removed the `1/omega` divergence of `Im eps_z` (646 -> -1 at
+  0.01 eV) but did not give a physical static limit: `Re eps_z` was -0.66 at
+  0.01 eV, 5.5 at 0.1 eV, 6.6 at 0.3 eV and 5.8-6.0 from 0.5 to 2 eV. The
+  correction removes the mean current, not the ringing of the remaining
+  undamped oscillations, so the lowest-energy points can still be wrong.
+  Read the static limit from the plateau above a few times `2 pi hbar / T`,
+  not from the first energy point.
 - The k mesh controls how smooth the undamped spectrum is: in the same
   campaign the point-wise difference of `Im eps_z` between neighbouring k
   meshes fell from 22% (8^3 to 12^3) to 1.2% (20^3 to 24^3) at T = 12 fs.
@@ -108,7 +118,8 @@ which appears as `Re sigma(0) != 0` and `Im eps ~ 1/omega`; with the default
 
 ## Applicability
 
-- Observed for bulk Si with SALMON v2.3.0 on Fugaku. The mechanism (finite
+- Observed for bulk Si (and, for the low-frequency part, diamond) with
+  SALMON v2.3.0 on Fugaku. The mechanism (finite
   window over undamped oscillations) is generic to real-time linear response
   and is expected for any insulator; the size of the effect depends on the
   k mesh and on `T`.
