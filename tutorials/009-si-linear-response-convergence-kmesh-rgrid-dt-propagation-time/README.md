@@ -6,7 +6,7 @@ verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
 next_tutorials: []
-estimated_cost: 16 response runs from 4 to 54 nodes (k20 and k24 take several hours on 40 to 54 nodes); of the order of 1e3 node-hours in total by the planning estimate, not a measured sum. The final run at the intersection is planned at 80 nodes for about 4 hours.
+estimated_cost: 16 response runs from 4 to 54 nodes (k20 and k24 take several hours on 40 to 54 nodes); of the order of 1e3 node-hours in total by the planning estimate, not a measured sum. The final run at the intersection took 1 h 50 min on 80 nodes.
 topics: [silicon, linear-response, tddft-response, dielectric-function, impulse, convergence, k-points, real-space-grid, time-step, propagation-time, nstate]
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
