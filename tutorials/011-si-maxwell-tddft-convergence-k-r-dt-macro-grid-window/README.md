@@ -418,7 +418,7 @@ Fixed by the drafting assistant, not varied, and not convergence results.
 
 ## Limitations and applicability
 
-This card covers one 400 Angstrom Si film, one pulse (1.55 eV, 1e12 W/cm^2, z), PZ-LDA,
+This tutorial covers one 400 Angstrom Si film, one pulse (1.55 eV, 1e12 W/cm^2, z), PZ-LDA,
 FHI98PP, no spin-orbit coupling, SALMON v2.3.0 on Fugaku (A64FX).
 
 - The k zones are for R and T at r20; they say nothing about other thicknesses, other
