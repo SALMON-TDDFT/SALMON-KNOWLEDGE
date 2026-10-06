@@ -5,9 +5,12 @@
 1. Create a topic branch from the latest `main`.
 2. Create `tutorials/<number>-<short-title>/README.md` from
    `templates/tutorial.md`. Keep tutorial-specific figures, representative inputs,
-   and provenance under that directory.
-3. Replace every placeholder. Use `unknown` when a fact cannot be established;
-   do not infer a value merely to complete the template.
+   and provenance under that directory. For a troubleshooting entry, create
+   `troubleshooting/SALMON-TS-NNN-short-title.md` from
+   `templates/troubleshooting.md`.
+3. Replace every placeholder and follow [STYLE.md](STYLE.md) for naming, front
+   matter, section order, links, and notation. Use `unknown` when a fact cannot
+   be established; do not infer a value merely to complete the template.
 4. Check all technical claims against the recorded SALMON version or commit.
 5. Remove confidential, personal, and machine-sensitive information.
 6. Submit a pull request and request review from another SALMON developer.
@@ -54,7 +57,9 @@ developer's expectation as an observed result.
 
 FAQ entries answer one concise, stable question and should link to the
 authoritative source or a tutorial. Troubleshooting entries record a reproducible
-symptom, its evidence, diagnosis, resolution, and applicability. Do not repeat
+symptom, its evidence, diagnosis, resolution, and applicability. Start them
+from `templates/troubleshooting.md`, keep the H1 equal to the front-matter
+title, and list each entry in `troubleshooting/README.md`. Do not repeat
 the full procedure or evidence of a tutorial; link to it instead.
 
 ## Use of AI tools

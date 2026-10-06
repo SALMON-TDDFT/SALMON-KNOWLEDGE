@@ -10,7 +10,7 @@ estimated_cost: large parallel allocation
 topics: [silicon, high-harmonic-generation, convergence, restart, validation]
 salmon_version: 2.3.0
 salmon_commit: unknown
-platforms: [A64FX HPC]
+platforms: [A64FX]
 created_at: 2026-09-03
 updated_at: 2026-09-03
 contributors: []
