@@ -35,11 +35,53 @@ observables. Related troubleshooting entries:
 
 Tutorial 006 applies the same approach to a metal, starting from a published
 SALMON-inputs Al input, and records the reason for each convergence judgment.
-Its k-mesh judgment is provisional, pending author confirmation. Related
-troubleshooting entries:
+Related troubleshooting entries:
+[SALMON-TS-003](../troubleshooting/SALMON-TS-003-sample-deck-has-no-dos-output.md),
 [SALMON-TS-004](../troubleshooting/SALMON-TS-004-metal-dos-near-ef-converges-slowly-in-k.md),
 [SALMON-TS-005](../troubleshooting/SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md),
 [SALMON-TS-006](../troubleshooting/SALMON-TS-006-pseudopotential-functional-differs-from-xc.md).
+
+3. [007: Converge a MoS2 monolayer ground state: vacuum, real-space grid, and k mesh for the DOS](007-mos2-monolayer-gs-convergence-vacuum-rgrid-kmesh/)
+
+Tutorial 007 applies the approach to a two-dimensional semiconductor in a slab
+cell, adds the vacuum length as a ladder variable, and uses an explicit
+k-point list (`file_kw`). Related troubleshooting entries:
+[SALMON-TS-001](../troubleshooting/SALMON-TS-001-dft-band-off-mesh-eigenvalues.md),
+[SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+[SALMON-TS-003](../troubleshooting/SALMON-TS-003-sample-deck-has-no-dos-output.md).
+
+4. [008: Converge an alpha-quartz SiO2 ground state: real-space grid and k mesh for the DOS](008-alpha-quartz-gs-convergence-rgrid-kmesh/)
+
+Tutorial 008 applies the approach to an oxide insulator with a localized O 2s
+band, which sets the real-space grid, and adopts two parameter sets depending
+on whether that band is used downstream. It also shows why a DOS difference
+is better judged as a rigid shift plus a shape difference than pointwise.
+Related troubleshooting entries:
+[SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+[SALMON-TS-003](../troubleshooting/SALMON-TS-003-sample-deck-has-no-dos-output.md).
+
+5. [010: Converge a diamond ground state: real-space grid and k mesh for the DOS](010-diamond-gs-convergence-rgrid-kmesh-dos/)
+
+Tutorial 010 applies the approach to a hard, light-element crystal whose DOS
+needs a far finer grid than Si and is not yet converged on a 24^3 k mesh.
+Related troubleshooting entries:
+[SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+[SALMON-TS-011](../troubleshooting/SALMON-TS-011-lr-killed-before-response-is-written.md)
+(the linear-response run that follows this ground state).
+
+### Real-time and Maxwell-TDDFT
+
+1. [011: Maxwell-TDDFT of a 400 Angstrom Si film: what the k mesh, grid, time step, window and macro grid change](011-si-maxwell-tddft-convergence-k-r-dt-macro-grid-window/)
+
+Tutorial 011 is an advanced multiscale calculation that starts from the Si
+ground state of 005 and the official `exercise_07_bulkSi_ms` sample. Related
+troubleshooting entries:
+[SALMON-TS-007](../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md),
+[SALMON-TS-009](../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md),
+[SALMON-TS-010](../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md).
+
+Number 009 is reserved for a tutorial that is in review and is not yet on
+`main`.
 
 ## Adding a tutorial
 

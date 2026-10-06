@@ -38,7 +38,7 @@ convergence_runs:
       points: "k6, k8, k10, k12, k14, k16, k20, k24"
     - name: "band path via file_kw (shifted SCF mesh + 128 path points of weight 1e-9)"
       points: "k8 at r16, r20, r24, r28; k6 and k12 at r20; k8 r20 with nstate=48"
-    - name: "Gamma-centred mesh control"
+    - name: "Gamma-centered mesh control"
       points: "num_kgrid=8 with yn_gamma_centered='y', r20"
     - name: "theory='dft_band' on the SCF restart of k8r20 (see SALMON-TS-001)"
       points: "512 band k-points, nref_band=20, unmodified v2.3.0 and one-line diagnostic patch"

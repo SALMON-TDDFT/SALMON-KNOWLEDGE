@@ -2,7 +2,7 @@
 """Write the explicit k-point list (file_kw) used by tutorial 007.
 
 The list holds
-  1. the time-reversal-reduced half of the Gamma-centred n x n x 1 mesh
+  1. the time-reversal-reduced half of the Gamma-centered n x n x 1 mesh
      (k and -k are the same point without spin-orbit coupling; weight 2/n^2,
      or 1/n^2 for the four self-conjugate points), and
   2. a Gamma - M - K - Gamma path of NPATH points with weight 1e-9, so that the
