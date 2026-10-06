@@ -1,6 +1,6 @@
 ---
 id: SALMON-TS-004
-title: Metal DOS near the Fermi level does not converge in k as fast as the total energy
+title: Metal DOS near E_F converges in k much more slowly than the total energy
 status: draft
 verification_level: tested
 salmon_version: 2.3.0

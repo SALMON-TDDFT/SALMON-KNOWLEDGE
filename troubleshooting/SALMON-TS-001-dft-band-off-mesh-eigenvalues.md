@@ -1,6 +1,6 @@
 ---
 id: SALMON-TS-001
-title: "theory='dft_band' gives wrong eigenvalues at k-points off the SCF mesh (v2.3.0)"
+title: "`theory='dft_band'` gives wrong eigenvalues at k-points off the SCF mesh (v2.3.0)"
 status: draft
 verification_level: tested
 salmon_version: 2.3.0
@@ -13,7 +13,7 @@ contributors: []
 reviewed_by: []
 ---
 
-# theory='dft_band' gives wrong eigenvalues off the SCF mesh (v2.3.0)
+# `theory='dft_band'` gives wrong eigenvalues at k-points off the SCF mesh (v2.3.0)
 
 ## Symptom
 
@@ -146,7 +146,8 @@ equals the correct phase.
 
 ## Resolution
 
-Workaround with unmodified v2.3.0, used in SALMON-TUTORIAL-005: do not use
+Workaround with unmodified v2.3.0, used in
+[SALMON-TUTORIAL-005](../tutorials/005-si-gs-convergence-bands-dos/): do not use
 `theory='dft_band'`. Run `theory='dft'` with `file_kw` containing the SCF
 mesh plus the path k-points at weight about 1e-9. SALMON renormalizes the
 weights. The path eigenvalues agreed with true-weight k-points to 4e-6 eV,

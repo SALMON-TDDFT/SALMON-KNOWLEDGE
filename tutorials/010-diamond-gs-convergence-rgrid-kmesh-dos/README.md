@@ -221,7 +221,7 @@ wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
 | 1a | grid | r32 is too strict for the ground state; about r20-24 is enough; the final r is set by the later real-time conditions | maintainer (2026-10-06) | the same overlays, and the difference plots | "r16 to r32 look the same; r32 is a bit too strict. The laser parameters might demand more; it depends on what comes next." The run log below records the assistant's first, stricter reading. |
 | 1 | grid | r32 (r28 also possible) | assistant's first reading, superseded by 1a | DOS overlays and neighbor differences of r16 to r48 at k6; ΔE_total; printed gap | r24 to r28 0.27% and r28 to r32 0.08% are below 0.3%. The "two consecutive pairs below the tolerance" rule applied mechanically gives r20 at 5% and 3% (r20 to r24 is 2.2%, r24 to r28 0.27%) and r24 at 1%; r20 was rejected because r20 to r24 still moves the energy by 8.6 meV/atom and the DOS by 2.2%. r28 is the alternative: it is cheaper (fewer iterations, 208 against 276) and the DOS differs from r32 by 0.08%. r32 was kept as the conservative side, because the energy is still falling by 0.66 meV/atom at r28 to r32 and the real-time stage later needs the same grid. The differences beyond r32 are all at the top of the window. Diamond needs a far finer grid than the r24 that Si needed in a 5.43 Angstrom cell (grid spacing 0.079 Angstrom at r32 here, 0.226 Angstrom at r24 for Si); we expect this to come from the hard C pseudopotential and the short bond but did not test it. |
 | 2 | k mesh | no value; not converged at 24^3 | not judged | DOS overlays and differences of k6 to k24 at r32; E_total and the printed gap | The DOS max_dev falls from 82% to 17% but has not reached a level (conduction band 17%). E_total and the printed gap say nothing about this: the energy was flat from k8, and the gap kept falling. A denser mesh (k32 or more) would be needed; it was not run. A k mesh may also be chosen separately from the DOS by the observable that follows (for example the spectrum of a linear-response run), as for Si. |
-| 3 | printed gap | not a converged quantity | provisional (AI assistant) — awaiting maintainer confirmation | printed gap k6 to k24 | It is the minimum over mesh points of a half-shifted mesh (no Gamma for even n) and falls with every refinement; see SALMON-TS-002. The valence-band maximum used as the DOS origin has the same limitation. |
+| 3 | printed gap | not a converged quantity | provisional (AI assistant) — awaiting maintainer confirmation | printed gap k6 to k24 | It is the minimum over mesh points of a half-shifted mesh (no Gamma for even n) and falls with every refinement; see [SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md). The valence-band maximum used as the DOS origin has the same limitation. |
 | 4 | structure, pseudopotential, `nstate`, DOS settings | not varied | assumed by the AI assistant | | see [Assumptions](#assumptions-made-by-the-assistant) |
 
 ## Assumptions made by the assistant
@@ -273,7 +273,7 @@ convergence results.
   17% at the end of the ladder. We expect that the sharp van Hove structure of a small cell at
   0.1 eV broadening is the cause, but this was not investigated.
 - **The printed gap kept falling with k** (4.94 to 4.21 eV) while the total energy was flat: the
-  same effect as SALMON-TS-002, with the extra twist that the half-shifted mesh does not contain
+  same effect as [SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md), with the extra twist that the half-shifted mesh does not contain
   Gamma, where the valence-band maximum is, for any even n.
 - **The total energy is not monotonic in k** (k16 above k20 and k24 by 0.02 meV): differences at
   this level are of the size of the SCF convergence noise and should not be interpreted.
@@ -324,5 +324,7 @@ Gaussian DOS width of 0.1 eV, and SALMON v2.3.0 on Fugaku (A64FX).
   starting point of the deck; no published diamond input was used.
 - [ABINIT LDA FHI pseudopotential collection](https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/)
 - Related tutorial: [005 Si ground-state convergence](../005-si-gs-convergence-bands-dos/)
-- Troubleshooting: [TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)
+- Troubleshooting: [TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+  [TS-011](../../troubleshooting/SALMON-TS-011-lr-killed-before-response-is-written.md) (a linear-response run of this cell
+  killed at the time limit)
 - Run provenance: [provenance/run.yaml](provenance/run.yaml). Raw outputs are not committed.

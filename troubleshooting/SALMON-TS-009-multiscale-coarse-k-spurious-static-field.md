@@ -64,7 +64,8 @@ reflected and transmitted fields over that of the incident field, up to
   coupling never went below the ground state (20^3/4^3 at two `dt`, 20^3/8^3,
   12^3/4^3). The negative energy needs the coupling to the macroscopic field.
 - A single-cell linear-response run at 20^3/4^3 already showed a non-zero
-  conductivity at the lowest frequency in the written spectrum (see TS-008
+  conductivity at the lowest frequency in the written spectrum (see
+  [SALMON-TS-008](SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md)
   for the part of that which is a window effect).
 
 ## Diagnosis

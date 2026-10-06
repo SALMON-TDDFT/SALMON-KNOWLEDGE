@@ -13,7 +13,7 @@ contributors: []
 reviewed_by: []
 ---
 
-# Printed "Fundamental gap" depends on k mesh sampling
+# Printed "Fundamental gap" keeps changing with the k mesh while the total energy is converged
 
 ## Symptom
 
@@ -68,7 +68,8 @@ still changing by 15 meV per step at k24.
 
 - Do not use the printed `Fundamental gap` as a k-convergence criterion.
 - Obtain the gap from eigenvalues at the band-edge k-points. Use a band path,
-  for example zero-weight `file_kw` points as in SALMON-TUTORIAL-005. In
+  for example zero-weight `file_kw` points as in
+  [SALMON-TUTORIAL-005](../tutorials/005-si-gs-convergence-bands-dos/). In
   v2.3.0, do not use `theory='dft_band'`; see
   [SALMON-TS-001](SALMON-TS-001-dft-band-off-mesh-eigenvalues.md).
   Alternatively, use a mesh that contains the band edges, such as a Gamma-centered

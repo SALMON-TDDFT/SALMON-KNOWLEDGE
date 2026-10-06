@@ -45,12 +45,12 @@ One film, one pulse, one pseudopotential: a 400 Angstrom Si film (8 macro points
 of 1.55 eV, 1e12 W/cm^2, `tw1` = 10.672 fs, polarized along z, FHI98PP LDA Si, SALMON
 v2.3.0. The official sample uses r = 12^3, k = 4^3, `dt` = 0.002 fs; the base point
 here is r = 20^3, k = 8^3, `dt` = 0.001 fs, `nstate` = 32 (ground state with empty
-bands, see SALMON-TS-007).
+bands, see [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)).
 
 - **k mesh** (r20, `dt` 0.001 fs, 16 fs). R / T: k4 0.781 / 0.204, k8 0.720 / 0.227,
   k12 0.715 / 0.227. **Maintainer judgment: safe zone k >= 8** (R and T within 1% of
   k12: R changes by 0.7%, T by 0.2%); **caution zone k = 4 to 6** (R and T off by
-  several percent, and a spurious static field can appear, see SALMON-TS-009).
+  several percent, and a spurious static field can appear, see [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md)).
 - **Absorbed energy is not converged at k12.** Per cell, Eall - Eall0 at 16 fs grows
   by +9% to +18% from k8 to k12 at every macro point (film mean 0.0538 to 0.0594 eV,
   +10.4%). This is the same 10% as the change of the absorbed fraction
@@ -72,7 +72,7 @@ bands, see SALMON-TS-007).
   the pulse, a static field of about -0.015 V/Angstrom stays in the film, and the
   energy of the first macro points falls below the ground-state energy
   (-14.7 meV per cell). It does not depend on `dt`, it is absent in the single-cell
-  calculation, and it is gone at k8. See SALMON-TS-009.
+  calculation, and it is gone at k8. See [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md).
 
 These are observations for one model: one film, one pulse, one pseudopotential, SALMON
 v2.3.0.
@@ -80,8 +80,7 @@ v2.3.0.
 ## Context and objective
 
 Tutorial [005](../005-si-gs-convergence-bands-dos/) converged the Si ground state;
-the linear-response tutorial (SALMON-TUTORIAL-009, named without a link because it was on
-a draft branch when this tutorial was written) converged `Im eps`. A Maxwell-TDDFT run
+a separate linear-response tutorial (in review) converged `Im eps`. A Maxwell-TDDFT run
 adds a new layer: every macro point of the film holds its own TDDFT cell, and the
 cells see the field of the Maxwell solver, which they in turn change. The observables
 are different from the earlier tutorials: the energy fractions R and T are read from the
@@ -132,7 +131,7 @@ judgment the reasons and the rejected alternatives are written in the
 ## Procedure
 
 1. **Run the ground state for each (r, k)** with empty bands (`nstate` = 32). A
-   deck with `nstate` = 16 stalls (SALMON-TS-007).
+   deck with `nstate` = 16 stalls ([SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)).
 2. **Run the official-sample setting first as a functional test** (r12, k4,
    `dt` 0.002 fs, 8 macro points) and read R, T and the absorbed energy per macro point.
 3. **Vary one parameter at a time**, all other parameters identical (decks were
@@ -235,7 +234,7 @@ sample grid (r12, k4) is a functional test, not a converged setting.** The r and
 ladders here were run at the base values of the other (r at k8, k at r20); they were
 assumed independent and the intersection (for example r28 with k12) was not run.
 
-### 3. The r20 k4 anomaly (summary; mechanism in SALMON-TS-009)
+### 3. The r20 k4 anomaly (summary; mechanism in [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md))
 
 ![Ac_tot_z at the first macro point](figures/ac-tot-z-macro1.png)
 
@@ -264,7 +263,7 @@ The diagnosis chain, summarized:
 4. The remaining candidate is the sum over the Brillouin zone at k4: the uniform
    component of the vector potential that the Maxwell solver keeps acts as a constant
    field on a coarse mesh instead of a gauge. This is a hypothesis; the tutorial does not claim
-   it is proven. SALMON-TS-009 holds the diagnosis and the check list.
+   it is proven. [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md) holds the diagnosis and the check list.
 
 Practical rule: at k4 to k6 look at the time series of `Ac_tot_z` and of
 `Eall - Eall0` after the pulse before trusting R, T or the absorbed energy.
@@ -282,8 +281,9 @@ Practical rule: at k4 to k6 look at the time series of `Ac_tot_z` and of
 `dt` is not a factor at this level. The r20 test was made at k4 (the anomalous run) and
 r24, not at the base point k8, and it was not repeated at r28 and r32. The explicit
 time stepping has a stability limit that falls with the grid spacing (estimate from the
-stencil in tutorial 009: about 0.0018 fs at r20 and 0.0009 fs at r28, an estimate and
-not a measurement); r28 and r32 were run at 0.0005 fs, at about half of it.
+finite-difference stencil, as in a separate linear-response tutorial (in review): about
+0.0018 fs at r20 and 0.0009 fs at r28, an estimate and not a measurement); r28 and r32
+were run at 0.0005 fs, at about half of it.
 
 ### 5. Propagation window
 
@@ -330,7 +330,7 @@ AI assistant).
 | `dt` | 0.001 fs at r20 (0.0005 fs at r28, r32) | changes of 0.05% | provisional (AI assistant) — awaiting maintainer confirmation |
 | window | 16 fs at r20 k8; check at every grid | 16 against 32 fs: 1.6e-4 | provisional (AI assistant) — awaiting maintainer confirmation |
 | macro grid | 8 points of 50 Angstrom | flat from 16 points (r12 k4) | provisional (AI assistant) — awaiting maintainer confirmation |
-| `nstate` | 32 for the ground state | SALMON-TS-007 | provisional (AI assistant) — awaiting maintainer confirmation |
+| `nstate` | 32 for the ground state | [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md) | provisional (AI assistant) — awaiting maintainer confirmation |
 
 ## Judgment record
 
@@ -344,7 +344,7 @@ AI assistant).
 | 6 | time step | `dt` = 0.001 fs at r20 is enough | provisional (AI assistant) — awaiting maintainer confirmation | `dt` pairs in section 4 | Changes of 0.05% in absorbed energy and 1e-4 in R and T. Tested at r12 k4, r20 k4 and r24 k8 (single cell) and not at the base point; the stability estimate says the margin shrinks with the grid. |
 | 7 | window | 16 fs at r20 k8 | provisional (AI assistant) — awaiting maintainer confirmation | R, T at 16 and 32 fs | 1.6e-4 at r20 k8, but 3% and 8% at r12 k4. A fixed 16 fs was rejected as a general rule. |
 | 8 | macro grid | 8 points of 50 Angstrom | provisional (AI assistant) — awaiting maintainer confirmation | film mean and R, T for 8, 16, 32 points at r12 k4 | Flat from 16 points; the waveform difference of 3 to 5% of the peak was not explained and the test was at the official setting. |
-| 9 | origin of the r20 k4 anomaly | not `dt`, not the microscopic cell alone, gone at k8; mechanism left as a hypothesis | provisional (AI assistant) — awaiting maintainer confirmation | `dt` pair, single-cell run, k ladder | Alternatives that depend on `dt` were rejected by the `dt` pair; the Brillouin-zone sum hypothesis is not proven. See SALMON-TS-009. |
+| 9 | origin of the r20 k4 anomaly | not `dt`, not the microscopic cell alone, gone at k8; mechanism left as a hypothesis | provisional (AI assistant) — awaiting maintainer confirmation | `dt` pair, single-cell run, k ladder | Alternatives that depend on `dt` were rejected by the `dt` pair; the Brillouin-zone sum hypothesis is not proven. See [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md). |
 
 ## Assumptions made by the assistant
 
@@ -413,8 +413,8 @@ Fixed by the drafting assistant, not varied, and not convergence results.
 - **Check the window for each grid:** it was enough at r20 k8 and not at r12 k4.
 - **The time step and the macro grid were not the limiting parameters** here; the
   microscopic k mesh and grid were.
-- **Keep k-points per node low** at large r, and run a ground state with `nstate` above
-  the number of occupied bands.
+- **Keep k-points per node low** at large r ([SALMON-TS-010](../../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md)), and run a ground state with
+  `nstate` above the number of occupied bands ([SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)).
 
 ## Limitations and applicability
 
@@ -433,7 +433,8 @@ FHI98PP, no spin-orbit coupling, SALMON v2.3.0 on Fugaku (A64FX).
   v2.3.0 source tree (tag `v.2.3.0`), as the base of the decks.
 - [ABINIT LDA FHI pseudopotential collection](https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/)
 - Related tutorial: [005 Si ground-state convergence](../005-si-gs-convergence-bands-dos/)
-- Related cards that were on draft branches when this tutorial was written, named without links:
-  SALMON-TUTORIAL-009 (Si linear response), SALMON-TS-007 (ground state with occupied bands
-  only converges slowly), SALMON-TS-009 (spurious static field at small k in Maxwell-TDDFT).
+- A separate linear-response tutorial for the same Si cell (in review) converged `Im eps`.
+- Troubleshooting: [TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md),
+  [TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md),
+  [TS-010](../../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md)
 - Run provenance: [provenance/run.yaml](provenance/run.yaml). Raw outputs are not committed.

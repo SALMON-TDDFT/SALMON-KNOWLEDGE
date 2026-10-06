@@ -1,6 +1,6 @@
 ---
 id: SALMON-TS-006
-title: Published input pairs a PBE pseudopotential with xc='PZ'
+title: "Published input pairs a PBE pseudopotential with `xc='PZ'`"
 status: draft
 verification_level: tested
 salmon_version: 2.3.0
@@ -13,7 +13,7 @@ contributors: []
 reviewed_by: []
 ---
 
-# Pseudopotential functional differs from the deck's xc
+# Published input pairs a PBE pseudopotential with `xc='PZ'`
 
 ## Symptom
 

@@ -1,6 +1,6 @@
 ---
 id: SALMON-TS-007
-title: Ground-state SCF with nstate equal to the number of occupied states converges very slowly
+title: "Ground-state SCF with `nstate` equal to the number of occupied states converges very slowly"
 status: draft
 verification_level: tested
 salmon_version: 2.3.0
@@ -13,7 +13,7 @@ contributors: []
 reviewed_by: []
 ---
 
-# Ground-state SCF with only occupied states converges very slowly
+# Ground-state SCF with `nstate` equal to the number of occupied states converges very slowly
 
 ## Symptom
 
