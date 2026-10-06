@@ -1,0 +1,90 @@
+! Bulk Al, primitive one-atom fcc cell, ground state at the parameter set
+! adopted (provisionally) in SALMON-TUTORIAL-006 for the DOS near the Fermi
+! level: num_rgrid=12^3, num_kgrid=48^3 (full mesh, no symmetry), nstate=20,
+! temperature_k=300, DOS Gaussian 0.1 eV.
+! The k48 choice is a draft judgment pending author confirmation; see the
+! tutorial README.
+! This is the deck of the (r12, k48) run itself with the run name, the local
+! pseudopotential path, and the comments changed. It ran on 24 nodes with
+! 96 MPI processes (nproc_k=96) and 12 OpenMP threads per process.
+! Lattice constant 4.0494 A as in SALMON-inputs
+! AYamada2024_PhysRevB109_245130/Al_ms/gs/Al.inp; pseudopotential and cell
+! differ from that input (see the tutorial).
+
+&calculation
+  theory = 'dft'
+/
+
+&control
+  sysname = 'Al'
+  write_gs_restart_data = 'no'
+/
+
+&parallel
+  ! Adjust to the number of MPI processes. 96 divides 48^3 = 110592 k-points.
+  process_allocation = 'orbital_sequential'
+  nproc_k  = 96
+  nproc_ob = 1
+  nproc_rgrid = 1, 1, 1
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+
+&system
+  yn_periodic = 'y'
+  ! fcc primitive vectors for a = 4.0493998528 A (a/2 = 2.0246999264 A)
+  al_vec1 = 0.0d0, 2.0246999264d0, 2.0246999264d0
+  al_vec2 = 2.0246999264d0, 0.0d0, 2.0246999264d0
+  al_vec3 = 2.0246999264d0, 2.0246999264d0, 0.0d0
+  nstate = 20
+  nelec  = 3
+  nelem  = 1
+  natom  = 1
+  temperature_k = 300d0
+  ! no symmetry reduction: all 48^3 k-points are kept and no sym.dat is read
+  yn_symmetry = 'n'
+/
+
+&pseudo
+  ! ABINIT FHI98PP LDA table, 13-Al.LDA.fhi (3 valence electrons)
+  izatom(1) = 13
+  file_pseudo(1) = './13-Al.LDA.fhi'
+  lloc_ps(1) = 2
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid = 12, 12, 12
+/
+
+&kgrid
+  ! default half-shifted mesh; an even n contains no Gamma point
+  num_kgrid = 48, 48, 48
+/
+
+&scf
+  ncg = 4
+  nscf = 300
+  threshold = 1d-9
+  method_mixing = 'broyden'
+/
+
+&analysis
+  ! DOS written to Al_dos.data; energies relative to the Fermi level
+  yn_out_dos = 'y'
+  yn_out_dos_set_fe_origin = 'y'
+  out_dos_start = -14.0d0
+  out_dos_end = 6.0d0
+  out_dos_nenergy = 1601
+  out_dos_width = 0.1d0
+  out_dos_function = 'gaussian'
+/
+
+&atomic_red_coor
+  'Al' 0.05d0 0.05d0 0.05d0 1
+/
