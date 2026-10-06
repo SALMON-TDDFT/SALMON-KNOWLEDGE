@@ -5,7 +5,7 @@ status: draft
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-001]
-next_tutorials: [SALMON-TUTORIAL-002]
+next_tutorials: [SALMON-TUTORIAL-006, SALMON-TUTORIAL-007, SALMON-TUTORIAL-010, SALMON-TUTORIAL-011]
 estimated_cost: tens of small multi-node runs; largest run 27 nodes for about 6 minutes
 topics: [silicon, ground-state, convergence, band-structure, density-of-states, k-points, real-space-grid]
 salmon_version: 2.3.0
@@ -55,7 +55,7 @@ ground state for band-structure and DOS work, we needed to know which
 discretization each of three observables requires:
 
 1. total energy `E_total`;
-2. band energies along Γ–X–M–Γ–R (bands 1–20, relative to the VBM);
+2. band energies along Gamma-X-M-Gamma-R (bands 1–20, relative to the VBM);
 3. the DOS on −14 to +9 eV relative to the VBM.
 
 Tutorial [002](../002-si-hhg-convergence-and-restart-validation/) judged the
@@ -174,16 +174,16 @@ the physics.
 
 - The gap is not monotonic in r. The deep valence bands (1–8) and the
   conduction bands (17–20) shift with r, while the upper valence bands (9–16)
-  move by at most 24 meV. The conduction-band-minimum (CBM) position on Γ–X is
+  move by at most 24 meV. The conduction-band-minimum (CBM) position on Gamma-X is
   stable to about 0.002 (2π/a).
 - A judgment of "r20 converged" was first made by eye from σ = 0.1 eV DOS
-  overlays at k6. It did not hold for bands: r20→r24 moved bands by 75 meV.
-  Bands were judged at r24 (r24→r28 = 21 meV).
+  overlays at k6. It did not hold for bands: r20 to r24 moved bands by 75 meV.
+  Bands were judged at r24 (r24 to r28 = 21 meV).
 - The k6 DOS overlays used for that judgment are not converged in k. Coarse-k
   DOS is spiky, and those spikes exaggerate the effect of any energy shift.
   For this reason, this tutorial does not quantify r convergence of the DOS
   from the k6 or k8 data. The only r effect quantified on a k-converged DOS is
-  r20→r24 at k24, reported under the confirmation run below. r24→r28 on a
+  r20 to r24 at k24, reported under the confirmation run below. r24 to r28 on a
   k-converged DOS was not measured.
 - Observation: the absolute `E_total` at k6 is −864.431, −864.631, −864.501,
   and −864.731 eV for r20, 24, 28, and 32. It is not monotonic and is not
@@ -196,7 +196,7 @@ the physics.
 ![Total energy and gap versus num_kgrid](figures/kgrid-energy-and-gap.png)
 
 - `E_total`: k6 to k24 differ by at most 0.26 meV (8-atom cell). The entire
-  spread is in the k6→k8 step; from k8 onward, each step is below 0.04 meV.
+  spread is in the k6 to k8 step; from k8 onward, each step is below 0.04 meV.
 - Printed `Fundamental gap` for k6/8/10/12/14/16/20/24: 0.867, 0.766,
   0.687, 0.645, 0.616, 0.592, 0.570, and 0.555 eV, still decreasing at k24.
   This is a sampling artifact of the shifted mesh, not a k-convergence
@@ -204,7 +204,7 @@ the physics.
   ([SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)).
 - Bands on the path versus SCF k: path-resolved gaps were 0.52218, 0.52221,
   and 0.52221 eV for k6, k8, and k12. Bands 1–17 agree to 3e-5 eV, so the
-  SCF density is converged for bands at k6. The Γ-centred 8^3 mesh
+  SCF density is converged for bands at k6. The Gamma-centered 8^3 mesh
   (`yn_gamma_centered='y'`) printed 0.528 eV.
 - `nstate=48` versus `nstate=32` (k8, r20): bands 1–20 agree to 1.1e-4 eV,
   the gap to 1.5e-8 eV, and `E_total` to 1.2e-7 eV. Bands above 20 are the
@@ -223,9 +223,9 @@ to each run's VBM; r20 is used throughout:
 
 | step | σ = 0.10 eV | σ = 0.15 eV | σ = 0.20 eV |
 |---|---:|---:|---:|
-| k14→k16 | 4.7% / 3.4% | 1.6% / 1.3% | 0.6% / 0.6% |
-| k16→k20 | 3.2% / 3.5% | 1.0% / 1.3% | 0.6% / 0.6% |
-| k20→k24 | 1.4% / 1.1% | 0.4% / 0.5% | 0.3% / 0.3% |
+| k14 to k16 | 4.7% / 3.4% | 1.6% / 1.3% | 0.6% / 0.6% |
+| k16 to k20 | 3.2% / 3.5% | 1.0% / 1.3% | 0.6% / 0.6% |
+| k20 to k24 | 1.4% / 1.1% | 0.4% / 0.5% | 0.3% / 0.3% |
 | k16 vs k24 (direct) | 3.2% / 3.3% | 1.2% / 1.5% | 0.9% / 0.9% |
 
 The direct k16-versus-k24 row was computed for this tutorial from the same
@@ -253,16 +253,16 @@ the VBM at `nstate=32`.
 - `E_total = -864.63156` eV, within 0.016 meV of the k8, r24 path run.
 - Bands 1–20 on all 128 path points: maximum difference 0.29 meV from the
   k8, r24 run.
-- Path-resolved gap: 0.4877 eV, with the VBM at Γ and CBM at
-  (0.1625, 0, 0)·2π/a of the eight-atom cubic cell on Γ–X. The printed
+- Path-resolved gap: 0.4877 eV, with the VBM at Gamma and CBM at
+  (0.1625, 0, 0)·2π/a of the eight-atom cubic cell on Gamma-X. The printed
   `Fundamental gap` equals this value because the path points are included in
   the k list.
-- DOS, mesh points only, σ = 0.15 eV, aligned VBM origins, r20→r24 at k24:
+- DOS, mesh points only, σ = 0.15 eV, aligned VBM origins, r20 to r24 at k24:
   valence 2.95% and conduction 2.51% on (0, 9] eV, or 1.91% on (0, 5.5] eV.
-  This is about 7.5 times the k20→k24 step. It consists mainly of an about 50–70 meV
+  This is about 7.5 times the k20 to k24 step. It consists mainly of an about 50–70 meV
   downward shift of deep valence bands 1–8 relative to the VBM and a 35 meV
   smaller mesh gap. This is a reference number; the overlay below shows what
-  changes. The effect of r24→r28 on a k-converged DOS was not measured.
+  changes. The effect of r24 to r28 on a k-converged DOS was not measured.
 
   ![DOS r20 versus r24 at k24](figures/dos-rgrid-r20-r24.png)
 
@@ -270,7 +270,7 @@ the VBM at `nstate=32`.
 
 | parameter | value | deciding observable |
 |---|---|---|
-| `num_rgrid` | 24,24,24 | bands (r20→r24 75 meV; r24→r28 21 meV) |
+| `num_rgrid` | 24,24,24 | bands (r20 to r24 75 meV; r24 to r28 21 meV) |
 | `num_kgrid` | 16,16,16 | DOS at σ = 0.15 eV; `E_total` and bands need only k8 and k6 |
 | `out_dos_width` | 0.15 eV | DOS resolution versus k cost |
 | `nstate` | 32 | bands 1–20 unchanged at 48 |
@@ -279,7 +279,7 @@ The k16 mesh was chosen over k24 because a 1% DOS criterion was not required.
 *Estimated:* at r24 and σ = 0.15 eV, the k16 DOS differs from k24 by about
 1–1.5%. This estimate comes from the r20 ladder, where the measured direct
 k16-versus-k24 difference was 1.2% / 1.5%; k16 at r24 was not run. Whether
-r24 is sufficient for the DOS was not established: r24→r28 was not measured
+r24 is sufficient for the DOS was not established: r24 to r28 was not measured
 on a k-converged DOS. If the DOS is the main observable, run that comparison
 at k24.
 
@@ -291,7 +291,7 @@ at k24.
 - Controlled comparisons: decks within a ladder differed only in the ladder
   variable, `sysname`, and `nproc_k`.
 - The 1e-9-weight path method was checked against true-weight k-points.
-  Γ and (0.125, 0, 0) eigenvalues in the Γ-centred run agreed with the path
+  Gamma and (0.125, 0, 0) eigenvalues in the Gamma-centered run agreed with the path
   run to 4e-6 eV. Adding the path changed `E_total` by 1.2e-7 eV and the
   mesh-only gap by 3e-8 eV.
 - The offline DOS reproduced SALMON's `*_dos.data` to below 1e-12 states/eV
@@ -311,8 +311,8 @@ at k24.
 - **`E_total` k convergence does not imply gap or DOS k convergence.** Here,
   `E_total` was flat from k8, the band-path gap from SCF k6, and the DOS needed
   k16–k24 depending on σ.
-- **The printed `Fundamental gap` is a k-mesh sample.** On a shifted mesh, it
-  misses Γ and the CBM. Use a path or Γ-centred mesh for gaps
+- **The printed `Fundamental gap` is a k mesh sample.** On a shifted mesh, it
+  misses Gamma and the CBM. Use a path or Gamma-centered mesh for gaps
   ([SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)).
 - **DOS convergence is not one number.** Localized states, energy shifts,
   and sampling ripple mean different things. Report σ together with the k
@@ -335,7 +335,7 @@ calculations, and SALMON v2.3.0 on Fugaku (A64FX). Other pseudopotentials,
 including the sample's `Si_rps.dat`, can require different grids. The
 absolute total energy was not shown to converge in r, and bands were tested
 only to r28. The r dependence of a k-converged DOS was measured only for
-r20→r24. The DOS metric and windows are one choice; no general threshold is
+r20 to r24. The DOS metric and windows are one choice; no general threshold is
 implied. The adopted k16, r24 set itself was not run as a plain-mesh
 calculation. The PZ-LDA gap of about 0.49 eV is a property of this model, not
 an experimental reference.
@@ -343,7 +343,7 @@ an experimental reference.
 ## References
 
 - [SALMON2 v.2.3.0 Si ground-state sample](https://github.com/SALMON-TDDFT/SALMON2/tree/30ba64694ec761cdb6288f01a75b8bcabf05721f/samples/exercise_04_bulkSi_gs)
-- [SALMON2 v.2.3.0 `file_kw` reader and k-mesh generation (`src/common/lattice.f90`)](https://github.com/SALMON-TDDFT/SALMON2/blob/30ba64694ec761cdb6288f01a75b8bcabf05721f/src/common/lattice.f90#L127-L209)
+- [SALMON2 v.2.3.0 `file_kw` reader and k mesh generation (`src/common/lattice.f90`)](https://github.com/SALMON-TDDFT/SALMON2/blob/30ba64694ec761cdb6288f01a75b8bcabf05721f/src/common/lattice.f90#L127-L209)
 - [SALMON2 v.2.3.0 `&analysis` DOS defaults (`src/io/inputoutput.f90`)](https://github.com/SALMON-TDDFT/SALMON2/blob/30ba64694ec761cdb6288f01a75b8bcabf05721f/src/io/inputoutput.f90#L925-L931)
 - [ABINIT LDA FHI pseudopotential collection](https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/)
 - Related tutorials: [001 official Si exercise](../001-si-hhg-official-exercise-reproduction/),
