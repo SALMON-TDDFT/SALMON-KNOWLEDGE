@@ -83,6 +83,16 @@ also differs from that at `A = 0`, so `Eall - Eall0` can become negative.
 
 ## Resolution
 
+Microscopic k mesh for this Si film (8-atom cell), as zones rather than one
+value, because the choice is a trade-off with cost:
+
+| zone | k mesh | what was seen |
+|---|---|---|
+| safe | 8^3 and above | R and T within 1% of 12^3; `Ac` back near zero; energy positive everywhere |
+| caution | 4^3 to 6^3 | R and T off by several percent; a spurious static field can appear (above) |
+
+(6^3 was not run; it is placed in the caution zone by interpolation.)
+
 - Check `Ac_tot` at the end of the run at every macro point. After the pulse
   has left, it should oscillate around zero. A uniform offset or a steady
   ramp means the microscopic k mesh is too coarse.
