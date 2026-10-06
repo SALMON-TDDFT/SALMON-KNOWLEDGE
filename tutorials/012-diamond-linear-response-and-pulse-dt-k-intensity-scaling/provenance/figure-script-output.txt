@@ -1,0 +1,42 @@
+# printed current: last step / nt, last time [fs]
+f075 k6 641100 / 641100  50.0058
+f050 k6 951900 / 961600  49.4988   (98.99 %)
+f050 k8 911050 / 961600  47.3746   (94.74 %)
+# rebuild check on f075 (all printed steps), 1-15 eV: max |dIm|, |dRe| as % of the official Im peak (48.2634)
+0.00432  0.00074
+# effect of cutting the f075 series (rebuilt) at the time the k6 / k8 run stopped, vs official: max |dIm| in % of peak
+cut at 49.50 fs  0.0079
+cut at 47.37 fs  0.0376
+# peak of Im eps_z (1-15 eV): value, energy [eV]; mean and min..max of Re eps_z over 1-2 eV
+f075 k6 official   48.263  11.00   5.8077 (5.475..5.963)
+f050 k6 rebuilt    48.262  11.00   5.8077 (5.473..5.961)
+f050 k8 rebuilt    48.916  11.01   5.8365 (5.741..5.967)
+Re eps_z at 1.5 eV (f075 official): 5.843
+# dt check at k6: f050 rebuilt vs f075 official; max diff in % of the f075 peak (1-15 eV) over a range, and where
+ 1- 5 eV  0.043  at 1.04 eV
+ 5-10 eV  0.009  at 5.05 eV
+10-15 eV  0.006  at 10.83 eV
+ 1-15 eV  0.043  at 1.04 eV
+# same, both rebuilt (f050 k6 cut at the k8 stop time vs f075 rebuilt cut at the same time)
+ 1- 5 eV  0.037  at 1.00 eV
+ 5-10 eV  0.007  at 5.00 eV
+10-15 eV  0.006  at 10.84 eV
+ 1-15 eV  0.037  at 1.00 eV
+# k check at f050: k8 vs k6, both rebuilt from the series cut at 47.37 fs; max diff in % of the k8 peak, and where
+ 1- 5 eV  0.620  at 1.19 eV
+ 5-10 eV  32.354  at 9.80 eV
+10-15 eV  48.150  at 11.65 eV
+ 1-15 eV  48.150  at 11.65 eV
+# yn_lr_w0_correction offline (f075 printed current): value at 0.01 eV, 0.1 eV, and 1-2 eV mean
+default (n), official      Re -150.53 / -14.03 / 5.8077   Im 646.32 / -5.61
+w0 correction (y), rebuilt Re -0.61 / 5.53 / 5.8967   Im -0.99 / -4.16
+peak of Im after correction: 48.2636 (default 48.2634); max |dIm| over 1-15 eV in % of peak: 0.0046
+# RT: I, peak Eall-Eall0 [eV] at t [fs], end Eall-Eall0 [eV], end N_e, end N_h, end dE/N_e [eV], end t
+1e+11  1.1865e-03 at 5.335   2.4959e-08   3.4148e-09  3.5113e-08  7.31  t_end 20.004
+1e+12  1.2040e-02 at 5.340   5.4865e-05   8.4033e-06  9.8096e-06  6.53  t_end 20.004
+1e+13  1.3878e-01 at 5.362   2.3527e-02   2.8863e-03  2.8928e-03  8.15  t_end 20.004
+# exponent p of a power law (ratio over the interval = (I ratio)^p)
+peak in-pulse energy   1e11-1e12 1.01   1e12-1e13 1.06   1e11-1e13 1.03
+residual energy        1e11-1e12 3.34   1e12-1e13 2.63   1e11-1e13 2.99
+N_e end                1e11-1e12 3.39   1e12-1e13 2.54   1e11-1e13 2.96
+N_h end                1e11-1e12 2.45   1e12-1e13 2.47   1e11-1e13 2.46
