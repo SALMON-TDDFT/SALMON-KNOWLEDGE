@@ -24,10 +24,10 @@ ground state whose density of states (DOS) near the Fermi level will be
 reported. Judge convergence from DOS overlays rather than from a single number,
 and record the reason for every judgment.
 
-> **Draft; pending author confirmation.** The k-mesh judgment (`num_kgrid=48`
-> in the primitive cell) is a provisional judgment made by the AI assistant
-> that drafted this tutorial. The author has not yet confirmed it. The
-> real-space-grid judgment (`num_rgrid=12`) was made by the author.
+> **Draft.** Both convergence judgments were made or confirmed by the author:
+> the real-space grid (`num_rgrid=12`) was the author's judgment, and the
+> k mesh (`num_kgrid=48` in the primitive cell) was proposed by the AI
+> assistant that drafted this tutorial and confirmed by the author.
 
 # Summary
 
@@ -43,7 +43,7 @@ follows:
   r20. The published value r24 in the four-atom cubic cell (0.169 Angstrom)
   is finer than the ground-state DOS needs.
 - **k mesh.** The total energy and Fermi level were flat from about k24, but
-  the DOS near E_F needed much denser sampling. The provisional choice is
+  the DOS near E_F needed much denser sampling. The choice is
   `num_kgrid=48,48,48` (110592 k-points, no symmetry): from k48 to k64, the
   DOS changed by at most 1.44% of its peak and the Fermi level by 0.23 meV.
   The DOS at the single point E = E_F is not a usable convergence measure
@@ -258,8 +258,8 @@ author's earlier Al work.
 
 ![DOS at E_F versus window mean for all three k ladders](figures/dos-ef-point-vs-window.png)
 
-**Judgment (provisional, by the AI assistant; pending author confirmation):
-k48.** Reasons:
+**Judgment: k48 (proposed by the AI assistant, confirmed by the author).**
+Reasons:
 
 - The k48→k64 change is ripple-scale (period about 0.33 eV) with no shift.
 - The window means and E_F changed by 0.1% or less and 0.23 meV.
@@ -271,14 +271,14 @@ The two-consecutive-pairs rule gives k48 at a 5% tolerance and no lock at
 3%. The author had earlier asked for the ladder to reach "k48 and beyond".
 The k64 run exists, so k64 is the alternative if a finer DOS is needed.
 
-### 5. Adopted set (provisional)
+### 5. Adopted set
 
 | parameter | value | deciding observation | judged by |
 |---|---|---|---|
 | cell | primitive fcc, a = 4.0494 Angstrom, 1 atom | the author's established procedure | author |
 | pseudopotential / `xc` | `13-Al.LDA.fhi`, `lloc_ps=2` / `'PZ'` | matching functional; consistent with Si | author |
 | `num_rgrid` | 12,12,12 (0.239 Angstrom) | DOS overlay against r14–r20 | author |
-| `num_kgrid` | 48,48,48, `yn_symmetry='n'` | DOS overlay against k64; window means | **AI, provisional** |
+| `num_kgrid` | 48,48,48, `yn_symmetry='n'` | DOS overlay against k64; window means | AI proposal, confirmed by the author |
 | `temperature_k` | 300 | DOS unchanged from 100 to 3000 K | author |
 | `nstate` | 20 | DOS complete to more than +41 eV above E_F | not varied |
 | DOS | Gaussian, σ = 0.1 eV | unchanged from the author's procedure | not varied |
@@ -297,7 +297,7 @@ scale. It took 389 s on 24 nodes and used 19.2 GiB per node.
 | 4 | r, four-atom cell | r16 is sufficient; r24 was not chosen from data | author | r16–r32 overlays and E_F/bandwidth | the published r24 reflects the strong-field real-time calculation; the assistant had used it as the centre only because it was published |
 | 5 | k, four-atom cell | not converged at 24; extend to k48 and beyond | author | iso and aniso ladders; ±1 eV window mean still +0.4%/rung | convergence not yet visible; the E_F point value was unusable |
 | 6 | r, primitive cell | r12 | author | k6 overlays (whole window, ±2 eV, top of window, band bottom) | "it roughly overlaps r16 and above" (author, translated); the 5% rule's r10 (4.70%, ΔE_F 11.5 meV) was not taken |
-| 7 | k, primitive cell | **k48, provisional** | **assistant; pending author** | k6–k64 overlays and adjacent differences | ripple without a shift at 48→64; window means and E_F flat; matches earlier author lock; k64 remains the alternative |
+| 7 | k, primitive cell | k48 | assistant proposal; confirmed by the author | k6–k64 overlays and adjacent differences | ripple without a shift at 48→64; window means and E_F flat; matches earlier author lock; k64 remains the alternative |
 
 ## Validation
 
@@ -371,7 +371,7 @@ broadening of 0.1 eV, and SALMON v2.3.0 on Fugaku (A64FX).
 - The four-atom r judgment (r16) and the primitive r judgment (r12) were made
   on different k meshes. They are consistent in grid spacing (0.253 and 0.239
   Angstrom), but were not cross-checked in the same cell.
-- The k48 choice is provisional.
+- The k48 choice was confirmed by the author; k64 exists if a finer DOS is needed.
 
 ## References
 
