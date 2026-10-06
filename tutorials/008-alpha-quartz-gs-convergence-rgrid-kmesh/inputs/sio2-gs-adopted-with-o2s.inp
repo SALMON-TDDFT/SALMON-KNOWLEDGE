@@ -1,0 +1,96 @@
+! alpha-quartz SiO2 ground state and DOS (SALMON v2.3.0): 9-atom primitive hexagonal cell.
+! Run in a directory that holds ./Si.LDA.fhi and ./O.LDA.fhi.
+!   Si.LDA.fhi = ABINIT LDA_FHI 14-Si.LDA.fhi  (4 valence electrons)
+!   O.LDA.fhi  = ABINIT LDA_FHI 08-O.LDA.fhi   (6 valence electrons)
+! Lattice and internal parameters are those of the published SALMON-inputs SiO2 ground-state
+! input (a = 4.913357 Angstrom, c = 5.405155 Angstrom, Si u = 0.4701; O 0.1460, 0.4136, 0.1191),
+! rewritten for the primitive cell (a1 at -60 degrees, a2 at +60 degrees, c along z).
+! Adopted set (maintainer's judgment) for use when the O 2s band matters downstream:
+! num_rgrid = 44,44,50 (r44) and a 10 x 10 x 10 Gamma-centered mesh (k10). The r44 rung was run at k2
+! and k10 at r48; this (r44, k10) deck itself was not run. See the tutorial's Judgment record.
+&calculation
+  theory = 'dft'
+/
+
+&control
+  sysname = 'sio2_r44k10'
+  write_gs_restart_data = 'no'
+/
+
+&parallel
+  process_allocation = 'orbital_sequential'
+  ! 50 nodes x 4 MPI processes; nproc_k must divide the number of k points (1000)
+  nproc_k = 200
+  nproc_ob = 1
+  nproc_rgrid = 1, 1, 1
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+
+&system
+  yn_periodic = 'y'
+  al_vec1 = 2.456678692140d0, -4.255092312658d0, 0.000000000000d0
+  al_vec2 = 2.456678692140d0, 4.255092312658d0, 0.000000000000d0
+  al_vec3 = 0.000000000000d0, 0.000000000000d0, 5.405154978514d0
+  nstate = 48
+  nelec = 48
+  nelem = 2
+  natom = 9
+  temperature_k = -1d0
+  yn_symmetry = 'n'
+/
+
+&pseudo
+  izatom(1) = 14
+  file_pseudo(1) = './Si.LDA.fhi'
+  lloc_ps(1) = 2
+  izatom(2) = 8
+  file_pseudo(2) = './O.LDA.fhi'
+  lloc_ps(2) = 2
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid = 44, 44, 50
+/
+
+&kgrid
+  ! dk_shift = 0.5 makes an even mesh Gamma-centred
+  num_kgrid = 10, 10, 10
+  dk_shift = 0.5d0, 0.5d0, 0.5d0
+/
+
+&scf
+  ncg = 4
+  nscf = 600
+  threshold = 1d-9
+  method_mixing = 'broyden'
+/
+
+&analysis
+  yn_out_dos = 'y'
+  ! temperature_k < 0 (fixed occupations): the energy origin is the valence band maximum
+  yn_out_dos_set_fe_origin = 'y'
+  out_dos_start = -22.0d0
+  out_dos_end = 14.0d0
+  out_dos_nenergy = 2881
+  out_dos_width = 0.1d0
+  out_dos_function = 'gaussian'
+/
+
+&atomic_red_coor
+  'Si' 0.47010000d0 0.47010000d0 0.00000000d0 1
+  'Si' 0.52990000d0 0.00000000d0 0.66666667d0 1
+  'Si' 0.00000000d0 0.52990000d0 0.33333333d0 1
+  'O'  0.14600000d0 0.41360000d0 0.11910000d0 2
+  'O'  0.41360000d0 0.14600000d0 0.88090000d0 2
+  'O'  0.73240000d0 0.58640000d0 0.21423333d0 2
+  'O'  0.58640000d0 0.73240000d0 0.78576667d0 2
+  'O'  0.85400000d0 0.26760000d0 0.54756667d0 2
+  'O'  0.26760000d0 0.85400000d0 0.45243333d0 2
+/
