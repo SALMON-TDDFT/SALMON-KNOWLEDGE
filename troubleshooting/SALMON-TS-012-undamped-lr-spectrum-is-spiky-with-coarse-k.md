@@ -39,7 +39,7 @@ output grid was 4.4% of the peak height for k 8^3.
 ## Evidence
 
 The diamond spectra were recomputed from the current `Jm_z` (as in
-SALMON-TS-011), with the same window over the full 47 fs times
+[SALMON-TS-011](SALMON-TS-011-lr-killed-before-response-is-written.md)), with the same window over the full 47 fs times
 `exp(-t/tau)`:
 
 | damping | width hbar/tau | spikiness (k 8^3) | k 6^3 vs 8^3, max difference | dt 75% vs 50% |
@@ -50,7 +50,7 @@ SALMON-TS-011), with the same window over the full 47 fs times
 
 Spikiness is the largest second difference of `Im eps` relative to the peak.
 The damping removes the spikes but leaves the difference between the two k
-meshes. So that difference is real k-point non-convergence, not an artefact
+meshes. So that difference is real k-point non-convergence, not an artifact
 of the window.
 
 ## Diagnosis
@@ -64,9 +64,9 @@ propagation.
 - Apply an exponential damping `exp(-t/tau)` to the current when you do the
   transform yourself. `tau` = 10-20 fs gives a width of 0.03-0.07 eV. The
   current is in `<sysname>_rt.data` (column `Jm_z` for z polarization), and
-  the formula is in SALMON-TS-011.
+  the formula is in [SALMON-TS-011](SALMON-TS-011-lr-killed-before-response-is-written.md).
 - Compare k meshes, time steps or grids only between spectra with the same
-  `T` and the same damping (see SALMON-TS-008).
+  `T` and the same damping (see [SALMON-TS-008](SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md)).
 - Do not use damping to hide k-point non-convergence. A wider damping makes
   the curves smoother, but the k difference stays; converge k separately.
 
