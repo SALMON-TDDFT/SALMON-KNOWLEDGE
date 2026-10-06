@@ -17,4 +17,5 @@ Evidence, Diagnosis, Resolution, and Applicability.
 - [SALMON-TS-004: Metal DOS near E_F converges in k much more slowly than the total energy](SALMON-TS-004-metal-dos-near-ef-converges-slowly-in-k.md)
 - [SALMON-TS-005: With `temperature_k`, the printed "Total energy" is not a free energy](SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md)
 - [SALMON-TS-006: Pseudopotential functional differs from the deck's `xc`](SALMON-TS-006-pseudopotential-functional-differs-from-xc.md)
+- [SALMON-TS-007: Ground-state SCF with nstate equal to the number of occupied states converges very slowly](SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)
 - [SALMON-TS-011: A linear-response run killed at the time limit leaves no spectrum, but the spectrum can be rebuilt from the current](SALMON-TS-011-lr-killed-before-response-is-written.md)
