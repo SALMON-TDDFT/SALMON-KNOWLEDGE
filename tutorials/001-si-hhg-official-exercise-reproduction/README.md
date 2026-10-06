@@ -5,12 +5,12 @@ status: draft
 verification_level: tested
 learning_stage: foundation
 prerequisites: []
-next_tutorials: [SALMON-TUTORIAL-003]
+next_tutorials: [SALMON-TUTORIAL-002, SALMON-TUTORIAL-003, SALMON-TUTORIAL-005]
 estimated_cost: one small node
 topics: [silicon, high-harmonic-generation, real-time-tddft, exercise]
 salmon_version: 2.3.0
 salmon_commit: unknown
-platforms: [A64FX HPC]
+platforms: [A64FX]
 created_at: 2026-09-03
 updated_at: 2026-09-03
 contributors: []
