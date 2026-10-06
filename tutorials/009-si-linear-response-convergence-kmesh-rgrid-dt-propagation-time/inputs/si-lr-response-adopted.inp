@@ -1,7 +1,8 @@
 ! Si 8-atom cubic cell, linear response from an impulse (theory = 'tddft_response'), SALMON v2.3.0.
 ! Adopted point (maintainer's judgment): num_rgrid = 20^3, num_kgrid = 16^3 (same mesh as the ground state),
 ! nstate = 32, dt = 0.0005 fs, nt = 24000 (T = 12 fs), polarization along z. This is the k16 rung of the
-! k ladder, so this response was run (with yn_lr_w0_correction at its default 'n', see &analysis).
+! k ladder, so this response was run, but with yn_lr_w0_correction at its default 'n'; this deck sets 'y'
+! (see &analysis), which no executed ladder run used.
 ! Based on the official sample exercise_05_bulkSi_lr. Differences from it: FHI98PP LDA
 ! pseudopotential, r / k / nstate / dt / nt, explicit &parallel, and yn_lr_w0_correction (see &analysis).
 ! Run in a directory that holds ./14-Si.LDA.fhi and ./restart/ . ./restart/ must contain info.bin,
