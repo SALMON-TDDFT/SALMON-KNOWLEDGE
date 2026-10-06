@@ -7,7 +7,7 @@ learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
 next_tutorials: []
 estimated_cost: 28 runs of 1-24 nodes, each under 10 minutes (about 12 node-hours in total), plus one 64-node run of about 10 minutes (10 node-hours)
-topics: [aluminium, metal, ground-state, convergence, density-of-states, k-points, real-space-grid, smearing, temperature]
+topics: [aluminum, metal, ground-state, convergence, density-of-states, k-points, real-space-grid, smearing, temperature]
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]

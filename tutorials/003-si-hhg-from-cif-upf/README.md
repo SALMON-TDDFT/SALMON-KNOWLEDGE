@@ -10,7 +10,7 @@ estimated_cost: one small node
 topics: [silicon, high-harmonic-generation, real-time-tddft, cif, pseudopotential]
 salmon_version: 2.3.0
 salmon_commit: unknown
-platforms: [Wisteria/BDEC-01]
+platforms: [Wisteria/BDEC-01 (A64FX)]
 created_at: 2026-09-04
 updated_at: 2026-09-04
 contributors: []

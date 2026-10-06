@@ -7,7 +7,7 @@ learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
 next_tutorials: []
 estimated_cost: 18 runs of 2-16 nodes, each under 11 minutes (about 14 node-hours in total)
-topics: [MoS2, two-dimensional-material, monolayer, ground-state, convergence, density-of-states, k-points, real-space-grid, vacuum, hexagonal-cell, band-gap]
+topics: [mos2, two-dimensional-material, monolayer, ground-state, convergence, density-of-states, k-points, real-space-grid, vacuum, hexagonal-cell, band-gap]
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]

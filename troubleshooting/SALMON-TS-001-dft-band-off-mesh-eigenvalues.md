@@ -6,7 +6,7 @@ verification_level: tested
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]
-related_tutorials: [SALMON-TUTORIAL-005]
+related_tutorials: [SALMON-TUTORIAL-005, SALMON-TUTORIAL-007]
 created_at: 2026-10-04
 updated_at: 2026-10-04
 contributors: []
