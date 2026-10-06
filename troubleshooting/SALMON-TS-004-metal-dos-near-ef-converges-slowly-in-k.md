@@ -82,7 +82,7 @@ not a band shift.
   whole window, and use window means near E_F as supporting numbers.
 - Extend the ladder until the adjacent difference is ripple without a shift
   at the resolution you need. For Al in the primitive cell at σ = 0.1 eV
-  this needed `num_kgrid=48,48,48` (provisional judgment, see the tutorial).
+  this needed `num_kgrid=48,48,48` (confirmed by the author, see the tutorial).
   Use the smallest cell: the primitive cell reaches a given k density with a
   quarter of the four-atom cell's grid points.
 - A larger DOS width converges at fewer k-points; choose it as a resolution
