@@ -1,0 +1,102 @@
+! Si thin film (400 Angstrom), Maxwell + TDDFT multiscale (1D FDTD, one TDDFT cell per macro point), SALMON v2.3.0.
+! Working point of the card: num_rgrid = 20^3, num_kgrid = 8^3, nstate = 32, dt = 0.001 fs, nt = 16000 (16 fs),
+! 8 macro points x 50 Angstrom, 1000 vacuum cells on each side. NOT a converged setting for the absorbed energy
+! (see the card): it is the point from which the k, r, dt, window and macro-grid checks were made.
+! Based on the official sample exercise_07_bulkSi_ms. Differences from it: FHI98PP LDA pseudopotential, r / k / dt / nt,
+! explicit &parallel (official: r = 12^3, k = 4^3, dt = 0.002 fs, nt = 8000).
+! Run in a directory that holds ./14-Si.LDA.fhi and the ground-state restart data.
+! Restart: the official exercise copies the data_for_restart/ directory of the ground-state run (inputs/si-ms-gs-adopted.inp,
+! same r, k, nstate) to ./restart/ ; do the same. SALMON does not check that the restart data matches this deck.
+! yn_restart = 'n' starts the real-time run from the ground state (for this theory 'y' would mean resuming a multiscale checkpoint).
+&calculation
+  theory = 'multi_scale_maxwell_tddft'
+/
+
+&parallel
+  ! nproc_k = number of MPI processes of ONE macro-point group; SALMON splits the world into nx_m groups
+  ! (here 8 groups x 64 = 512 processes; 512 k points -> 8 k points per process)
+  nproc_k = 64
+  nproc_ob = 1
+  nproc_rgrid(1:3) = 1, 1, 1
+/
+
+&control
+  sysname = 'si_ms_r20k08'
+  yn_restart = 'n'
+  directory_read_data = './restart/'
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+
+&system
+  yn_periodic = 'y'
+  al(1:3) = 5.43d0, 5.43d0, 5.43d0
+  nelem  = 1
+  natom  = 8
+  nelec  = 32
+  nstate = 32
+/
+
+&pseudo
+  file_pseudo(1) = './14-Si.LDA.fhi'
+  izatom(1) = 14
+  lloc_ps(1) = 2
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid(1:3) = 20, 20, 20
+/
+
+&kgrid
+  ! same shifted Monkhorst-Pack mesh as the ground state
+  num_kgrid(1:3) = 8, 8, 8
+/
+
+&tgrid
+  dt = 0.001d0
+  nt = 16000
+/
+
+&emfield
+  ! cos^2 envelope for the vector potential, z-polarised, 1.55 eV, 1e12 W/cm^2
+  ae_shape1 = 'Acos2'
+  I_wcm2_1 = 1.0d12
+  tw1 = 10.672d0
+  omega1 = 1.55d0
+  epdir_re1(1:3) = 0.0d0, 0.0d0, 1.0d0
+/
+
+&multiscale
+  ! 8 macro points of 50 Angstrom = 400 Angstrom film; vacuum 1000 cells (5 um) on each side
+  nx_m = 8
+  ny_m = 1
+  nz_m = 1
+  hx_m = 50.0d0
+  hy_m = 50.0d0
+  hz_m = 50.0d0
+  nxvacl_m = 1000
+  nxvacr_m = 1000
+/
+
+&maxwell
+  ! absorbing boundary on both ends of the 1D macro grid
+  boundary_em(1,1) = 'abc'
+  boundary_em(1,2) = 'abc'
+/
+
+&atomic_red_coor
+  'Si'	.0	.0	.0	1
+  'Si'	.25	.25	.25	1
+  'Si'	.5	.0	.5	1
+  'Si'	.0	.5	.5	1
+  'Si'	.5	.5	.0	1
+  'Si'	.75	.25	.75	1
+  'Si'	.25	.75	.75	1
+  'Si'	.75	.75	.25	1
+/
