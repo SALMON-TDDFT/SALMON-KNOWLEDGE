@@ -39,8 +39,8 @@ shape.
 > [Judgment record](#judgment-record); the run at that point finished and now
 > serves as the check that r and k act independently. The time step and the
 > propagation time are *not* chosen from a convergence test but fixed (see the
-> Judgment record), and the `dt`, `nstate` and `yn_lr_w0_correction` entries
-> remain provisional (AI assistant). Everything that was not varied was an
+> Judgment record), and the `dt` and `nstate` entries remain provisional (AI
+> assistant). Everything that was not varied was an
 > assumption of the assistant; it is listed in
 > [Assumptions](#assumptions-made-by-the-assistant).
 
@@ -87,9 +87,11 @@ were as follows.
   [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md).
   The ground state uses `nstate` = 32.
 - **Low frequency.** The default `yn_lr_w0_correction = 'n'` leaves a spurious
-  `1/omega` rise of `Im eps` below about `2 pi hbar / T` (0.35 eV for 12 fs). We
-  recommend `yn_lr_w0_correction = 'y'` in the adopted deck. That was **verified
-  offline only**, not in a SALMON run.
+  `1/omega` rise of `Im eps` below about `2 pi hbar / T` (0.35 eV for 12 fs).
+  The adopted deck keeps the default, as every executed run did; the absorption
+  above the gap is not affected. When the region below `2 pi hbar / T` matters,
+  `yn_lr_w0_correction = 'y'` removes the rise. That was **verified offline
+  only**, not in a SALMON run.
 
 These are observations for one model: one bulk Si cell, PZ-LDA, FHI98PP, no
 spin-orbit coupling, an undamped impulse, polarization z, SALMON v2.3.0.
@@ -183,8 +185,7 @@ The representative inputs are
 [inputs/si-lr-response-adopted.inp](inputs/si-lr-response-adopted.inp)
 (response), both at the adopted (r20, k16) point, which is the k16 rung of the
 k ladder (ground state and response both executed). They differ from the
-executed decks in `sysname`, the pseudopotential path and comments, and
-the response deck adds `yn_lr_w0_correction = 'y'`, which no executed ladder run used.
+executed decks only in `sysname`, the pseudopotential path and comments.
 
 ## Observed result
 
@@ -317,12 +318,12 @@ used in any SALMON run of this tutorial.
 | parameter | value | safe zone / caution zone | deciding observation | judged by |
 |---|---|---|---|---|
 | structure, pseudopotential, `xc` | Si 8-atom cubic, a = 5.43 Angstrom; FHI98PP LDA; PZ | | not varied | assumed by the AI assistant |
-| `num_kgrid` | 16 x 16 x 16 (GS and response) | k16 and denser | k16 vs k24 0.92%, k20 vs k24 1.17% (pointwise); peak fixed from k16 | maintainer |
-| `num_rgrid` | 20 x 20 x 20 | safe: r24 and finer; caution: r16 | r20 vs r32: +30 meV shift plus 1.2% of shape (5.8% pointwise), `Re eps_z`(1 eV) -2%; r24: -12 meV plus 0.4%; r16: -130 meV plus about 5%, `Re eps_z` +6% | maintainer |
+| `num_kgrid` | 16^3 (GS and response) | k16 and denser | k16 vs k24 0.92%, k20 vs k24 1.17% (pointwise); peak fixed from k16 | maintainer |
+| `num_rgrid` | 20^3 | safe: r24 and finer; caution: r16 | r20 vs r32: +30 meV shift plus 1.2% of shape (5.8% pointwise), `Re eps_z`(1 eV) -2%; r24: -12 meV plus 0.4%; r16: -130 meV plus about 5%, `Re eps_z` +6% | maintainer |
 | `dt` | 0.0005 fs | | 0.00025 to 0.0015 fs within 0.23% at r20 (the adopted grid) | provisional (AI assistant) |
 | T = `nt` * `dt` | 12 fs (`nt` = 24000) | | not a convergence choice; broadening set by T | assumed by the AI assistant |
 | `nstate` | 32 for the GS; any value in the response | | 16/32/64 identical; GS needs empty bands | provisional (AI assistant) |
-| `yn_lr_w0_correction` | `'y'` | | offline check only | recommended, not run |
+| `yn_lr_w0_correction` | `'n'` (default) | `'y'` when the region below `2 pi hbar / T` matters | `'y'` checked offline only | maintainer (default kept) |
 
 The (r20, k16) ground state and response are the k16 rung of the k ladder,
 so the adopted set has been run.
@@ -367,7 +368,8 @@ needed; it was not run.
 | 3 | time step | 0.0005 fs | provisional (AI assistant) | dt 0.00025 to 0.0015 fs at r20, k8 | All within 0.23% at r20, the adopted grid. 0.0005 fs is the value of the official sample and lies well below the stencil-based stability estimate at r20 (0.0018 fs); 0.001 fs and 0.0015 fs also ran at r20 and would be cheaper. For a grid in the safe zone the limit falls as the square of the spacing (about 0.0009 fs at r28, where 0.0005 fs is a factor of 2 below it); the ladder was not repeated at r24 or finer. |
 | 4 | propagation time | 12 fs, fixed | assumed by the AI assistant | T = 12 fs against 48 fs at r20, k8 | Not a convergence judgment: the spectrum changes by 38% and keeps changing with T under the SALMON default analysis. 12 fs is the window of the official sample. Spectra must be compared at the same T. |
 | 5 | nstate | 16, 32, 64 give identical spectra; use 32 for the GS | provisional (AI assistant) | r20, k4 triplet; the slow SCF of the ground state at `nstate` = 16 | See the observation above and [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md). The response run could use the cheapest `nstate` its ground state offers. |
-| 6 | yn_lr_w0_correction | recommend `'y'` | provisional (AI assistant) | offline re-transform of `*_rt.data` at k4 and k8 | Removes the low-frequency artifact without changing the peak. Not run inside SALMON. |
+| 6a | yn_lr_w0_correction | default `'n'` in the adopted deck; `'y'` only when the region below `2 pi hbar / T` is read | maintainer (2026-10-07) | the executed runs (all `'n'`); the offline check below | The maintainer does not normally use the option. Every ladder run used the default, so the adopted deck stays as run; the absorption above the gap is unchanged by the option. |
+| 6 | yn_lr_w0_correction | recommend `'y'` | AI assistant's first reading, superseded by 6a | offline re-transform of `*_rt.data` at k4 and k8 | Removes the low-frequency artifact without changing the peak. Not run inside SALMON. |
 
 ## Assumptions made by the assistant
 
@@ -408,8 +410,8 @@ convergence results.
 - The maintainer judged the k and r ladders and adopted k16, r20; the (r20, k16)
   ground state and response exist as the k16 rung of the k ladder. The (r28, k20)
   run checked the two axes together.
-- **Not validated:** `dt`, `nstate` and `yn_lr_w0_correction` remain the
-  assistant's provisional judgments. The `dt` ladder was run at r20 only, not in
+- **Not validated:** `dt` and `nstate` remain the assistant's provisional
+  judgments. The `dt` ladder was run at r20 only, not in
   the safe zone (r24 or finer). The k ladder at r20 and the r ladder at k8 were
   checked together only at the single (r28, k20) run; no (r32, k20) run.
   `yn_lr_w0_correction = 'y'` was not run in SALMON. The x and y polarizations,
@@ -474,7 +476,10 @@ Fugaku (A64FX).
 - The adopted r20 carries a +30 meV shift of the absorption edge against r32.
   That is small against the LDA gap error (about 0.5 eV for Si) but matters when
   a laser is tuned to a feature of the spectrum; use r24 or finer in that case.
-- `dt`, `nstate` and `yn_lr_w0_correction` are provisional (AI assistant).
+- `dt` and `nstate` are provisional (AI assistant).
+- The adopted deck uses the default analysis, so `Im eps` below about
+  `2 pi hbar / T` (0.35 eV at 12 fs) is an artifact; see the low-frequency
+  observation above.
 
 ## References
 

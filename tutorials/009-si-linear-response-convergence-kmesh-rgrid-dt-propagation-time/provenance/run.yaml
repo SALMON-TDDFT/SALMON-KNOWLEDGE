@@ -27,9 +27,9 @@ representative_inputs:
     executed_as_is: false
     note: "Deck of the (r20, k16, nstate 32) ground state, the k16 rung of the k ladder (maintainer's adopted point), with sysname, pseudopotential path and comments changed; all physical and numerical keys are as executed."
   - path: "inputs/si-lr-response-adopted.inp"
-    sha256: "8537c8bccfdfd840cfaee166742e64dc66d8e24e661b751ee599608f359e5806"
+    sha256: "0fd41a3a800f797724bf72f6a1fd010a0ecd50c8896d1974f219f9a1c2ba3dec"
     executed_as_is: false
-    note: "Deck of the (r20, k16, dt 0.0005, T 12 fs) response run, the k16 rung of the k ladder, with sysname, pseudopotential path and comments changed, and with yn_lr_w0_correction = 'y' added. The executed decks of the ladder runs use the default 'n'."
+    note: "Deck of the (r20, k16, dt 0.0005, T 12 fs) response run, the k16 rung of the k ladder, with sysname, pseudopotential path and comments changed. yn_lr_w0_correction stays at its default 'n', as in every executed run."
 figure_script:
   path: "scripts/make_figures.py"
   sha256: "4b402c1ad50ccefc2cad5ae76b2d2cfb594c3dd10369572921998ae35b97b10a"
@@ -49,7 +49,7 @@ runs:
       points: "16, 32, 64"
   judgment:
     method: "k: pointwise difference of each rung against k24 at r20 (k16 0.92%, k20 1.17%). r: each rung against r32 at k8, split into a rigid energy shift (meV) and the remaining shape difference (% of peak), plus Re eps_z at 1 eV"
-    adopted: "k16, r20; r24 and finer are the safe zone, r16 the caution zone; dt, nstate and yn_lr_w0_correction remain provisional (AI assistant)"
+    adopted: "k16, r20; r24 and finer are the safe zone, r16 the caution zone; yn_lr_w0_correction at its default 'n' (maintainer); dt and nstate remain provisional (AI assistant)"
     judged_by: "maintainer, 2026-10-06"
   check_run_r28_k20:
     description: "(r28, k20, nstate 32, dt 0.0005 fs, T 12 fs): the AI assistant's first adopted point, superseded; kept as the check that r and k act independently"
