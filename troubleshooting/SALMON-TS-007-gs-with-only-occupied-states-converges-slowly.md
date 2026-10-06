@@ -1,19 +1,19 @@
 ---
 id: SALMON-TS-007
-title: Ground-state SCF with nstate equal to the number of occupied states converges very slowly
+title: "Ground-state SCF with `nstate` equal to the number of occupied states converges very slowly"
 status: draft
 verification_level: tested
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]
-related_tutorials: []
+related_tutorials: [SALMON-TUTORIAL-011]
 created_at: 2026-10-05
 updated_at: 2026-10-05
 contributors: []
 reviewed_by: []
 ---
 
-# Ground-state SCF with only occupied states converges very slowly
+# Ground-state SCF with `nstate` equal to the number of occupied states converges very slowly
 
 ## Symptom
 
@@ -24,17 +24,17 @@ finer real-space grids it stops at the `nscf` cap without reaching
 `threshold`. The density residual is still falling slowly when the cap is
 hit.
 
-For bulk Si (8-atom cubic cell, `a = 5.43` Å, FHI98PP LDA, `xc='PZ'`,
+For bulk Si (8-atom cubic cell, `a = 5.43` Angstrom, FHI98PP LDA, `xc='PZ'`,
 `threshold=1.0d-9`, `nscf=300`, `nelec=32`):
 
 | r grid | k mesh | `nstate=16` (occupied only) | `nstate=32` | `nstate=64` |
 |---|---|---|---|---|
-| 20³ | 4³ | converged at 258 iterations | 59 | 43 |
-| 16³ | 8³ | converged at 210 | 43 | – |
-| 20³ | 8³ | **cap at 300**, residual 6.2e-8 | 56 | – |
-| 20³ | 12³ | **cap at 300**, residual 1.1e-8 | 63 | – |
-| 20³ | 16³ | **cap at 300**, residual 1.1e-8 | (queued) | – |
-| 24³ | 8³ | **cap at 300**, residual 3.2e-7 | 73 | – |
+| 20^3 | 4^3 | converged at 258 iterations | 59 | 43 |
+| 16^3 | 8^3 | converged at 210 | 43 | – |
+| 20^3 | 8^3 | **cap at 300**, residual 6.2e-8 | 56 | – |
+| 20^3 | 12^3 | **cap at 300**, residual 1.1e-8 | 63 | – |
+| 20^3 | 16^3 | **cap at 300**, residual 1.1e-8 | (queued) | – |
+| 24^3 | 8^3 | **cap at 300**, residual 3.2e-7 | 73 | – |
 
 ## Trigger
 
@@ -50,21 +50,21 @@ For bulk Si (8-atom cubic cell, `a = 5.43` Å, FHI98PP LDA, `xc='PZ'`,
 
 - All runs above use the same binary, cell, pseudopotential, `xc`, mixing,
   `threshold`, and `nscf`. Only `nstate`, `num_rgrid`, and `num_kgrid`
-  differ. The 20³/4³ row changes only `nstate`.
+  differ. The 20^3/4^3 row changes only `nstate`.
 - The capped `nstate=16` runs reached the same total energy as the converged
-  `nstate=32` runs to within a few μeV per cell (for example 20³/8³:
+  `nstate=32` runs to within a few μeV per cell (for example 20^3/8^3:
   −864.43078 eV vs −864.43078 eV). Their residuals had not reached the
-  threshold, and in the 20³/16³ run the residual was noisy from about
+  threshold, and in the 20^3/16^3 run the residual was noisy from about
   iteration 100 onward.
 - The orbitals that do converge do not depend on `nstate` in the subsequent
-  linear-response run. Three `tddft_response` runs (20³/4³, impulse, 12 fs)
+  linear-response run. Three `tddft_response` runs (20^3/4^3, impulse, 12 fs)
   started from the `nstate=16`, `32`, and `64` ground states gave current
   densities and dielectric functions that agree to about 1e-8. Their cost
   per time step was also the same (18.8–19.6 ms per step on 4 nodes).
 
 ## Diagnosis
 
-Observed behaviour, not traced in the SALMON source. With no empty states
+Observed behavior, not traced in the SALMON source. With no empty states
 the highest computed band is the top valence band, and the iterative
 eigensolver has no buffer above it. The separation that governs how fast the
 top bands converge is then the band gap at each k-point, which is small in

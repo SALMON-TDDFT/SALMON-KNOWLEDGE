@@ -1,6 +1,8 @@
 ! Diamond ground state, 2-atom primitive fcc cell: total energy and DOS (SALMON v2.3.0).
 ! FHI98PP LDA, xc = 'PZ', nelec = 8, nstate = 8, fixed occupations, no symmetry.
-! Provisional grid: num_rgrid = 32^3. The k mesh (24^3 here) is the densest run of the tutorial;
+! Grid: num_rgrid = 32^3 was the AI assistant's first reading; the maintainer judged that about
+! r20 to r24 is enough for the ground state and r32 is too strict (the final r depends on the
+! later laser conditions). The k mesh (24^3 here) is the densest run of the tutorial;
 ! the DOS is NOT converged in k at 24^3, so treat this deck as the top of a ladder, not as a result.
 ! Run in a directory that holds ./06-C.LDA.fhi (ABINIT LDA_FHI 06-C.LDA.fhi).
 &calculation

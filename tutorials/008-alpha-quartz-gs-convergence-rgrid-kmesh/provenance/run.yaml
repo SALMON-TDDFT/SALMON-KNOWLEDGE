@@ -1,0 +1,62 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (every run in this tutorial)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+structure_source:
+  repository: "https://github.com/SALMON-TDDFT/SALMON-inputs"
+  commit: "e5cf45d7378cc1aec6bb4dd4c3b534cbee8a81b9"
+  path: "inputfiles/AYamada2024_PhysRevB109_245130/SiO2_ms/gs/SiO2.inp"
+  note: "18-atom orthorhombic cell (two primitive cells); lattice and internal parameters rewritten for the 9-atom primitive hexagonal cell. Pseudopotentials and functional of that input are not used."
+pseudopotentials:
+  Si:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/14-Si.LDA.fhi"
+    sha256: "835f3f3affacd5bb64dcfbee39b4f68de82289eeeacaea97d6b726ea5ca96b84"
+    valence_electrons: 4
+    lloc_ps: 2
+  O:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/08-O.LDA.fhi"
+    sha256: "228440a865be1ac46a8bc73a43b9659d12c5b388a6c9ecae041e9b189549a346"
+    valence_electrons: 6
+    lloc_ps: 2
+representative_inputs:
+  - path: "inputs/sio2-gs-adopted-with-o2s.inp"
+    sha256: "c417a2b805e0b95daf7a9be3aaf587136331914e15736809d2d114e2701f6457"
+    executed_as_is: false
+    note: "Adopted set when the O 2s band is used downstream (maintainer's judgment): the deck of the executed (r48, k10) run with num_rgrid set to the executed r44 value of the r ladder (44,44,50), and sysname, pseudopotential paths and comments changed. The (r44, k10) point itself was not run."
+  - path: "inputs/sio2-gs-adopted-valence.inp"
+    sha256: "a12e412780eba5390fbcbc07ae1b0c134f802170c06bce3361ad54e3a4725cb5"
+    executed_as_is: false
+    note: "Adopted set when only the upper valence and conduction bands are used (maintainer's judgment): the same deck with num_rgrid set to the executed r36 value of the r ladder (36,36,41). The (r36, k10) point itself was not run."
+runs:
+  dates: ["2026-10-05", "2026-10-06"]
+  common: "9-atom primitive hexagonal cell, xc PZ, nelec 48, nstate 48, temperature_k -1, yn_symmetry n, ncg 4, nscf 600, threshold 1d-9, broyden, DOS -22..+14 eV 2881 points gaussian 0.1 eV (origin at the valence-band maximum), dk_shift 0.5,0.5,0.5"
+  ladders:
+    - name: "num_rgrid n,n,round(9n/8) at num_kgrid 2,2,2"
+      points: "24, 28, 32, 36, 44, 48, 56, 64 (n = 40 was prepared, not run)"
+    - name: "num_kgrid n,n,n at num_rgrid 48,48,54"
+      points: "2 (the r48 rung above), 4, 6, 8, 10, 12"
+  judgment:
+    method: "each rung against the finest rung (r64 at k2; k12 at r48), split into a rigid energy shift (meV) and the remaining shape difference (% of peak), in the windows -22..+12 eV (with the O 2s band) and -12..+12 eV (without)"
+    adopted_sets: "r44 (44,44,50) with k10 when the O 2s band is used downstream; r36 (36,36,41) with k10 otherwise; k8 is the caution zone"
+    judged_by: "maintainer, 2026-10-06"
+  r48_k10_run:
+    description: "(r48, k10) = the k10 rung of the k ladder; the AI assistant's first adopted point, superseded by the two sets above (neither of which was run at its own intersection)"
+    nodes: 50
+    mpi_processes: 200
+    k_points: 1000
+    gs_convergence_marker: "#GS converged at 150 : 2.82e-10 (printed form)"
+    total_energy_ev: -2949.178495882
+    printed_gap_ev: 5.756122
+    calculation_time_s: 407.7
+    max_memory_per_node_mib: 14463.9
+raw_outputs: "not committed; figures are derived from the *_dos.data files of the runs above"

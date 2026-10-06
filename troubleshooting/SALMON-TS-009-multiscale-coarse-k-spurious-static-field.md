@@ -6,7 +6,7 @@ verification_level: tested
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]
-related_tutorials: []
+related_tutorials: [SALMON-TUTORIAL-011]
 created_at: 2026-10-06
 updated_at: 2026-10-06
 contributors: []
@@ -56,7 +56,7 @@ reflected and transmitted fields over that of the incident field, up to
 - The decks differ only in the stated variable (checked by diff of the full
   input and job script).
 - Halving `dt` reproduces every quantity of the 20^3/4^3 run to 2e-4
-  (relative): the effect is not a time-step artefact.
+  (relative): the effect is not a time-step artifact.
 - Going from 4^3 to 8^3 k-points at 20^3 removes it: `Ac` relaxes to about
   0 after the pulse, as in the 12^3 runs, the residual field drops by a
   factor of 15 to 30, and `Eall - Eall0` stays positive at every macro point.
@@ -64,7 +64,8 @@ reflected and transmitted fields over that of the incident field, up to
   coupling never went below the ground state (20^3/4^3 at two `dt`, 20^3/8^3,
   12^3/4^3). The negative energy needs the coupling to the macroscopic field.
 - A single-cell linear-response run at 20^3/4^3 already showed a non-zero
-  conductivity at the lowest frequency in the written spectrum (see TS-008
+  conductivity at the lowest frequency in the written spectrum (see
+  [SALMON-TS-008](SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md)
   for the part of that which is a window effect).
 
 ## Diagnosis
