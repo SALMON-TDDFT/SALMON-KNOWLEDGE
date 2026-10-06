@@ -35,8 +35,7 @@ observables. Related troubleshooting entries:
 
 Tutorial 006 applies the same approach to a metal, starting from a published
 SALMON-inputs Al input, and records the reason for each convergence judgment.
-Its k mesh judgment is provisional, pending author confirmation. Related
-troubleshooting entries:
+Related troubleshooting entries:
 [SALMON-TS-004](../troubleshooting/SALMON-TS-004-metal-dos-near-ef-converges-slowly-in-k.md),
 [SALMON-TS-005](../troubleshooting/SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md),
 [SALMON-TS-006](../troubleshooting/SALMON-TS-006-pseudopotential-functional-differs-from-xc.md).

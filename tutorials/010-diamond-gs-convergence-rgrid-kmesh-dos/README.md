@@ -26,13 +26,14 @@ the total energy is flat in k long before the DOS is, that a DOS of a small
 primitive cell may still not be converged on a 24^3 mesh, and that the
 gap SALMON prints is a minimum over mesh points and keeps falling with the mesh.
 
-> **Draft; pending maintainer confirmation.** The convergence choice in this
-> tutorial (`num_rgrid`) is **provisional (AI assistant) — awaiting maintainer
-> confirmation**. It was made by the AI assistant that drafted this tutorial, from
-> the overlays and numbers shown below. **The k mesh was not converged and no
-> value is proposed.** No human has judged these figures yet. The structure, the
-> pseudopotential, and every numerical setting that was not varied were
-> assumptions of the assistant; they are listed in
+> **Draft.** The real-space-grid judgment is the maintainer's: r32 is too
+> strict for the ground state, about r20 to r24 is enough, and the final r
+> depends on the later laser conditions (see the
+> [Judgment record](#judgment-record), which also keeps the AI assistant's
+> first, stricter reading of r32 as a superseded entry). **The k mesh was not
+> converged and no value is proposed.** The structure, the pseudopotential,
+> and every numerical setting that was not varied were assumptions of the
+> assistant; they are listed in
 > [Assumptions](#assumptions-made-by-the-assistant).
 
 # Summary
@@ -47,7 +48,10 @@ SALMON v2.3.0, no symmetry reduction). The results were as follows.
   ("max_dev"), is 6.1% for r16 to r20, 2.2% for r20 to r24, 0.27% for r24 to r28,
   0.08% for r28 to r32, and at most 0.32% beyond. The total energy keeps falling:
   -0.66 meV per atom from r28 to r32, and -0.37 meV per atom in total from r32 to
-  r48. Provisional choice: **r = 32** (r28 is the alternative).
+  r48. Maintainer's judgment: **about r20 to r24 is enough for the ground state;
+  r32 is too strict**, and the final r depends on the later laser conditions. The
+  assistant's first reading (r32, with r28 as the alternative) is kept in the
+  [Judgment record](#judgment-record).
 - **k mesh** (r32). The total energy is flat from 8^3 on: all k8 to k24 values lie
   within 0.02 meV per cell. The DOS is **not converged at 24^3**: max_dev
   is 26% for k16 to k20 and 17% for k20 to k24 (13% in the valence band), and the
@@ -199,7 +203,7 @@ wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
 - **Cost.** The k24 run took 8.6 minutes on 24 nodes; the SCF iterations (222 to 286)
   were roughly constant across k.
 
-### 3. Adopted set (provisional)
+### 3. Adopted set
 
 | parameter | value | deciding observation | judged by |
 |---|---|---|---|
@@ -255,11 +259,12 @@ convergence results.
 - Controlled comparisons: every deck was checked before submission against one plan manifest
   that pins all keys except the ladder variable, `nproc_k` and the k mesh. The two ladders share
   the r32 k6 run.
-- **Not validated:** no human has judged the figures. The k mesh is not converged and no value
-  is proposed. The r ladder was run at k6 only and was not repeated at denser k. No other
-  pseudopotential (for example one with a nonlinear core correction), no LDA-relaxed structure
-  and no other functional was tried, and the displaced atom positions were not compared with the
-  ideal ones. The DOS beyond about +11 eV is not complete for `nstate = 8`.
+- **Not validated:** the maintainer judged the grid ladder only. The k mesh is not converged,
+  was not judged, and no value is proposed. The r ladder was run at k6 only and was not
+  repeated at denser k. No other pseudopotential (for example one with a nonlinear core
+  correction), no LDA-relaxed structure and no other functional was tried, and the displaced
+  atom positions were not compared with the ideal ones. The DOS beyond about +11 eV is not
+  complete for `nstate = 8`.
 
 ## Surprises and failures recorded
 
@@ -306,7 +311,9 @@ This tutorial covers one diamond cell at the experimental lattice constant, PZ-L
 with 4 valence electrons and no core correction, no spin-orbit coupling, `nstate = 8`, a
 Gaussian DOS width of 0.1 eV, and SALMON v2.3.0 on Fugaku (A64FX).
 
-- The grid judgment is provisional. The k mesh is not converged.
+- The grid judgment (about r20 to r24 is enough for the ground state; r32 is too strict)
+  is the maintainer's, and the final r depends on the later laser conditions. The k mesh is
+  not converged.
 - A broader DOS width would converge at a coarser mesh; only 0.1 eV was studied.
 - The r ladder was done at k6.
 - The numbers of this tutorial are not a diamond gap.

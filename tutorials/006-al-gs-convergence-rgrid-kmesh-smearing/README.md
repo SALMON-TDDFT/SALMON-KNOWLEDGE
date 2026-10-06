@@ -245,8 +245,8 @@ maintainer's earlier Al work.
   k24 to k32.
 - The differences are oscillations with a period of about 0.3–0.8 eV, not a
   shift. The best rigid shift removed less than 1% of the k48 to k64
-  difference. The ripple amplitude fell by a factor of about 90 from
-  k6 to k16 to k48 to k64.
+  difference. The ripple amplitude fell by a factor of about 90 from the
+  k6 to k16 pair to the k48 to k64 pair.
 - The window means converged faster than the point value. At k48 and k64,
   the means over ±0.25, ±0.5, ±1, and ±2 eV all lie between 0.405 and 0.409
   states/eV, with each pair difference at most 0.09%. DOS(E_F) at the single
@@ -319,10 +319,9 @@ scale. It took 389 s on 24 nodes and used 19.2 GiB per node.
   used in the four-atom analysis.
 - The intersection (r12, k48) is a member of the k ladder. No separate run
   was needed.
-- **Not validated:** the k48 choice has not been confirmed by the maintainer. No
-  Gamma-containing control mesh was run. The k convergence of a response
-  calculation, such as a linear-response or real-time calculation, was not
-  checked; see Limitations.
+- **Not validated:** no Gamma-containing control mesh was run. The k
+  convergence of a response calculation, such as a linear-response or
+  real-time calculation, was not checked; see Limitations.
 
 ## Lessons learned
 
