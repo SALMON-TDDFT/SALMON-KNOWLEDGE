@@ -10,7 +10,7 @@ estimated_cost: one small node
 topics: [silicon-carbide, ground-state, cif, fhi-pseudopotential, electron-density]
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
-platforms: [macOS (arm64)]
+platforms: [macOS-arm64]
 created_at: 2026-09-04
 updated_at: 2026-09-04
 contributors: []

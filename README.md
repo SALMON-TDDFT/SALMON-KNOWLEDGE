@@ -38,10 +38,6 @@ The pilot accepts Markdown tutorials describing:
 - how the result was validated;
 - reusable lessons, limitations, and links to supporting evidence.
 
-It also accepts troubleshooting entries under `troubleshooting/`, each
-recording one reproducible symptom with its trigger, evidence, diagnosis,
-resolution, and applicability, and short FAQ entries under `faq/`.
-
 The pilot does not include mailing-list ingestion, a RAG implementation, a
 vector database, automated indexing, or large collections of raw inputs and
 outputs.
@@ -53,19 +49,14 @@ tutorials/              Curated, case-based learning path
 faq/                    Short, evidence-backed questions and answers
 troubleshooting/        Reproducible symptoms, diagnoses, and resolutions
 templates/tutorial.md   Template for a new tutorial
-templates/troubleshooting.md
-                        Template for a new troubleshooting entry
-STYLE.md                Naming, front matter, section, link, and notation rules
 AGENTS.md               Instructions for AI coding tools
-CONTRIBUTING.md         Contribution and review rules
+CONTRIBUTING.md          Contribution and review rules
 ```
 
 ## Contributing
 
 Create a branch, create a tutorial directory under `tutorials/`, and copy
-`templates/tutorial.md` to its `README.md`; for a troubleshooting entry, copy
-`templates/troubleshooting.md` to `troubleshooting/SALMON-TS-NNN-short-title.md`.
-Follow [STYLE.md](STYLE.md). Add only small, relevant supporting
+`templates/tutorial.md` to its `README.md`. Add only small, relevant supporting
 figures or one representative input when needed. Complete the tutorial using
 evidence from actual work, and submit a pull request. AI tools may help
 organize or translate the material, but the contributor remains responsible

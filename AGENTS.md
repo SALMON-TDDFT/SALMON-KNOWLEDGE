@@ -13,9 +13,6 @@ volume.
 ## Before making changes
 
 - Read `README.md`, `CONTRIBUTING.md`, and the relevant template and resources.
-- Read `STYLE.md` before writing or editing any tutorial, troubleshooting
-  entry, or FAQ entry. It is mandatory: naming, front matter, section order,
-  links, notation, and the content that must never appear are defined there.
 - Run `git status --short --branch` and preserve unrelated user changes.
 - Identify whether the requested information belongs here or in SALMON2,
   SALMON-DOCS, or SALMON-inputs.
@@ -25,10 +22,8 @@ volume.
 ## Local working convention
 
 - Perform per-user downloads, CIF conversions, temporary inputs, calculation
-  runs, and raw outputs under `.local/<tutorial-directory-name>/` at the
-  repository root, for example `.local/004-4h-sic-gs-from-cif-fhi/` (the same
-  name as the tutorial directory). The repository ignores `/.local/`; do not
-  stage its contents.
+  runs, and raw outputs under `/.local/<tutorial-id>/`. The repository ignores
+  `/.local/`; do not stage its contents.
 - Use the ignored root-level `LOCAL_ENV.md` for non-sensitive notes about a
   local working environment, such as available executables or module names.
   Do not record credentials, allocation identifiers, internal hostnames, or
@@ -92,18 +87,16 @@ State the conflict and narrow the claim to what the evidence supports.
 - Add an FAQ entry only for a short, stable question whose answer is supported
   by the source priority above. Link to a tutorial when the answer requires a
   reproducible procedure.
-- Add a troubleshooting entry only for an observed, reproducible symptom. Start
-  from `templates/troubleshooting.md`; state the symptom, trigger, evidence,
-  diagnosis, resolution, and applicability; do not turn a hypothesis into a
-  documented fix. Keep the H1 equal to the front-matter title and list the
-  entry in `troubleshooting/README.md`.
+- Add a troubleshooting entry only for an observed, reproducible symptom. State
+  the trigger, evidence, diagnosis, resolution, and applicability; do not turn
+  a hypothesis into a documented fix.
 - Keep shared evidence and procedures in one resource and link from the other
   categories rather than duplicating content.
 
 ## Verification
 
-- Check Markdown structure, internal links, learning-path links, the rules in
-  `STYLE.md`, and the final Git diff.
+- Check Markdown structure, internal links, learning-path links, and the final
+  Git diff.
 - Verify cited repository paths, commits, versions, and commands when access is
   available.
 - Report what was verified and clearly identify anything not verified.
