@@ -22,3 +22,4 @@ Evidence, Diagnosis, Resolution, and Applicability.
 - [SALMON-TS-009: Multiscale Maxwell-TDDFT with a coarse k mesh can leave a spurious static field and a negative absorbed energy](SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md)
 - [SALMON-TS-010: On Fugaku a ground-state run is killed in its first seconds when too many k-points sit on one node](SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md)
 - [SALMON-TS-011: A linear-response run killed at the time limit leaves no spectrum, but the spectrum can be rebuilt from the current](SALMON-TS-011-lr-killed-before-response-is-written.md)
+- [SALMON-TS-013: A convergence ladder judged by the pointwise difference looks unconverged when a sharp feature shifts by a few meV](SALMON-TS-013-pointwise-difference-overstates-a-small-shift.md)
