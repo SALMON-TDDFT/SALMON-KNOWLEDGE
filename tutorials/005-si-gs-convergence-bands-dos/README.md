@@ -5,7 +5,7 @@ status: draft
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-001]
-next_tutorials: [SALMON-TUTORIAL-006, SALMON-TUTORIAL-007, SALMON-TUTORIAL-009, SALMON-TUTORIAL-010, SALMON-TUTORIAL-011]
+next_tutorials: [SALMON-TUTORIAL-006, SALMON-TUTORIAL-007, SALMON-TUTORIAL-008, SALMON-TUTORIAL-009, SALMON-TUTORIAL-010, SALMON-TUTORIAL-011]
 estimated_cost: tens of small multi-node runs; largest run 27 nodes for about 6 minutes
 topics: [silicon, ground-state, convergence, band-structure, density-of-states, k-points, real-space-grid]
 salmon_version: 2.3.0
