@@ -20,3 +20,4 @@ Evidence, Diagnosis, Resolution, and Applicability.
 - [SALMON-TS-007: Ground-state SCF with nstate equal to the number of occupied states converges very slowly](SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)
 - [SALMON-TS-008: Linear-response spectrum from an undamped impulse run keeps changing with the propagation time](SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md)
 - [SALMON-TS-009: Multiscale Maxwell-TDDFT with a coarse k mesh can leave a spurious static field and a negative absorbed energy](SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md)
+- [SALMON-TS-010: On Fugaku a ground-state run is killed in its first seconds when too many k-points sit on one node](SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md)
