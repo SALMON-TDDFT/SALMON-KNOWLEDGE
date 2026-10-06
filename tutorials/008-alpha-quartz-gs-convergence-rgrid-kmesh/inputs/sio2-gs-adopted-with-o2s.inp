@@ -5,13 +5,15 @@
 ! Lattice and internal parameters are those of the published SALMON-inputs SiO2 ground-state
 ! input (a = 4.913357 Angstrom, c = 5.405155 Angstrom, Si u = 0.4701; O 0.1460, 0.4136, 0.1191),
 ! rewritten for the primitive cell (a1 at -60 degrees, a2 at +60 degrees, c along z).
-! Adopted (provisional) set: num_rgrid = 48,48,54 and a 10 x 10 x 10 Gamma-centred mesh.
+! Adopted set (maintainer's judgment) for use when the O 2s band matters downstream:
+! num_rgrid = 44,44,50 (r44) and a 10 x 10 x 10 Gamma-centered mesh (k10). The r44 rung was run at k2
+! and k10 at r48; this (r44, k10) deck itself was not run. See the tutorial's Judgment record.
 &calculation
   theory = 'dft'
 /
 
 &control
-  sysname = 'sio2_r48k10'
+  sysname = 'sio2_r44k10'
   write_gs_restart_data = 'no'
 /
 
@@ -54,7 +56,7 @@
 /
 
 &rgrid
-  num_rgrid = 48, 48, 54
+  num_rgrid = 44, 44, 50
 /
 
 &kgrid

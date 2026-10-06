@@ -28,11 +28,15 @@ pseudopotentials:
     sha256: "228440a865be1ac46a8bc73a43b9659d12c5b388a6c9ecae041e9b189549a346"
     valence_electrons: 6
     lloc_ps: 2
-representative_input:
-  path: "inputs/sio2-gs-adopted.inp"
-  sha256: "6663d19b22abba11a930d9be859c8e4b5d4bcb30189195438035597da5fcca7e"
-  executed_as_is: false
-  note: "Deck of the (r48, k10) run with sysname, pseudopotential paths and comments changed; all physical and numerical keys are as executed."
+representative_inputs:
+  - path: "inputs/sio2-gs-adopted-with-o2s.inp"
+    sha256: "c417a2b805e0b95daf7a9be3aaf587136331914e15736809d2d114e2701f6457"
+    executed_as_is: false
+    note: "Adopted set when the O 2s band is used downstream (maintainer's judgment): the deck of the executed (r48, k10) run with num_rgrid set to the executed r44 value of the r ladder (44,44,50), and sysname, pseudopotential paths and comments changed. The (r44, k10) point itself was not run."
+  - path: "inputs/sio2-gs-adopted-valence.inp"
+    sha256: "a12e412780eba5390fbcbc07ae1b0c134f802170c06bce3361ad54e3a4725cb5"
+    executed_as_is: false
+    note: "Adopted set when only the upper valence and conduction bands are used (maintainer's judgment): the same deck with num_rgrid set to the executed r36 value of the r ladder (36,36,41). The (r36, k10) point itself was not run."
 runs:
   dates: ["2026-10-05", "2026-10-06"]
   common: "9-atom primitive hexagonal cell, xc PZ, nelec 48, nstate 48, temperature_k -1, yn_symmetry n, ncg 4, nscf 600, threshold 1d-9, broyden, DOS -22..+14 eV 2881 points gaussian 0.1 eV (origin at the valence-band maximum), dk_shift 0.5,0.5,0.5"
@@ -41,8 +45,12 @@ runs:
       points: "24, 28, 32, 36, 44, 48, 56, 64 (n = 40 was prepared, not run)"
     - name: "num_kgrid n,n,n at num_rgrid 48,48,54"
       points: "2 (the r48 rung above), 4, 6, 8, 10, 12"
-  intersection_run:
-    description: "(r48, k10) = the k10 rung of the k ladder"
+  judgment:
+    method: "each rung against the finest rung (r64 at k2; k12 at r48), split into a rigid energy shift (meV) and the remaining shape difference (% of peak), in the windows -22..+12 eV (with the O 2s band) and -12..+12 eV (without)"
+    adopted_sets: "r44 (44,44,50) with k10 when the O 2s band is used downstream; r36 (36,36,41) with k10 otherwise; k8 is the caution zone"
+    judged_by: "maintainer, 2026-10-06"
+  r48_k10_run:
+    description: "(r48, k10) = the k10 rung of the k ladder; the AI assistant's first adopted point, superseded by the two sets above (neither of which was run at its own intersection)"
     nodes: 50
     mpi_processes: 200
     k_points: 1000

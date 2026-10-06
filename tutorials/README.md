@@ -50,7 +50,17 @@ k-point list (`file_kw`). Related troubleshooting entries:
 [SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
 [SALMON-TS-003](../troubleshooting/SALMON-TS-003-sample-deck-has-no-dos-output.md).
 
-4. [010: Converge a diamond ground state: real-space grid and k mesh for the DOS](010-diamond-gs-convergence-rgrid-kmesh-dos/)
+4. [008: Converge an alpha-quartz SiO2 ground state: real-space grid and k mesh for the DOS](008-alpha-quartz-gs-convergence-rgrid-kmesh/)
+
+Tutorial 008 applies the approach to an oxide insulator with a localized O 2s
+band, which sets the real-space grid, and adopts two parameter sets depending
+on whether that band is used downstream. It also shows why a DOS difference
+is better judged as a rigid shift plus a shape difference than pointwise.
+Related troubleshooting entries:
+[SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+[SALMON-TS-003](../troubleshooting/SALMON-TS-003-sample-deck-has-no-dos-output.md).
+
+5. [010: Converge a diamond ground state: real-space grid and k mesh for the DOS](010-diamond-gs-convergence-rgrid-kmesh-dos/)
 
 Tutorial 010 applies the approach to a hard, light-element crystal whose DOS
 needs a far finer grid than Si and is not yet converged on a 24^3 k mesh.
@@ -70,8 +80,8 @@ troubleshooting entries:
 [SALMON-TS-009](../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md),
 [SALMON-TS-010](../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md).
 
-Numbers 008 and 009 are reserved for tutorials that are in review and are not
-yet on `main`.
+Number 009 is reserved for a tutorial that is in review and is not yet on
+`main`.
 
 ## Adding a tutorial
 
