@@ -27,12 +27,12 @@ For bulk Al (FHI LDA, `temperature_k=300`, Gaussian DOS width 0.1 eV):
 - four-atom cubic cell, anisotropic meshes 8,8,22 to 24,24,66: `E_total`
   within ±2 meV/cell from k12, but DOS(E_F) at a point
   1.631 / 1.635 / 1.718 / 1.544 / 1.673 states/eV/cell (11% spread);
-- four-atom cell, isotropic meshes 12³ to 24³ without symmetry: E_F scattered
+- four-atom cell, isotropic meshes 12^3 to 24^3 without symmetry: E_F scattered
   over 43 meV and DOS(E_F) at a point 1.855 / 1.659 / 1.452 / 1.708 (24%
   spread);
 - one-atom primitive cell at `num_rgrid=12`: from k24 to k64 `E_total` moved
   by less than 0.3 meV and E_F by less than 0.6 meV per step, while the DOS
-  still changed by 9.5% of its peak at k24→k32 and 3.6% at k32→k48.
+  still changed by 9.5% of its peak at k24 to k32 and 3.6% at k32 to k48.
 
 ## Trigger
 
@@ -50,10 +50,10 @@ Measured in [SALMON-TUTORIAL-006](../tutorials/006-al-gs-convergence-rgrid-kmesh
 
 | pair | max_dev (% of peak) | ΔE_F (meV) | ΔE_total (meV) | change of ±1 eV window mean |
 |---|---:|---:|---:|---:|
-| k16→k24 | 19.8 | +20.2 | +0.06 | +0.94% |
-| k24→k32 | 9.50 | +0.02 | −0.22 | −0.36% |
-| k32→k48 | 3.59 | −0.57 | −0.04 | +0.09% |
-| k48→k64 | 1.44 | +0.23 | −0.001 | +0.01% |
+| k16 to k24 | 19.8 | +20.2 | +0.06 | +0.94% |
+| k24 to k32 | 9.50 | +0.02 | −0.22 | −0.36% |
+| k32 to k48 | 3.59 | −0.57 | −0.04 | +0.09% |
+| k48 to k64 | 1.44 | +0.23 | −0.001 | +0.01% |
 
 - The pair differences oscillate with a period of about 0.3–0.8 eV and are
   not a rigid energy shift: the best rigid shift reduces the L2 difference
@@ -82,7 +82,7 @@ not a band shift.
   whole window, and use window means near E_F as supporting numbers.
 - Extend the ladder until the adjacent difference is ripple without a shift
   at the resolution you need. For Al in the primitive cell at σ = 0.1 eV
-  this needed `num_kgrid=48,48,48` (confirmed by the author, see the tutorial).
+  this needed `num_kgrid=48,48,48` (confirmed by the maintainer, see the tutorial).
   Use the smallest cell: the primitive cell reaches a given k density with a
   quarter of the four-atom cell's grid points.
 - A larger DOS width converges at fewer k-points; choose it as a resolution
@@ -92,7 +92,7 @@ not a band shift.
 ## Applicability
 
 - Confirmed: SALMON v2.3.0, fcc Al, PZ-LDA, FHI98PP, 300 K, Gaussian DOS
-  width 0.1 eV, half-shifted meshes up to 64³ (primitive) and 24³ / 24,24,66
+  width 0.1 eV, half-shifted meshes up to 64^3 (primitive) and 24^3 / 24,24,66
   (four-atom).
 - General mechanism: any metal or system with a Fermi surface. The k mesh
   needed depends on the material, the cell, the smearing, and the DOS width.

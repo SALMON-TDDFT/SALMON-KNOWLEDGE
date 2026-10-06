@@ -56,7 +56,7 @@ reflected and transmitted fields over that of the incident field, up to
 - The decks differ only in the stated variable (checked by diff of the full
   input and job script).
 - Halving `dt` reproduces every quantity of the 20^3/4^3 run to 2e-4
-  (relative): the effect is not a time-step artefact.
+  (relative): the effect is not a time-step artifact.
 - Going from 4^3 to 8^3 k-points at 20^3 removes it: `Ac` relaxes to about
   0 after the pulse, as in the 12^3 runs, the residual field drops by a
   factor of 15 to 30, and `Eall - Eall0` stays positive at every macro point.

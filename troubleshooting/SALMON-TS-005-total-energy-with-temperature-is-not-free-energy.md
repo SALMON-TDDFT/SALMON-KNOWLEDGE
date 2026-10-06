@@ -66,7 +66,7 @@ Sommerfeld comparison; the SALMON source was not inspected for this entry.
 
 - Compare total energies only between runs at the same `temperature_k`.
 - Do not interpret the printed value as a free energy. If a free energy or a
-  T → 0 extrapolation is needed, compute the entropy term from the
+  extrapolation to T = 0 is needed, compute the entropy term from the
   occupations yourself; this was not done here.
 - For convergence ladders of a metal, keep `temperature_k` fixed across all
   rungs.

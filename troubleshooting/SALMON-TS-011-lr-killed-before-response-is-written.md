@@ -72,7 +72,7 @@ current that defines the spectrum is already on disk.
 ## Applicability
 
 - Observed with SALMON v2.3.0 on Fugaku. The end-of-run transform is the
-  behaviour of this version; the rebuild applies to any
+  behavior of this version; the rebuild applies to any
   `tddft_response` run whose `_rt.data` is complete up to the kill.
 - Not tested: the same rebuild for `trans_longi='lo'` (which uses the total
   field instead of the current).

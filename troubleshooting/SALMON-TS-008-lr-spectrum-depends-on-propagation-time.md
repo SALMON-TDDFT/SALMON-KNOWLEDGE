@@ -104,7 +104,7 @@ which appears as `Re sigma(0) != 0` and `Im eps ~ 1/omega`; with the default
 
   The same offline check on diamond (2-atom primitive cell, FHI98PP LDA,
   `num_rgrid=32^3`, `num_kgrid=6^3`, T = 50 fs; reproduction 4.5e-6 of the
-  peak) removed the `1/omega` divergence of `Im eps_z` (646 -> -1 at
+  peak) removed the `1/omega` divergence of `Im eps_z` (646 to -1 at
   0.01 eV) but did not give a physical static limit: `Re eps_z` was -0.66 at
   0.01 eV, 5.5 at 0.1 eV, 6.6 at 0.3 eV and 5.8-6.0 from 0.5 to 2 eV. The
   correction removes the mean current, not the ringing of the remaining
@@ -112,7 +112,7 @@ which appears as `Re sigma(0) != 0` and `Im eps ~ 1/omega`; with the default
   Read the static limit from the plateau above a few times `2 pi hbar / T`,
   not from the first energy point.
 - The k mesh controls how smooth the undamped spectrum is: in the same
-  campaign the point-wise difference of `Im eps_z` between neighbouring k
+  campaign the point-wise difference of `Im eps_z` between neighboring k
   meshes fell from 22% (8^3 to 12^3) to 1.2% (20^3 to 24^3) at T = 12 fs.
 - Report `T` (and any broadening) together with every spectrum.
 

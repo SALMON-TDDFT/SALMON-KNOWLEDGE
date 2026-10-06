@@ -44,7 +44,7 @@ Measured in [SALMON-TUTORIAL-006](../tutorials/006-al-gs-convergence-rgrid-kmesh
 the published input (four-atom cubic cell, `num_kgrid=16,16,44`,
 `num_rgrid=24`, 300 K) was run once with the published PBE `Al.psp8` and
 once with FHI98PP LDA `13-Al.LDA.fhi`, all other keys equal except
-`lloc_ps` (4 → 2).
+`lloc_ps` (4 to 2).
 
 | quantity | PBE psp8 + `xc='PZ'` | FHI LDA + `xc='PZ'` | difference |
 |---|---:|---:|---:|

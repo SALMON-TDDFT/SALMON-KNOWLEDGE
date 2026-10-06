@@ -24,9 +24,9 @@ the band CG converges. The band energies are nevertheless wrong:
 - At the 66 path points shared with a reference calculation, bands 1–17
   deviate by up to 1.64 eV. The median of the per-point maximum deviation is
   0.76 eV.
-- Γ appears twice on the requested path, at two different k slots. The two
-  Γ entries differ by 0.458 eV.
-- The threefold-degenerate valence-band top at Γ is split by 0.53 eV.
+- Gamma appears twice on the requested path, at two different k slots. The two
+  Gamma entries differ by 0.458 eV.
+- The threefold-degenerate valence-band top at Gamma is split by 0.53 eV.
 - The gap obtained from `band.dat` is 0.303 eV, compared with 0.522 eV in the
   reference. Its VBM and CBM are also at the wrong k-points.
 - Band k-points that coincide with the SCF mesh point of the same index
@@ -50,8 +50,8 @@ Observed in the calculations of
 |---|---:|---:|
 | max deviation from reference at 66 shared path points | 1.638 eV | 3.3e-6 eV |
 | median of the per-point maximum | 0.76 eV | 8.7e-8 eV |
-| Γ at slot 9 versus Γ at slot 361 | 0.458 eV | 5e-15 eV |
-| Γ triplet (bands 14–16) spread | 0.53 eV | 6e-9 eV |
+| Gamma at slot 9 versus Gamma at slot 361 | 0.458 eV | 5e-15 eV |
+| Gamma triplet (bands 14–16) spread | 0.53 eV | 6e-9 eV |
 | gap from `band.dat` | 0.303 eV | 0.5221 eV |
 
 The reference is a `theory='dft'` run on the same density settings with the
@@ -129,9 +129,9 @@ call update_kvector_nonlocalpt(info%ik_s,info%ik_e,system,ppg)
 ```
 
 The same restart, input, and path were used. With the patch, all symptoms
-disappeared: maximum deviation 3.3e-6 eV, Γ duplicates equal to 5e-15 eV, and
-the Γ triplet degenerate to 6e-9 eV. The gap was 0.5221 eV with the VBM at Γ
-and the CBM on Γ–X, matching the reference.
+disappeared: maximum deviation 3.3e-6 eV, Gamma duplicates equal to 5e-15 eV, and
+the Gamma triplet degenerate to 6e-9 eV. The gap was 0.5221 eV with the VBM at Gamma
+and the CBM on Gamma-X, matching the reference.
 
 This result was obtained with the doubled `primitive_b` compensated in the
 input. All path coordinates in `&band` `kpt` were divided by

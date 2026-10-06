@@ -13,7 +13,7 @@ contributors: []
 reviewed_by: []
 ---
 
-# Printed "Fundamental gap" depends on k-mesh sampling
+# Printed "Fundamental gap" depends on k mesh sampling
 
 ## Symptom
 
@@ -32,7 +32,7 @@ eight-atom cell, and each step from k8 onward was below 0.04 meV.
   (`yn_gamma_centered='n'`).
 - The valence-band maximum (VBM) and/or conduction-band minimum (CBM) lie at
   k-points that the mesh does not contain. In the eight-atom cubic Si cell,
-  the VBM is at Γ and the CBM is on Γ–X near (0.16, 0, 0)·2π/a. An even
+  the VBM is at Gamma and the CBM is on Gamma-X near (0.16, 0, 0)·2π/a. An even
   shifted mesh contains neither point.
 
 ## Evidence
@@ -50,11 +50,11 @@ The following was measured in
 |---|---:|
 | shifted 8^3 mesh, printed | 0.766 |
 | same SCF plus 128 zero-weight path points, path-resolved | 0.522 |
-| Γ-centred 8^3 mesh (`yn_gamma_centered='y'`, 729 points), printed | 0.528 |
+| Gamma-centered 8^3 mesh (`yn_gamma_centered='y'`, 729 points), printed | 0.528 |
 | path-resolved gap with SCF k6 / k8 / k12 | 0.52218 / 0.52221 / 0.52221 |
 
 At k8, the 0.244 eV excess of the mesh gap has two parts. The mesh VBM is
-0.084 eV below Γ, and the mesh CBM is 0.160 eV above the true CBM. Adding the
+0.084 eV below Gamma, and the mesh CBM is 0.160 eV above the true CBM. Adding the
 path changed `E_total` by only 1.2e-7 eV and did not change the mesh-only gap.
 
 ## Diagnosis
@@ -71,8 +71,8 @@ still changing by 15 meV per step at k24.
   for example zero-weight `file_kw` points as in SALMON-TUTORIAL-005. In
   v2.3.0, do not use `theory='dft_band'`; see
   [SALMON-TS-001](SALMON-TS-001-dft-band-off-mesh-eigenvalues.md).
-  Alternatively, use a mesh that contains the band edges, such as a Γ-centred
-  mesh for a VBM at Γ. With an 8^3 Γ-centred mesh, the gap was within 6 meV
+  Alternatively, use a mesh that contains the band edges, such as a Gamma-centered
+  mesh for a VBM at Gamma. With an 8^3 Gamma-centered mesh, the gap was within 6 meV
   of the path-resolved gap because the CBM still lay between mesh points.
 - When comparing DOS files with `yn_out_dos_set_fe_origin='y'`, remember
   that the origin is the sampled VBM. It moves when path points or a different
