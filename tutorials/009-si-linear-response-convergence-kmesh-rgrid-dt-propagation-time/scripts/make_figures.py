@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Overlay plots and neighbour-difference tables for the Si linear-response ladders.
+"""Overlay plots and neighbor-difference tables for the Si linear-response ladders.
 
 usage: make_figures.py <dir holding one sub-directory per run> <output figure dir>
 
@@ -49,7 +49,7 @@ def figure(name, runs, title, xr=(1, 8)):
         c = cm(i / max(len(runs) - 1, 1) * 0.9)
         ax[0].plot(x, y, color=c, lw=1.2, label=lab)
     ax[0].set_xlim(*xr)
-    # the low-frequency 1/omega artefact (window width ~ T, see the card) would otherwise set the y range
+    # the low-frequency 1/omega artifact (window width ~ T, see the tutorial) would otherwise set the y range
     top = max(load(r)[1][(load(r)[0] >= 1) & (load(r)[0] <= xr[1])].max() for _, r in runs)
     ax[0].set_ylim(-0.1 * top, 1.1 * top)
     ax[0].set_xlabel("photon energy (eV)")
@@ -64,7 +64,7 @@ def figure(name, runs, title, xr=(1, 8)):
     ax[1].set_xlim(1, 10)
     ax[1].set_xlabel("photon energy (eV)")
     ax[1].set_ylabel("difference in Im eps_z")
-    ax[1].set_title("neighbour differences")
+    ax[1].set_title("neighbor differences")
     ax[1].legend(fontsize=8)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, name), dpi=130)

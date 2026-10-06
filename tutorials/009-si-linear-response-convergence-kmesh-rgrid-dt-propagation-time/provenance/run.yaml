@@ -23,19 +23,19 @@ reference_decks:
   response: "official sample exercise_05_bulkSi_lr (tag v.2.3.0)"
 representative_inputs:
   - path: "inputs/si-lr-gs-adopted.inp"
-    sha256: "781b511ef8a8fff70fd4602f314c70aafe67b775e4c0f730e6378467bafa66ff"
+    sha256: "36b5cccec84b3e9b35966a085c44d413d1f6ca82a4402cfee4ffc8a9387a8e01"
     executed_as_is: false
-    note: "Deck of the (r28, k20, nstate 32) ground state with sysname, pseudopotential path and comments changed. The (r28, k20) intersection run itself had not finished when this draft was written."
+    note: "Deck of the (r20, k16, nstate 32) ground state, the k16 rung of the k ladder (maintainer's adopted point), with sysname, pseudopotential path and comments changed; all physical and numerical keys are as executed."
   - path: "inputs/si-lr-response-adopted.inp"
-    sha256: "4d89e74d13048a92cfaf5e89d90a6a6d389377b6345814fc191bd720a1811411"
+    sha256: "28df37f10744d6becf1979eec6c674b58c688cedcd610c521d71952d50e221e3"
     executed_as_is: false
-    note: "Deck of the (r28, k20, dt 0.0005, T 12 fs) response run with sysname, pseudopotential path and comments changed, and with yn_lr_w0_correction = 'y' added. The executed decks of the ladder runs use the default 'n'."
+    note: "Deck of the (r20, k16, dt 0.0005, T 12 fs) response run, the k16 rung of the k ladder, with sysname, pseudopotential path and comments changed, and with yn_lr_w0_correction = 'y' added. The executed decks of the ladder runs use the default 'n'."
 figure_script:
   path: "scripts/make_figures.py"
-  sha256: "8aac6d70b4443562638bc846335c1df51e19499667638ea1c33b9629e2e3c7d8"
+  sha256: "4b402c1ad50ccefc2cad5ae76b2d2cfb594c3dd10369572921998ae35b97b10a"
 runs:
   dates: ["2026-10-05", "2026-10-06"]
-  common: "8-atom cubic cell a = 5.43 A, FHI98PP LDA, xc PZ, nelec 32, shifted Monkhorst-Pack k mesh without symmetry reduction (RT k mesh = GS k mesh), impulse along z, de 0.01 eV, nenergy 2000, yn_lr_w0_correction at its default 'n', GS threshold 1d-9, nscf 300"
+  common: "8-atom cubic cell a = 5.43 Angstrom, FHI98PP LDA, xc PZ, nelec 32, shifted Monkhorst-Pack k mesh without symmetry reduction (RT k mesh = GS k mesh), impulse along z, de 0.01 eV, nenergy 2000, yn_lr_w0_correction at its default 'n', GS threshold 1d-9, nscf 300"
   ladders:
     - name: "k at r20, nstate 32 (k4: nstate 16), dt 0.0005 fs, T 12 fs"
       points: "4, 8, 12, 16, 20, 24"
@@ -47,7 +47,12 @@ runs:
       points: "12 fs (nt 24000), 48 fs (nt 96000)"
     - name: "nstate at r20, k4, dt 0.0005 fs, T 12 fs"
       points: "16, 32, 64"
-  intersection_run:
-    description: "(r28, k20, nstate 32, dt 0.0005 fs, T 12 fs)"
-    status: "pending when this draft was written"
+  judgment:
+    method: "k: pointwise difference of each rung against k24 at r20 (k16 0.92%, k20 1.17%). r: each rung against r32 at k8, split into a rigid energy shift (meV) and the remaining shape difference (% of peak), plus Re eps_z at 1 eV"
+    adopted: "k16, r20; r24 and finer are the safe zone, r16 the caution zone; dt, nstate and yn_lr_w0_correction remain provisional (AI assistant)"
+    judged_by: "maintainer, 2026-10-06"
+  check_run_r28_k20:
+    description: "(r28, k20, nstate 32, dt 0.0005 fs, T 12 fs): the AI assistant's first adopted point, superseded; kept as the check that r and k act independently"
+    status: "finished; ground state converged in 97 iterations on 40 nodes (a first attempt on 20 nodes ran out of memory); response ran all 24000 steps in 1 h 50 min on 80 nodes (0.275 s per step)"
+    result: "r20 to r28 is 5.2% pointwise at k20 against 6.0% at k8 (r ladder)"
 raw_outputs: "not committed; figures are derived from the *_response.data files of the runs above"

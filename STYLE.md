@@ -9,7 +9,7 @@ rule; the files in `templates/` already follow it.
 - Tutorial: `tutorials/NNN-short-title/README.md`; `NNN` is a globally unique three-digit number and the slug is lowercase ASCII words joined by hyphens.
 - Tutorial subdirectories: `figures/` (small derived PNGs), `inputs/` (one representative input, or the few the conclusion needs), `scripts/` (regeneration scripts, executable), `provenance/` (`run.yaml`, `sources.yaml`).
 - Troubleshooting entry: `troubleshooting/SALMON-TS-NNN-short-title.md`, one file per entry, same slug rules.
-- Reserved numbers: a number taken by a tutorial or entry in review stays reserved (008 and 009 at present); do not reuse it. Record reservations in `tutorials/README.md`.
+- Reserved numbers: a number taken by a tutorial or entry in review stays reserved (008 at present); do not reuse it. Record reservations in `tutorials/README.md`.
 - Per-user work goes under `.local/<tutorial-directory-name>/` at the repository root (ignored by Git); a tutorial must not depend on it.
 - Identifiers (`SALMON-TUTORIAL-NNN`, `SALMON-TS-NNN`) stay stable after review even if a directory is renamed.
 

@@ -61,7 +61,19 @@ Related troubleshooting entries:
 
 ### Real-time and Maxwell-TDDFT
 
-1. [011: Maxwell-TDDFT of a 400 Angstrom Si film: what the k mesh, grid, time step, window and macro grid change](011-si-maxwell-tddft-convergence-k-r-dt-macro-grid-window/)
+1. [009: Converge a bulk-Si linear-response spectrum: k mesh, real-space grid, time step and propagation time](009-si-linear-response-convergence-kmesh-rgrid-dt-propagation-time/)
+
+Tutorial 009 starts from the Si ground state of 005 and the official
+`exercise_05_bulkSi_lr` sample, and converges `Im eps` of a real-time
+linear-response run one parameter at a time; it shows that the propagation
+time acts as a broadening and that `nstate` is a ground-state parameter.
+Related troubleshooting entries:
+[SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+[SALMON-TS-007](../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md),
+[SALMON-TS-008](../troubleshooting/SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md),
+[SALMON-TS-010](../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md).
+
+2. [011: Maxwell-TDDFT of a 400 Angstrom Si film: what the k mesh, grid, time step, window and macro grid change](011-si-maxwell-tddft-convergence-k-r-dt-macro-grid-window/)
 
 Tutorial 011 is an advanced multiscale calculation that starts from the Si
 ground state of 005 and the official `exercise_07_bulkSi_ms` sample. Related
@@ -70,8 +82,8 @@ troubleshooting entries:
 [SALMON-TS-009](../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md),
 [SALMON-TS-010](../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md).
 
-Numbers 008 and 009 are reserved for tutorials that are in review and are not
-yet on `main`.
+Number 008 is reserved for a tutorial that is in review and is not yet on
+`main`.
 
 ## Adding a tutorial
 
