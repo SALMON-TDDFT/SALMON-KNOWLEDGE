@@ -1,9 +1,9 @@
 ! Bulk Al, primitive one-atom fcc cell, ground state at the parameter set
-! adopted (provisionally) in SALMON-TUTORIAL-006 for the DOS near the Fermi
+! adopted in SALMON-TUTORIAL-006 for the DOS near the Fermi
 ! level: num_rgrid=12^3, num_kgrid=48^3 (full mesh, no symmetry), nstate=20,
 ! temperature_k=300, DOS Gaussian 0.1 eV.
-! The k48 choice is a draft judgment pending author confirmation; see the
-! tutorial README.
+! The k48 choice was proposed by the AI assistant and confirmed by the
+! maintainer; see the tutorial README.
 ! This is the deck of the (r12, k48) run itself with the run name, the local
 ! pseudopotential path, and the comments changed. It ran on 24 nodes with
 ! 96 MPI processes (nproc_k=96) and 12 OpenMP threads per process.
