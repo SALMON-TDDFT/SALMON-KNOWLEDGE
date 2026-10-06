@@ -34,8 +34,8 @@ convergence.
 > tutorial, from the overlays and numbers shown below. No human has judged these
 > figures yet. The time step and the propagation time are *not* chosen from a
 > convergence test but fixed (see the Judgment record). The run at the
-> intersection of the two chosen values had **not finished** when this draft was
-> written; see [Final check at the intersection (pending)](#final-check-at-the-intersection-pending).
+> intersection of the two chosen values finished and is consistent with them; see
+> [Final check at the intersection](#final-check-at-the-intersection).
 > Everything that was not varied was an assumption of the assistant; it is listed in
 > [Assumptions](#assumptions-made-by-the-assistant).
 
@@ -152,7 +152,7 @@ ladders carry no pass/fail threshold.
    the numbers (`make_figures.py <data dir> <figure dir>`; the data directory
    holds one sub-directory per run with its `*_response.data`).
 5. **Fix `dt` and T, then choose k and r**, and run one response at the
-   intersection of the two chosen values (pending).
+   intersection of the two chosen values.
 
 The representative inputs are
 [inputs/si-lr-gs-adopted.inp](inputs/si-lr-gs-adopted.inp) (ground state) and
@@ -282,24 +282,34 @@ used in any SALMON run of this tutorial.
 | `nstate` | 32 for the GS; any value in the response | 16/32/64 identical; GS needs empty bands | provisional (Claude) — awaiting maintainer confirmation |
 | `yn_lr_w0_correction` | `'y'` | offline check only | recommended, not run |
 
-## Final check at the intersection (pending)
+## Final check at the intersection
 
 The run at the intersection of the chosen values, (r28, k20, `nstate` = 32,
-`dt` = 0.0005 fs, T = 12 fs), consists of a ground state (20 nodes) and a response run
-(80 nodes, planned at about 4 hours). **It had not finished when this draft was
-written.** When it is available, this subsection should hold:
+`dt` = 0.0005 fs, T = 12 fs), finished normally: the ground state converged in
+97 iterations on 40 nodes (a first attempt on 20 nodes ran out of memory, see
+SALMON-TS-010), and the response ran all 24000 steps in 1 h 50 min on 80 nodes
+(0.275 s per step), with the electron number constant to 2e-8 and no growth of
+the current.
 
-- the check that both runs finished (convergence marker of the ground state, all
-  24000 steps of the response);
-- the max diff between this spectrum and the k20 spectrum at r20, and between it
-  and a k24 / r32 neighbour if one is run;
-- whether the peak position (about 3.62-3.72 eV) and the shoulder at 4-5 eV
-  stay within the 1% range seen between the last rungs.
+Maximum pointwise difference of `Im eps_z` over 1-10 eV, in % of the peak:
 
-The k ladder was run at r20 and the r ladder at k8 (the k and r effects were
-assumed independent to keep the cost down; the intersection run is the only test
-of that assumption), so until the intersection run is judged, the choice (r28,
-k20) is a proposal only.
+| pair | difference | where |
+|---|---:|---|
+| r28 vs r20, at k20 | 5.2 | 3.5 eV (rising edge of the main peak) |
+| r28 vs r20, at k8 (the r ladder) | 6.0 | 3.4 eV |
+| r28 vs r32, at k8 | 0.25 | 3.5 eV |
+| k20 vs k24, at r20 (the k ladder) | 1.2 | 4.6 eV |
+
+The main peak is 48.5 at 3.70 eV at (r28, k20), against 48.1 at 3.72 eV at
+(r20, k20). The r effect seen on the r ladder at k8 reappears at k20 with the
+same size and sign, so the two axes behave consistently and (r28, k20) is the
+combination the per-axis choices predict. They are not exactly additive: adding
+the k8 r-shift to the r20 k20 spectrum misses the r28 k20 spectrum by 3.6% of
+the peak, so the r correction depends mildly on k. An (r32, k20) run would pin
+this down if a tighter criterion is needed; it was not run.
+
+The k ladder was run at r20 and the r ladder at k8 to keep the cost down; this
+run is the test of that shortcut.
 
 ## Judgment record
 
@@ -346,9 +356,10 @@ convergence results.
   from `*_rt.data` to 3e-7 of the peak before the mean was subtracted.
 - The max diff table was produced by the script in this directory from the
   `*_response.data` files of the runs.
-- **Not validated:** no human has judged the figures. The run at the intersection
-  (r28, k20) is pending. The `dt` ladder was run at r20 only, not at r28. The k ladder
-  at r20 and the r ladder at k8 were assumed independent. `yn_lr_w0_correction = 'y'`
+- **Not validated:** the maintainer has looked at the overlays and could not see a
+  difference above k16 or above r24, but has not confirmed the choice. The `dt` ladder
+  was run at r20 only, not at r28. The k ladder at r20 and the r ladder at k8 were
+  checked together only at the single intersection run (r28, k20); no (r32, k20) run. `yn_lr_w0_correction = 'y'`
   was not run in SALMON. The x and y polarisations, other broadenings, other materials
   and other pseudopotentials were not examined. The convergence of the response in
   k beyond k24 was not examined.
@@ -395,8 +406,11 @@ Fugaku (A64FX).
 
 - The k mesh needed here is for the 12 fs spectrum with the default window; a
   longer T or a narrower broadening will need denser k.
-- The adopted values are proposals until the intersection run is judged.
-- All judgments are provisional.
+- The intersection run is consistent with the per-axis choices, but the choices
+  are still proposals: on the overlays alone k16 and r24 look the same as the
+  denser rungs (maintainer comment); the point-wise differences at those rungs
+  are 1.5% (k16 to k20) and 2.2% (r24 to r28), at the shoulder and the rising
+  edge of the main peak.
 
 ## References
 
