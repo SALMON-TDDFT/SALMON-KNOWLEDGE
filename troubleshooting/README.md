@@ -7,9 +7,14 @@ relevant procedure or evidence.
 
 ## Entries
 
-Each entry is a Markdown file named `SALMON-TS-NNN-short-title.md`. Its front
-matter mirrors the tutorial front matter. Its sections are Symptom, Trigger,
-Evidence, Diagnosis, Resolution, and Applicability.
+Each entry is a Markdown file named `SALMON-TS-NNN-short-title.md`, created
+from [`templates/troubleshooting.md`](../templates/troubleshooting.md). Its
+front matter has, in this order: `id`, `title`, `status`,
+`verification_level`, `salmon_version`, `salmon_commit`, `platforms`,
+`related_tutorials`, `created_at`, `updated_at`, `contributors`,
+`reviewed_by`. The H1 of the body equals `title`. Its sections are Symptom,
+Trigger, Evidence, Diagnosis, Resolution, and Applicability. The link text
+below is `SALMON-TS-NNN: <title>`. Conventions: [STYLE.md](../STYLE.md).
 
 - [SALMON-TS-001: `theory='dft_band'` gives wrong eigenvalues at k-points off the SCF mesh (v2.3.0)](SALMON-TS-001-dft-band-off-mesh-eigenvalues.md)
 - [SALMON-TS-002: Printed "Fundamental gap" keeps changing with the k mesh while the total energy is converged](SALMON-TS-002-printed-gap-depends-on-k-mesh.md)
