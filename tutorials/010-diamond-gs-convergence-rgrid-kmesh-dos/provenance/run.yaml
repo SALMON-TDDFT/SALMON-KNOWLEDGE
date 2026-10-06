@@ -1,0 +1,39 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (every run in this tutorial)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+pseudopotentials:
+  C:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/06-C.LDA.fhi"
+    sha256: "cccd183e2f42e0464326a26899c00165daa7ca0d08182e610ce9b09692e24f12"
+    valence_electrons: 4
+    lloc_ps: 2
+    nonlinear_core_correction: "none (rchrg 0 in the file header)"
+representative_input:
+  path: "inputs/diamond-gs-r32k24.inp"
+  sha256: "e47a833b56b1adf613607733a827dbf291e0a94e69d8a4ca37c16d2bbcb8f30f"
+  executed_as_is: false
+  note: "Deck of the (r32, k24) run with sysname, pseudopotential path and comments changed; all physical and numerical keys are as executed."
+figure_script:
+  path: "scripts/make_figures.py"
+  sha256: "61946c747a72de7361f6629499070623b5e5f9ce7624cfd82b810840279058ad"
+runs:
+  dates: ["2026-10-05", "2026-10-06"]
+  common: "primitive 2-atom fcc cell a = 3.567 A (vectors (0,h,h),(h,0,h),(h,h,0), h = 1.7835 A), atoms at reduced (0.05,0.05,0.05) and (0.30,0.30,0.30), xc PZ, nelec 8, nstate 8, fixed occupations (temperature_k not set), yn_symmetry n, ncg 4, nscf 800, threshold 1d-9, broyden mixing, shifted Monkhorst-Pack n x n x n mesh without symmetry reduction, DOS -24..+10 eV 2721 points gaussian 0.1 eV with the valence-band maximum as the origin, write_gs_restart_data no"
+  ladders:
+    - name: "num_rgrid r,r,r at k6 (6 nodes each)"
+      points: "16, 20, 24, 28, 32, 36, 40, 48"
+    - name: "k mesh n x n x n at r32"
+      points: "6 (= the r32 rung above), 8, 10, 12, 16, 20, 24"
+  all_runs_converged: "yes (SCF residual below threshold, well below the nscf cap of 800)"
+raw_outputs: "not committed; figures are derived from the *_dos.data files and the standard output of the runs above"

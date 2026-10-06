@@ -1,0 +1,91 @@
+! MoS2 monolayer ground state: DOS and band edges from one SCF run (SALMON v2.3.0).
+! Hexagonal primitive cell (3 atoms) with vacuum along z. Scalar-relativistic, no spin-orbit.
+! Run in a directory that holds ./Mo.LDA.fhi, ./S.LDA.fhi and ./kmos_k.dat.
+!   Mo.LDA.fhi = ABINIT LDA_FHI 42-Mo.LDA.fhi  (6 valence electrons, no 4s4p semicore)
+!   S.LDA.fhi  = ABINIT LDA_FHI 16-S.LDA.fhi   (6 valence electrons)
+!   kmos_k.dat = python3 scripts/make_kpoints.py 36 54 > kmos_k.dat
+! Adopted (provisional) set: Lz = 20 Angstrom, num_rgrid = 24,24,144, 36 x 36 x 1 mesh.
+&calculation
+  theory = 'dft'
+/
+
+&control
+  sysname = 'mos2_L20r24k36'
+  write_gs_restart_data = 'no'
+/
+
+&parallel
+  process_allocation = 'orbital_sequential'
+  ! 16 nodes x 4 MPI processes; nproc_k must divide the number of k points (704)
+  nproc_k = 64
+  nproc_ob = 1
+  nproc_rgrid = 1, 1, 1
+/
+
+&units
+  unit_system = 'A_eV_fs'
+/
+
+&system
+  yn_periodic = 'y'
+  al_vec1 = 3.18d0, 0.0d0, 0.0d0
+  al_vec2 = -1.59d0, 2.753960784d0, 0.0d0
+  al_vec3 = 0.0d0, 0.0d0, 20.0d0
+  nstate = 24
+  nelec = 18
+  nelem = 2
+  natom = 3
+  yn_symmetry = 'n'
+/
+
+&pseudo
+  izatom(1) = 42
+  izatom(2) = 16
+  file_pseudo(1) = './Mo.LDA.fhi'
+  file_pseudo(2) = './S.LDA.fhi'
+  lloc_ps(1) = 1
+  lloc_ps(2) = 2
+/
+
+&functional
+  xc = 'PZ'
+/
+
+&rgrid
+  num_rgrid = 24, 24, 144
+/
+
+&kgrid
+  ! Descriptive only: SALMON ignores num_kgrid and dk_shift when file_kw is given.
+  num_kgrid = 36, 36, 1
+  dk_shift = 0.5d0, 0.5d0, 0d0
+  file_kw = 'kmos_k.dat'
+/
+
+&scf
+  ! The default 'gauss' places its Gaussians over the whole cell height, mostly in the vacuum.
+  method_init_wf = 'random'
+  nscf = 500
+  threshold = 1d-9
+  ncg = 5
+  method_mixing = 'broyden'
+  nmemory_mb = 8
+  alpha_mb = 0.5d0
+/
+
+&analysis
+  yn_out_dos = 'y'
+  ! temperature_k is not set, so the energy origin is the valence band maximum over all k
+  yn_out_dos_set_fe_origin = 'y'
+  out_dos_start = -18.0d0
+  out_dos_end = 5.0d0
+  out_dos_nenergy = 1841
+  out_dos_width = 0.1d0
+  out_dos_function = 'gaussian'
+/
+
+&atomic_red_coor
+  'Mo' 0.3333333333333333d0 0.6666666666666666d0 0.5d0 1
+  'S'  0.6666666666666666d0 0.3333333333333333d0 0.57819d0 2
+  'S'  0.6666666666666666d0 0.3333333333333333d0 0.42181d0 2
+/
