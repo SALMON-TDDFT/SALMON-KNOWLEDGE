@@ -18,3 +18,4 @@ Evidence, Diagnosis, Resolution, and Applicability.
 - [SALMON-TS-005: With `temperature_k`, the printed "Total energy" is not a free energy](SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md)
 - [SALMON-TS-006: Pseudopotential functional differs from the deck's `xc`](SALMON-TS-006-pseudopotential-functional-differs-from-xc.md)
 - [SALMON-TS-007: Ground-state SCF with nstate equal to the number of occupied states converges very slowly](SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)
+- [SALMON-TS-008: Linear-response spectrum from an undamped impulse run keeps changing with the propagation time](SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md)
