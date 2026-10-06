@@ -1,0 +1,68 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (every run in this tutorial)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler, tcsds-1.2.43 (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+    optional_libraries_linked: "LibXC 4.3.4, ScaLAPACK (SSL2), EigenExa 2.4b (linked; not used by these xc='PZ' calculations)"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+starting_point:
+  repository: "https://github.com/SALMON-TDDFT/SALMON-inputs"
+  commit: "e5cf45d7378cc1aec6bb4dd4c3b534cbee8a81b9"
+  path: "inputfiles/AYamada2024_PhysRevB109_245130/Al_ms/gs/"
+  files:
+    Al.inp: "sha256 f83736ab59aac3d01c32f191821204f10ba418ac1aa9fc1007c038c20e03e004"
+    Al.psp8: "sha256 c5ba758b68934214b4eda5abdc8b267d2fbb16f2147c0fe622a33a1689ea807f (ONCVPSP, header pspxc=11 = PBE)"
+  written_for: "SALMON v.2.0.1 (README of the example)"
+  key_check: "all 27 distinct input keys of gs/Al.inp exist in src/io/inputoutput.f90 at the v2.3.0 commit; semantic changes between v2.0.1 and v2.3.0 were not checked"
+pseudopotential_adopted:
+  source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/13-Al.LDA.fhi"
+  table: "ABINIT FHI98PP LDA"
+  sha256: "5111db5d8a8c1f9d1e736ceff54a3c5b5ced4b3659b2d5302b64718ad79b8d7f"
+  valence_electrons: 3
+  lloc_ps: 2
+representative_input:
+  path: "inputs/al-gs-adopted.inp"
+  sha256: "e925f92a22153f10cfc1c399fbaa1bae798d679c9415b472ab9cb770c3270fbe"
+  executed_as_is: false
+  note: "Deck of the (r12, k48) run with sysname, pseudopotential path and comments changed; all physical and numerical keys are as executed."
+runs:
+  dates: ["2026-10-04", "2026-10-05"]
+  official_input_run:
+    description: "SALMON-inputs gs/Al.inp unchanged except sysname, nproc_k, write_gs_restart_data='no', &analysis DOS block; 4-atom cubic cell, num_kgrid 16,16,44, yn_symmetry 'yyn' with sym.dat, num_rgrid 24, Al.psp8, xc 'PZ', 300 K"
+  four_atom_cell_fhi:
+    common: "official deck with 13-Al.LDA.fhi (lloc_ps 2) instead of Al.psp8; nstate 12; nelec 12; ncg 5; threshold 1d-10; nmemory_mb 4; alpha_mb 0.30; DOS -14..+3 eV, 1361 points, gaussian 0.1 eV"
+    ladders:
+      - name: "anisotropic k (n,n,2.75n, yn_symmetry 'yyn'), r24, 300 K"
+        points: "8,8,22; 12,12,33; 16,16,44; 20,20,55; 24,24,66"
+      - name: "r at k 16,16,44, 300 K"
+        points: "r16, r20, r24, r28, r32"
+      - name: "temperature_k at k 16,16,44, r24"
+        points: "100, 300, 1000, 2000, 3000 K"
+      - name: "isotropic k (n^3, no symmetry), r24, 300 K"
+        points: "k12, k16, k20, k24"
+  primitive_cell_fhi:
+    common: "1-atom fcc primitive cell, a = 4.0494 A, atom at reduced (0.05,0.05,0.05), 13-Al.LDA.fhi, xc 'PZ', nelec 3, nstate 20, temperature_k 300, yn_symmetry 'n', ncg 4, method_mixing 'broyden', threshold 1d-9, nscf 300, DOS -14..+6 eV, 1601 points, gaussian 0.1 eV"
+    ladders:
+      - name: "r at num_kgrid 6^3"
+        points: "r8, r10, r12, r14, r16, r20"
+      - name: "k at num_rgrid 12^3"
+        points: "k6, k16, k24, k32, k48, k64"
+  intersection_run:
+    description: "(r12, k48) = the k48 rung of the primitive k ladder"
+    nodes: 24
+    mpi_processes: 96
+    nproc_k: 96
+    gs_convergence_marker: "#GS converged at 36 : 8.9192e-10 (printed form)"
+    total_energy_ev: -57.16371736789092
+    fermi_level_ev_absolute: 7.63852
+    salmon_total_calculation_time_s: 389.4
+    max_memory_per_node_mib: 19217.0
+raw_outputs: "not committed; figures are derived from the *_dos.data files of the runs above"

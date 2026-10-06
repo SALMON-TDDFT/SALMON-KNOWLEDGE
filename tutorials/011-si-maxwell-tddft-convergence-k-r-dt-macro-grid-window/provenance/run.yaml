@@ -1,0 +1,49 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (every run in this tutorial)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+pseudopotentials:
+  Si:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/14-Si.LDA.fhi"
+    sha256: "835f3f3affacd5bb64dcfbee39b4f68de82289eeeacaea97d6b726ea5ca96b84"
+    valence_electrons: 4
+    lloc_ps: 2
+reference_decks:
+  gs: "official sample exercise_04_bulkSi_gs (tag v.2.3.0)"
+  multiscale: "official sample exercise_07_bulkSi_ms (tag v.2.3.0)"
+representative_inputs:
+  - path: "inputs/si-ms-gs-adopted.inp"
+    sha256: "ecba2efef8842fc3a2b45131592cb212f2ab9f09a628e121791bf8ce11c982df"
+    executed_as_is: false
+    note: "Deck of the (r20, k8, nstate 32) ground state with sysname, pseudopotential path and comments changed; the executed deck also set explicit absolute paths of the cluster and a node layout."
+  - path: "inputs/si-ms-maxwell-tddft-adopted.inp"
+    sha256: "6fb9dac283c5fc9e952b5fed48cfd62ef89bf7fe61b4bde1be3690c93c957352"
+    executed_as_is: false
+    note: "Deck of the (r20, k8, dt 0.001 fs, 16 fs, 8 macro points x 50 Angstrom) multiscale run with sysname, pseudopotential path and comments changed. The executed deck read the ground-state restart in place through an absolute directory_read_data; here it is './restart/' (copy of the ground-state data_for_restart/)."
+figure_script:
+  path: "scripts/make_figures.py"
+  sha256: "564e61da991dcfe188298b8af6127a646324d8495eac9bd822d45335f9dbe015"
+runs:
+  dates: ["2026-10-05", "2026-10-06"]
+  common: "8-atom cubic cell a = 5.43 A, FHI98PP LDA, xc PZ, nelec 32, nstate 32, shifted Monkhorst-Pack k mesh without symmetry reduction (RT k mesh = GS k mesh), Acos2 pulse 1.55 eV, 1e12 W/cm2, tw1 10.672 fs, z-polarised, 1D macro grid 8 points x 50 A (film 400 A) with 1000 vacuum cells on each side (held at 5 um per side when the macro grid was refined), abc boundaries, nt*dt = 16 fs unless stated"
+  multiscale_runs:
+    - "r20 k4 dt 0.001 and 0.0005 fs"
+    - "r20 k8 dt 0.001 fs (16 fs and 32 fs windows)"
+    - "r20 k12 dt 0.001 fs"
+    - "r12 k4 dt 0.002 fs (official grid; m8, m16, m32 macro grids; 16 fs and 32 fs windows) and dt 0.001 fs"
+    - "r12 k8 dt 0.002 fs"
+  single_cell_runs:
+    description: "theory = 'tddft_pulse' (no Maxwell coupling), same pulse, k8 unless stated, 16 fs"
+    points: "r12 k4 dt 0.001; r20 k4 dt 0.001 and 0.0005; r20 k8 dt 0.001; r24 k8 dt 0.001 and 0.0005; r28 k8 dt 0.0005; r32 k8 dt 0.0005"
+  note_on_ground_states: "each multiscale or single-cell run restarts from the ground state with its own (r, k, nstate)"
+raw_outputs: "not committed; figures and numbers are derived from <sysname>_wave.data, <sysname>_m/m00000i/<sysname>_rt.data and _rt_energy.data of the multiscale runs and <sysname>_rt_energy.data of the single-cell runs"

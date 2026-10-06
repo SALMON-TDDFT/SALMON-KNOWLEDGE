@@ -31,6 +31,16 @@ observables. Related troubleshooting entries:
 [SALMON-TS-002](../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
 [SALMON-TS-003](../troubleshooting/SALMON-TS-003-sample-deck-has-no-dos-output.md).
 
+2. [006: Converge the Al ground state: real-space grid, k mesh, and smearing for the DOS](006-al-gs-convergence-rgrid-kmesh-smearing/)
+
+Tutorial 006 applies the same approach to a metal, starting from a published
+SALMON-inputs Al input, and records the reason for each convergence judgment.
+Its k-mesh judgment is provisional, pending author confirmation. Related
+troubleshooting entries:
+[SALMON-TS-004](../troubleshooting/SALMON-TS-004-metal-dos-near-ef-converges-slowly-in-k.md),
+[SALMON-TS-005](../troubleshooting/SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md),
+[SALMON-TS-006](../troubleshooting/SALMON-TS-006-pseudopotential-functional-differs-from-xc.md).
+
 ## Adding a tutorial
 
 Create `tutorials/NNN-short-title/README.md` from
