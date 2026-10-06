@@ -21,3 +21,4 @@ Evidence, Diagnosis, Resolution, and Applicability.
 - [SALMON-TS-008: Linear-response spectrum from an undamped impulse run keeps changing with the propagation time](SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md)
 - [SALMON-TS-009: Multiscale Maxwell-TDDFT with a coarse k mesh can leave a spurious static field and a negative absorbed energy](SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md)
 - [SALMON-TS-010: On Fugaku a ground-state run is killed in its first seconds when too many k-points sit on one node](SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md)
+- [SALMON-TS-011: A linear-response run killed at the time limit leaves no spectrum, but the spectrum can be rebuilt from the current](SALMON-TS-011-lr-killed-before-response-is-written.md)
