@@ -217,10 +217,21 @@ maximum was 48.000 electrons in the k10 run.
 |---|---|---|---|
 | structure | alpha-quartz, 9-atom primitive cell, published lattice and internal parameters | not varied | assumed by Claude |
 | pseudopotentials / `xc` | FHI LDA Si (4e), O (6e) / `'PZ'` | not varied | assumed by Claude |
-| `num_rgrid` | 48,48,54 (0.102 Angstrom in plane, 0.100 Angstrom along z) | O 2s peak change 44→48 1.01%, 48→56 0.66% | **provisional (Claude) — awaiting maintainer confirmation** |
+| `num_rgrid` | 44 or 48, **depending on the later use** (see below) | O 2s peak change 44→48 1.01%, 48→56 0.66%; everything else below 0.4% from r44 | maintainer: depends on whether the O 2s level is probed later |
 | `num_kgrid` | 10,10,10, Gamma-centred (1000 k points) | conduction DOS 0.87% at the next step; valence plateau about 2% | **provisional (Claude) — awaiting maintainer confirmation** |
 | `nstate` | 48 | DOS window checked to be complete up to its end (+14 eV) | not varied |
 | DOS | Gaussian, 0.1 eV, window -22 to +14 eV | convention carried over from tutorials 005 and 006 | not varied |
+
+**Choosing r by the later use (maintainer comment).** Between r44 and r48
+the only visible change is the height of the localized O 2s peak at
+VBM - 17 eV. Whether that matters depends on what the ground state is for:
+
+- If a later linear-response or real-time run will excite the O 2s level
+  (photon energies or field strengths that reach it), use r48 or finer.
+- If the later run only involves the upper valence and the conduction bands,
+  r44 is enough and costs about 1.7 times less.
+- Forces and stress are different quantities. Do not carry this DOS-based
+  choice over to them; check their own convergence.
 
 The (r48, k10) run is the k10 rung of the k ladder, so it is itself the run at
 the intersection of the two choices. It converged in 150 iterations
