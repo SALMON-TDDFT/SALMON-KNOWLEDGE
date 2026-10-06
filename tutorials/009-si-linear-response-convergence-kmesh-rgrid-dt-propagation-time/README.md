@@ -119,7 +119,7 @@ alternatives that were rejected are written in the
   remains after that shift (in % of the peak). This is the measure the
   maintainer judged the grid by, because the r ladder moves the absorption
   edge by a few tens of meV, and a pointwise difference of a steep edge
-  overstates such a shift (SALMON-TS-013 (in review));
+  overstates such a shift ([SALMON-TS-013](../../troubleshooting/SALMON-TS-013-pointwise-difference-overstates-a-small-shift.md));
 - a rule "two consecutive pairs below a tolerance" is used only as a reference.
 
 No tolerance was imported from the ground-state tutorials: the linear-response
@@ -363,7 +363,7 @@ needed; it was not run.
 |---|---|---|---|---|---|
 | 1a | k mesh | 16^3 | maintainer (2026-10-06) | pointwise difference of each rung against k24 at r20 | k16 vs k24 0.92%, k20 vs k24 1.17%: k16 and denser agree with k24 to about 1%, and k20 (8000 k-points against 4096) gains nothing at that level. The peak position and height are fixed from k16; what remains is the shoulder at 4-5 eV. |
 | 1 | k mesh | 20^3 (16^3 also possible) | AI assistant's first reading (neighbor pointwise), superseded by 1a | Im eps_z overlays and max diff of k4 to k24 at r20 | k12 to k16 is 4.4%, k16 to k20 1.5%, k20 to k24 1.2%. The peak height and position are fixed from k16, and the remaining differences are a shoulder at 4-5 eV. A rule "two consecutive pairs below 5%" gives k12 and was rejected because k12 to k16 still moves the shoulder; "below 2%" gives k16. k20 was taken because the last steps fall slowly (1.5%, 1.2%) and the decision should be re-examined after r is fixed; k24 has 1.7 times as many k-points as k20 (13824 against 8000) and gains only 0.3 percentage points between the last two pairs. |
-| 2a | real-space grid | 20^3 adopted; r24 and finer are the safe zone; r16 is the caution zone | maintainer (2026-10-06) | each rung against r32 at k8, split into a rigid shift and the remaining shape difference; Re eps_z at 1 eV; the (r28, k20) check run | r16: -130 meV shift plus about 5% of the peak (18.9% pointwise), Re eps_z(1 eV) 15.13 against 14.24 at r32 (+6%). r20: +30 meV plus 1.2% (5.8% pointwise), Re eps_z 13.93 (-2%). r24: -12 meV plus 0.4% (2.4% pointwise), Re eps_z 14.32. r28: no shift, 0.25%. "r20 is already fairly strict": after the shift it is within 1.2% of r32. The 30 meV shift is small against the LDA gap error (about 0.5 eV for Si) but matters when a laser is tuned to a feature of the spectrum, which is why r24 and finer are kept as the safe zone. The pointwise difference that drove the earlier reading overstates the shift of the steep edge (SALMON-TS-013 (in review)). The (r28, k20) run confirmed that r acts independently of k (r20 to r28: 5.2% pointwise at k20, 6.0% at k8). |
+| 2a | real-space grid | 20^3 adopted; r24 and finer are the safe zone; r16 is the caution zone | maintainer (2026-10-06) | each rung against r32 at k8, split into a rigid shift and the remaining shape difference; Re eps_z at 1 eV; the (r28, k20) check run | r16: -130 meV shift plus about 5% of the peak (18.9% pointwise), Re eps_z(1 eV) 15.13 against 14.24 at r32 (+6%). r20: +30 meV plus 1.2% (5.8% pointwise), Re eps_z 13.93 (-2%). r24: -12 meV plus 0.4% (2.4% pointwise), Re eps_z 14.32. r28: no shift, 0.25%. "r20 is already fairly strict": after the shift it is within 1.2% of r32. The 30 meV shift is small against the LDA gap error (about 0.5 eV for Si) but matters when a laser is tuned to a feature of the spectrum, which is why r24 and finer are kept as the safe zone. The pointwise difference that drove the earlier reading overstates the shift of the steep edge ([SALMON-TS-013](../../troubleshooting/SALMON-TS-013-pointwise-difference-overstates-a-small-shift.md)). The (r28, k20) run confirmed that r acts independently of k (r20 to r28: 5.2% pointwise at k20, 6.0% at k8). |
 | 2 | real-space grid | 28^3 (24^3 possible) | AI assistant's first reading (neighbor pointwise), superseded by 2a | Im eps_z overlays and max diff of r16 to r32 at k8 | r20 to r24 8.2%, r24 to r28 2.2%, r28 to r32 0.25%. The "two consecutive pairs below 5%" rule gives r24 and "below 1%" gives r28. r24 is also the value that tutorial 005 needed for the bands, so r24 was named as the alternative if 2% is acceptable. r28 was taken as the conservative side (the spectrum stops moving at r28 to r32). r32 has 1.5 times as many grid points as r28 and was not needed. |
 | 3 | time step | 0.0005 fs | provisional (AI assistant) | dt 0.00025 to 0.0015 fs at r20, k8 | All within 0.23% at r20, the adopted grid. 0.0005 fs is the value of the official sample and lies well below the stencil-based stability estimate at r20 (0.0018 fs); 0.001 fs and 0.0015 fs also ran at r20 and would be cheaper. For a grid in the safe zone the limit falls as the square of the spacing (about 0.0009 fs at r28, where 0.0005 fs is a factor of 2 below it); the ladder was not repeated at r24 or finer. |
 | 4 | propagation time | 12 fs, fixed | assumed by the AI assistant | T = 12 fs against 48 fs at r20, k8 | Not a convergence judgment: the spectrum changes by 38% and keeps changing with T under the SALMON default analysis. 12 fs is the window of the official sample. Spectra must be compared at the same T. |
@@ -437,7 +437,7 @@ convergence results.
 - **The pointwise difference overstated the grid convergence.** r20 differs from
   r32 by 5.8% pointwise, but that is a +30 meV shift of the absorption edge plus
   1.2% of shape; the assistant's first reading (r28) was based on the pointwise
-  numbers (SALMON-TS-013 (in review)).
+  numbers ([SALMON-TS-013](../../troubleshooting/SALMON-TS-013-pointwise-difference-overstates-a-small-shift.md)).
 - **The default analysis has a low-frequency artifact** (Im eps -4102 at 0.01 eV at
   k4), which blows up the y axis of every plot unless the axis is cut.
 - **The (r28, k20) ground state ran out of memory on 20 nodes** and was rerun on
@@ -495,7 +495,6 @@ Fugaku (A64FX).
   (linear-response spectrum depends on the propagation time),
   [SALMON-TS-010](../../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md)
   (ground state killed when too many k-points sit on one node);
-  SALMON-TS-013 (in review): "A convergence ladder judged by the pointwise
-  difference looks unconverged when a sharp feature shifts by a few meV" (not
-  on `main` when this tutorial was written; named without a link).
+  [SALMON-TS-013](../../troubleshooting/SALMON-TS-013-pointwise-difference-overstates-a-small-shift.md)
+  (pointwise difference overstates a few-meV shift of a sharp feature).
 - Run provenance: [provenance/run.yaml](provenance/run.yaml). Raw outputs are not committed.
