@@ -17,4 +17,5 @@ Evidence, Diagnosis, Resolution, and Applicability.
 - [SALMON-TS-004: Metal DOS near E_F converges in k much more slowly than the total energy](SALMON-TS-004-metal-dos-near-ef-converges-slowly-in-k.md)
 - [SALMON-TS-005: With `temperature_k`, the printed "Total energy" is not a free energy](SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md)
 - [SALMON-TS-006: Pseudopotential functional differs from the deck's `xc`](SALMON-TS-006-pseudopotential-functional-differs-from-xc.md)
+- [SALMON-TS-007: Ground-state SCF with nstate equal to the number of occupied states converges very slowly](SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)
 - [SALMON-TS-010: On Fugaku a ground-state run is killed in its first seconds when too many k-points sit on one node](SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md)
