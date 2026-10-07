@@ -1,0 +1,56 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (every run in this tutorial)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+pseudopotentials:
+  C:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/06-C.LDA.fhi"
+    sha256: "cccd183e2f42e0464326a26899c00165daa7ca0d08182e610ce9b09692e24f12"
+    valence_electrons: 4
+    lloc_ps: 2
+    nonlinear_core_correction: "none (rchrg 0 in the file header)"
+reference_decks:
+  response: "official sample exercise_05_bulkSi_lr (tag v.2.3.0), translated to the diamond primitive cell"
+  pulse: "official sample exercise_06_bulkSi_rt (tag v.2.3.0), translated to the diamond primitive cell"
+representative_inputs:
+  - path: "inputs/diamond-gs-restart-r32k06.inp"
+    sha256: "ab0354ef99d2c49ed0cf47df865313970219c594214118975512d811816c0b4f"
+    executed_as_is: false
+    note: "Deck of the (r32, k6) ground state with restart data; sysname, pseudopotential path and comments changed, all physical and numerical keys as executed."
+  - path: "inputs/diamond-lr-impulse-r32k06-f075.inp"
+    sha256: "b7473a6e478c3941ab3c79cda8cc9af9c759f5129cf00c6fd584450e67c50a5b"
+    executed_as_is: false
+    note: "Deck of the finished 50 fs response run (75 % of the estimated time-step limit); sysname, pseudopotential path, restart path (executed: relative path to the neighbouring ground-state directory, here ./restart/) and comments changed; yn_lr_w0_correction left commented out (not used in any run). The 50 % runs differ only in dt = 5.2e-5, nt = 961600 and the node count (27 for k6, 64 for k8)."
+  - path: "inputs/diamond-rt-pulse-r32k06-1e12.inp"
+    sha256: "cf3233b89897fe57159914e509fa4f30b5d7c1968d06b159741d458fae936844"
+    executed_as_is: false
+    note: "Deck of the 1e12 W/cm^2 pulse run; sysname, pseudopotential path, restart path and comments changed. The 1e11 and 1e13 runs differ only in I_wcm2_1."
+figure_script:
+  path: "scripts/make_figures.py"
+  sha256: "e66339febca852ce58f4231a13814e3571e766626bf09f6e087715e832d3d462"
+  output: "provenance/figure-script-output.txt"
+runs:
+  dates: ["2026-10-05", "2026-10-06"]
+  common: "primitive 2-atom fcc cell a = 3.567 A (vectors (0,h,h),(h,0,h),(h,h,0), h = 1.7835 A), atoms at reduced (0.05,0.05,0.05) and (0.30,0.30,0.30), xc PZ, nelec 8, nstate 8, fixed occupations (temperature_k not set), yn_symmetry n, num_rgrid 32^3, shifted Monkhorst-Pack mesh without symmetry reduction (time-dependent k mesh = ground-state k mesh), polarisation z, de 0.01 eV, nenergy 3000"
+  stability_estimate: "Taylor-4 limit |dt*E_max| < 2.83 with E_max = 659 Ha (9-point stencil, potential ignored) -> dt_limit = 1.04e-4 fs at r32; analytic, not measured"
+  stages:
+    - name: "ground states with restart data"
+      points: "k6 (276 iterations), k8 (286 iterations), 32^3, threshold 1d-9"
+    - name: "response probes, 400 steps, k6, 6 nodes"
+      points: "dt = 5.2e-5, 7.8e-5, 1.04e-4 fs (50, 75, 100 % of the estimate)"
+    - name: "response, 50 fs, impulse"
+      points: "k6 dt 7.8e-5 fs nt 641100 (18 nodes, finished); k6 dt 5.2e-5 fs nt 961600 (27 nodes, killed at the elapse limit at 99.0 %); k8 dt 5.2e-5 fs nt 961600 (64 nodes, killed at the elapse limit at 94.7 %)"
+    - name: "pulse, 20 fs, Acos2, 1.55 eV, tw1 10.672 fs, k6, dt 5.2e-5 fs, nt 384700, 9 nodes"
+      points: "I = 1e11, 1e12, 1e13 W/cm^2"
+  killed_runs: "no *_response.data was written; spectra in the figures are rebuilt from the printed current (every 10th step) with the transform of write_response_3d (src/io/write.f90), validated on the finished run"
+raw_outputs: "not committed; figures are derived from the *_response.data, *_rt_energy.data and *_nex.data files and the standard output of the runs above"
