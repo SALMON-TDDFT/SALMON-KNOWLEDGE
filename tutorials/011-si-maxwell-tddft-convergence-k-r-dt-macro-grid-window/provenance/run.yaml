@@ -35,7 +35,7 @@ figure_script:
   sha256: "564e61da991dcfe188298b8af6127a646324d8495eac9bd822d45335f9dbe015"
 runs:
   dates: ["2026-10-05", "2026-10-06"]
-  common: "8-atom cubic cell a = 5.43 A, FHI98PP LDA, xc PZ, nelec 32, nstate 32, shifted Monkhorst-Pack k mesh without symmetry reduction (RT k mesh = GS k mesh), Acos2 pulse 1.55 eV, 1e12 W/cm2, tw1 10.672 fs, z-polarised, 1D macro grid 8 points x 50 A (film 400 A) with 1000 vacuum cells on each side (held at 5 um per side when the macro grid was refined), abc boundaries, nt*dt = 16 fs unless stated"
+  common: "8-atom cubic cell a = 5.43 A, FHI98PP LDA, xc PZ, nelec 32, nstate 32, shifted Monkhorst-Pack k mesh without symmetry reduction (RT k mesh = GS k mesh), Acos2 pulse 1.55 eV, 1e12 W/cm2, tw1 10.672 fs, z-polarized, 1D macro grid 8 points x 50 A (film 400 A) with 1000 vacuum cells on each side (held at 5 um per side when the macro grid was refined), abc boundaries, nt*dt = 16 fs unless stated"
   multiscale_runs:
     - "r20 k4 dt 0.001 and 0.0005 fs"
     - "r20 k8 dt 0.001 fs (16 fs and 32 fs windows)"

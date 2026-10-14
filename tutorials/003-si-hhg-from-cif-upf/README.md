@@ -10,7 +10,7 @@ estimated_cost: one small node
 topics: [silicon, high-harmonic-generation, real-time-tddft, cif, pseudopotential]
 salmon_version: 2.3.0
 salmon_commit: unknown
-platforms: [Wisteria/BDEC-01]
+platforms: [Wisteria/BDEC-01 (A64FX)]
 created_at: 2026-09-04
 updated_at: 2026-09-04
 contributors: []
@@ -34,7 +34,7 @@ and a 12-fs RT propagation on Wisteria/BDEC-01.
 ## Context and objective
 
 The exercise records a traceable path from publicly available external data to
-a conventional eight-atom diamond-Si SALMON model. It is intended to practise
+a conventional eight-atom diamond-Si SALMON model. It is intended to practice
 checking the generated cell and coordinates, pseudopotential valence count,
 and GS/RT consistency before interpreting an HHG result.
 

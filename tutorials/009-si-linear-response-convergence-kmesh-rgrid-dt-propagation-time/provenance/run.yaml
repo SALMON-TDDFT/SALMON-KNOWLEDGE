@@ -1,0 +1,58 @@
+salmon:
+  version: "2.3.0"
+  tag: "v.2.3.0"
+  source_commit: "30ba64694ec761cdb6288f01a75b8bcabf05721f"
+  source_modifications: "none (every run in this tutorial)"
+  executable_sha256: "b97444fc4e8c961fa050c86c7b17b7b89b8d29581ab149088bb54beb4f70f17f"
+  build:
+    compiler: "Fujitsu compiler (mpifrtpx)"
+    optimization: "-Kfast"
+    blas_lapack: "Fujitsu SSL2"
+platform:
+  system: "Fugaku (A64FX)"
+  mpi_processes_per_node: 4
+  omp_num_threads: 12
+pseudopotentials:
+  Si:
+    source: "https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/14-Si.LDA.fhi"
+    sha256: "835f3f3affacd5bb64dcfbee39b4f68de82289eeeacaea97d6b726ea5ca96b84"
+    valence_electrons: 4
+    lloc_ps: 2
+reference_decks:
+  gs: "official sample exercise_04_bulkSi_gs (tag v.2.3.0)"
+  response: "official sample exercise_05_bulkSi_lr (tag v.2.3.0)"
+representative_inputs:
+  - path: "inputs/si-lr-gs-adopted.inp"
+    sha256: "36b5cccec84b3e9b35966a085c44d413d1f6ca82a4402cfee4ffc8a9387a8e01"
+    executed_as_is: false
+    note: "Deck of the (r20, k16, nstate 32) ground state, the k16 rung of the k ladder (maintainer's adopted point), with sysname, pseudopotential path and comments changed; all physical and numerical keys are as executed."
+  - path: "inputs/si-lr-response-adopted.inp"
+    sha256: "0fd41a3a800f797724bf72f6a1fd010a0ecd50c8896d1974f219f9a1c2ba3dec"
+    executed_as_is: false
+    note: "Deck of the (r20, k16, dt 0.0005, T 12 fs) response run, the k16 rung of the k ladder, with sysname, pseudopotential path and comments changed. yn_lr_w0_correction stays at its default 'n', as in every executed run."
+figure_script:
+  path: "scripts/make_figures.py"
+  sha256: "4b402c1ad50ccefc2cad5ae76b2d2cfb594c3dd10369572921998ae35b97b10a"
+runs:
+  dates: ["2026-10-05", "2026-10-06"]
+  common: "8-atom cubic cell a = 5.43 Angstrom, FHI98PP LDA, xc PZ, nelec 32, shifted Monkhorst-Pack k mesh without symmetry reduction (RT k mesh = GS k mesh), impulse along z, de 0.01 eV, nenergy 2000, yn_lr_w0_correction at its default 'n', GS threshold 1d-9, nscf 300"
+  ladders:
+    - name: "k at r20, nstate 32 (k4: nstate 16), dt 0.0005 fs, T 12 fs"
+      points: "4, 8, 12, 16, 20, 24"
+    - name: "r at k8, nstate 32, dt 0.0005 fs, T 12 fs"
+      points: "16, 20, 24, 28, 32"
+    - name: "dt (fs) at r20, k8, nstate 32, T 12 fs"
+      points: "0.00025, 0.0005, 0.001, 0.0015"
+    - name: "T at r20, k8, nstate 32, dt 0.0005 fs"
+      points: "12 fs (nt 24000), 48 fs (nt 96000)"
+    - name: "nstate at r20, k4, dt 0.0005 fs, T 12 fs"
+      points: "16, 32, 64"
+  judgment:
+    method: "k: pointwise difference of each rung against k24 at r20 (k16 0.92%, k20 1.17%). r: each rung against r32 at k8, split into a rigid energy shift (meV) and the remaining shape difference (% of peak), plus Re eps_z at 1 eV"
+    adopted: "k16, r20; r24 and finer are the safe zone, r16 the caution zone; yn_lr_w0_correction at its default 'n' (maintainer); dt and nstate remain provisional (AI assistant)"
+    judged_by: "maintainer, 2026-10-06"
+  check_run_r28_k20:
+    description: "(r28, k20, nstate 32, dt 0.0005 fs, T 12 fs): the AI assistant's first adopted point, superseded; kept as the check that r and k act independently"
+    status: "finished; ground state converged in 97 iterations on 40 nodes (a first attempt on 20 nodes ran out of memory); response ran all 24000 steps in 1 h 50 min on 80 nodes (0.275 s per step)"
+    result: "r20 to r28 is 5.2% pointwise at k20 against 6.0% at k8 (r ladder)"
+raw_outputs: "not committed; figures are derived from the *_response.data files of the runs above"

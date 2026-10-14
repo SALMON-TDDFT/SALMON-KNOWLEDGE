@@ -34,7 +34,7 @@ k_list_script:
   reproduces_executed_lists: "36 54 (reduced), 12 58 (reduced), 12 48 --full: SHA-256 of the output equals that of the executed list"
 runs:
   dates: ["2026-10-05", "2026-10-06"]
-  common: "hexagonal primitive cell a = 3.18 A, 3 atoms (Mo, 2 S at +-1.5638 A), xc PZ, nelec 18, nstate 24, fixed occupations, yn_symmetry n, method_init_wf random, ncg 5, nscf 500, threshold 1d-9, broyden alpha_mb 0.5 nmemory_mb 8, DOS -18..+5 eV 1841 points gaussian 0.1 eV, file_kw = time-reversal-reduced Gamma-centred mesh + Gamma-M-K-Gamma path of weight 1e-9"
+  common: "hexagonal primitive cell a = 3.18 A, 3 atoms (Mo, 2 S at +-1.5638 A), xc PZ, nelec 18, nstate 24, fixed occupations, yn_symmetry n, method_init_wf random, ncg 5, nscf 500, threshold 1d-9, broyden alpha_mb 0.5 nmemory_mb 8, DOS -18..+5 eV 1841 points gaussian 0.1 eV, file_kw = time-reversal-reduced Gamma-centered mesh + Gamma-M-K-Gamma path of weight 1e-9"
   ladders:
     - name: "vacuum Lz (A) at num_rgrid xy 24, 12 x 12 x 1; z spacing 5/36 A fixed"
       points: "10 (nz 72), 15 (108), 20 (144), 25 (180), 30 (216), 40 (288)"

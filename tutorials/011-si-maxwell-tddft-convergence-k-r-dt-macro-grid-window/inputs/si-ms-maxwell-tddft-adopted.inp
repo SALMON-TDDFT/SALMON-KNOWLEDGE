@@ -14,7 +14,7 @@
 
 &parallel
   ! nproc_k = number of MPI processes of ONE macro-point group; SALMON splits the world into nx_m groups
-  ! (here 8 groups x 64 = 512 processes; 512 k points -> 8 k points per process)
+  ! (here 8 groups x 64 = 512 processes; 512 k-points -> 8 k-points per process)
   nproc_k = 64
   nproc_ob = 1
   nproc_rgrid(1:3) = 1, 1, 1
@@ -64,7 +64,7 @@
 /
 
 &emfield
-  ! cos^2 envelope for the vector potential, z-polarised, 1.55 eV, 1e12 W/cm^2
+  ! cos^2 envelope for the vector potential, z-polarized, 1.55 eV, 1e12 W/cm^2
   ae_shape1 = 'Acos2'
   I_wcm2_1 = 1.0d12
   tw1 = 10.672d0

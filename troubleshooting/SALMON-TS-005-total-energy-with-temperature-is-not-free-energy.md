@@ -1,6 +1,6 @@
 ---
 id: SALMON-TS-005
-title: With temperature_k, the printed Total energy rises with temperature because it is not a free energy
+title: 'With `temperature_k`, the printed "Total energy" rises with temperature because it is not a free energy'
 status: draft
 verification_level: tested
 salmon_version: 2.3.0
@@ -13,7 +13,7 @@ contributors: []
 reviewed_by: []
 ---
 
-# With temperature_k, the printed "Total energy" is not a free energy
+# With `temperature_k`, the printed "Total energy" rises with temperature because it is not a free energy
 
 ## Symptom
 
@@ -66,7 +66,7 @@ Sommerfeld comparison; the SALMON source was not inspected for this entry.
 
 - Compare total energies only between runs at the same `temperature_k`.
 - Do not interpret the printed value as a free energy. If a free energy or a
-  T → 0 extrapolation is needed, compute the entropy term from the
+  extrapolation to T = 0 is needed, compute the entropy term from the
   occupations yourself; this was not done here.
 - For convergence ladders of a metal, keep `temperature_k` fixed across all
   rungs.

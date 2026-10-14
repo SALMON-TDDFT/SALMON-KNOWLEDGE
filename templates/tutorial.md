@@ -17,6 +17,9 @@ contributors: []
 reviewed_by: []
 ---
 
+<!-- Follow STYLE.md at the repository root (naming, front matter, section
+order, links, notation). Delete this comment. -->
+
 # Learning objective
 
 State the skill or conclusion that this tutorial teaches.
@@ -54,11 +57,31 @@ Record what actually happened, including the relevant output, error, numerical
 behavior, or performance observation. Do not replace observations with an
 expected result.
 
+## Judgment record
+
+Optional; include it when the tutorial records convergence or parameter
+choices, and keep it directly after Observed result. One table row per
+decision: what was judged, the conclusion, who judged it (the maintainer, or
+the AI assistant marked "provisional" until the maintainer confirms), what was
+looked at, and the reason including rejected alternatives. A superseded
+judgment stays in the table, marked as superseded.
+
+## Assumptions made by the assistant
+
+Optional; include it when an AI assistant drafted the tutorial. List every
+setting that was fixed and not varied, so that it is not mistaken for a
+convergence result.
+
 ## Validation
 
 Explain how the result or diagnosis was checked. Identify builds, tests,
 comparisons, independent reproductions, or source-code inspection. Ensure that
 the front-matter `verification_level` matches this evidence.
+
+## Surprises and failures recorded
+
+Optional; keep it directly after Validation. Record failed runs, misread
+outputs, and unexpected behavior, each with what was learned from it.
 
 ## Lessons learned
 

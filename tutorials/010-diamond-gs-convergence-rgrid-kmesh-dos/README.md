@@ -23,38 +23,42 @@ Choose `num_rgrid` and the k mesh for the ground state of a hard, light-element
 crystal (diamond, 2-atom primitive cell) whose density of states (DOS) will be
 reported. Learn that the grid needed for diamond is far finer than for Si, that
 the total energy is flat in k long before the DOS is, that a DOS of a small
-primitive cell may still not be converged on a 24 x 24 x 24 mesh, and that the
+primitive cell may still not be converged on a 24^3 mesh, and that the
 gap SALMON prints is a minimum over mesh points and keeps falling with the mesh.
 
-> **Draft; pending maintainer confirmation.** The convergence choice in this
-> tutorial (`num_rgrid`) is **provisional (Claude) — awaiting maintainer
-> confirmation**. It was made by the AI assistant that drafted this tutorial, from
-> the overlays and numbers shown below. **The k mesh was not converged and no
-> value is proposed.** No human has judged these figures yet. The structure, the
-> pseudopotential, and every numerical setting that was not varied were
-> assumptions of the assistant; they are listed in
+> **Draft.** The real-space-grid judgment is the maintainer's: r32 is too
+> strict for the ground state, about r20 to r24 is enough, and the final r
+> depends on the later laser conditions (see the
+> [Judgment record](#judgment-record), which also keeps the AI assistant's
+> first, stricter reading of r32 as a superseded entry). **The k mesh was not
+> converged and no value is proposed.** The structure, the pseudopotential,
+> and every numerical setting that was not varied were assumptions of the
+> assistant; they are listed in
 > [Assumptions](#assumptions-made-by-the-assistant).
 
 # Summary
 
 We ran two one-variable ladders around one point: the real-space grid at a thin
-6 x 6 x 6 k mesh, and the k mesh at the grid chosen from the first ladder, for
+6^3 k mesh, and the k mesh at the grid chosen from the first ladder, for
 diamond (primitive 2-atom fcc cell, a = 3.567 Angstrom, FHI98PP LDA, `xc = 'PZ'`,
 SALMON v2.3.0, no symmetry reduction). The results were as follows.
 
 - **Real-space grid** (k6). The DOS converges between r24 and r28: the largest
-  difference between neighbouring DOS curves, as a percentage of the DOS peak
+  difference between neighboring DOS curves, as a percentage of the DOS peak
   ("max_dev"), is 6.1% for r16 to r20, 2.2% for r20 to r24, 0.27% for r24 to r28,
   0.08% for r28 to r32, and at most 0.32% beyond. The total energy keeps falling:
   -0.66 meV per atom from r28 to r32, and -0.37 meV per atom in total from r32 to
-  r48. Provisional choice: **r = 32** (r28 is the alternative).
-- **k mesh** (r32). The total energy is flat from 8 x 8 x 8 on: all k8 to k24 values lie
-  within 0.02 meV per cell. The DOS is **not converged at 24 x 24 x 24**: max_dev
+  r48. Maintainer's judgment: **about r20 to r24 is enough for the ground state;
+  r32 is too strict**, and the final r depends on the later laser conditions. The
+  assistant's first reading (r32, with r28 as the alternative) is kept in the
+  [Judgment record](#judgment-record).
+- **k mesh** (r32). The total energy is flat from 8^3 on: all k8 to k24 values lie
+  within 0.02 meV per cell. The DOS is **not converged at 24^3**: max_dev
   is 26% for k16 to k20 and 17% for k20 to k24 (13% in the valence band), and the
   overlays still show a ripple of the van Hove structure. No k mesh is proposed.
 - **Printed gap.** The gap that SALMON prints (the minimum over mesh points)
   falls from 4.94 eV at k6 to 4.21 eV at k24 and is still falling by 24 meV from k20
-  to k24, although the total energy is flat. It is a mesh artefact of the same type as in
+  to k24, although the total energy is flat. It is a mesh artifact of the same type as in
   [SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
   not a converged gap.
 - **Forward pointer (time propagation).** The r32 grid is very fine for a
@@ -75,7 +79,7 @@ different k meshes. Diamond has a short bond and a hard pseudopotential, and its
 cell has only two atoms. This tutorial asks how far the same approach goes.
 
 **Judgment rule used in this tutorial.** Convergence is judged from overlays of the
-DOS and of the differences between neighbouring rungs. The numbers are reference
+DOS and of the differences between neighboring rungs. The numbers are reference
 values; no script decides convergence. For each judgment the reasons and the
 alternatives that were rejected are written in the
 [Judgment record](#judgment-record). The definitions are:
@@ -86,7 +90,7 @@ alternatives that were rejected are written in the
 - valence = energy <= 0 eV, conduction = energy > 0 eV (origin at the valence-band
   maximum of the mesh);
 - a rule "two consecutive pairs below a tolerance" is used only as a reference. It
-  names the first rung from which the next two neighbour differences are both
+  names the first rung from which the next two neighbor differences are both
   below the tolerance.
 
 ## Conditions
@@ -94,7 +98,7 @@ alternatives that were rejected are written in the
 - SALMON: v2.3.0, tag `v.2.3.0`, commit
   `30ba64694ec761cdb6288f01a75b8bcabf05721f`, unmodified for every run.
 - Platform: Fugaku (A64FX), Fujitsu compiler, `-Kfast`, SSL2. Four MPI processes per
-  node, 12 OpenMP threads per process, k parallelisation only (`nproc_k` = number of
+  node, 12 OpenMP threads per process, k parallelization only (`nproc_k` = number of
   processes, `nproc_ob = 1`, `nproc_rgrid = 1,1,1`). The r ladder used 6 nodes per
   run; the k ladder used 6 to 24 nodes.
 - Structure: diamond, primitive 2-atom fcc cell, a = 3.567 Angstrom (experimental).
@@ -112,7 +116,7 @@ alternatives that were rejected are written in the
   true maximum at Gamma; the origin therefore shifts slightly with k.
   SALMON prints how far above that maximum the DOS is complete; it was 11.1 to
   12.2 eV, above the window end in every run.
-- k mesh: n x n x n on the reciprocal primitive axes, which is SALMON's half-shifted
+- k mesh: n^3 on the reciprocal primitive axes, which is SALMON's half-shifted
   Monkhorst-Pack mesh (no Gamma point for even n), with no symmetry reduction (n^3 k
   points: 216 for k6 up to 13824 for k24).
 
@@ -121,12 +125,12 @@ alternatives that were rejected are written in the
 1. **Decide what will be judged.** The DOS over the whole window (valence and
    conduction separately), the total energy, and the printed gap.
 2. **r ladder at a thin k mesh.** `num_rgrid` = r,r,r with r = 16, 20, 24, 28, 32, 36,
-   40, 48 at 6 x 6 x 6 (216 k points), 6 nodes per run. A thin k mesh was used to keep the
+   40, 48 at 6^3 (216 k-points), 6 nodes per run. A thin k mesh was used to keep the
    ladder cheap; this is legitimate for a one-variable comparison where both rungs
    of a pair see the same sampling, but the pairs were not repeated at denser k.
-3. **k ladder at the chosen r.** n x n x n with n = 6, 8, 10, 12, 16, 20, 24 at r32
+3. **k ladder at the chosen r.** n^3 with n = 6, 8, 10, 12, 16, 20, 24 at r32
    (n = 6 is the r32 rung of the first ladder).
-4. **Compare neighbouring rungs on overlays and differences**, then look at the
+4. **Compare neighboring rungs on overlays and differences**, then look at the
    total energy and the printed gap separately from the DOS.
    [scripts/make_figures.py](scripts/make_figures.py) draws the figures and prints the
    numbers (`make_figures.py <data dir> <figure dir>`; one sub-directory per run with
@@ -145,7 +149,7 @@ printed.
 
 ### 1. r ladder (k6)
 
-![r ladder: DOS overlay and neighbour differences](figures/dos-rgrid-ladder.png)
+![r ladder: DOS overlay and neighbor differences](figures/dos-rgrid-ladder.png)
 
 | pair | max_dev (% of peak) | where (eV) | max_dev valence / conduction | rel-L1 | ΔE_total (meV/atom) |
 |---|---:|---:|---|---:|---:|
@@ -168,7 +172,7 @@ wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
 
 ### 2. k ladder (r32): the energy is flat, the DOS is not
 
-![k ladder: DOS overlay and neighbour differences](figures/dos-kgrid-ladder.png)
+![k ladder: DOS overlay and neighbor differences](figures/dos-kgrid-ladder.png)
 
 | pair | max_dev (% of peak) | where (eV) | max_dev valence / conduction | rel-L1 | ΔE_total (meV/cell) |
 |---|---:|---:|---|---:|---:|
@@ -195,18 +199,18 @@ wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
   it is larger in the conduction band than in the valence band for every pair and is largest
   at 8 to 9 eV above the valence-band maximum. We did not extrapolate; the trend does
   not allow a statement about the k mesh at which 1% or 5% will be reached. The
-  ladder stopped at k24 (13824 k points); no denser mesh was run.
+  ladder stopped at k24 (13824 k-points); no denser mesh was run.
 - **Cost.** The k24 run took 8.6 minutes on 24 nodes; the SCF iterations (222 to 286)
   were roughly constant across k.
 
-### 3. Adopted set (provisional)
+### 3. Adopted set
 
 | parameter | value | deciding observation | judged by |
 |---|---|---|---|
-| structure | diamond, a = 3.567 Angstrom, 2-atom primitive cell | not varied | assumed by Claude |
-| pseudopotential / `xc` | FHI98PP LDA C (4e) / `'PZ'` | not varied | assumed by Claude |
+| structure | diamond, a = 3.567 Angstrom, 2-atom primitive cell | not varied | assumed by the AI assistant |
+| pseudopotential / `xc` | FHI98PP LDA C (4e) / `'PZ'` | not varied | assumed by the AI assistant |
 | `num_rgrid` | about 20-24 for the ground-state DOS; finer only if the later real-time run needs it | overlays r16 to r32 are indistinguishable by eye; r16 to r20 5-6% and r20 to r24 1.4-2.2% appear only in the difference plot; r24 to r28 0.27% | maintainer: r32 is too strict for the ground state; the final r depends on the later laser conditions |
-| k mesh | **none: not converged at 24 x 24 x 24** | DOS max_dev 17% at k20 to k24 | not judged |
+| k mesh | **none: not converged at 24^3** | DOS max_dev 17% at k20 to k24 | not judged |
 | `nstate` | 8 | DOS complete to 11.1-12.2 eV above the valence-band maximum | not varied |
 | DOS | Gaussian, 0.1 eV, window -24 to +10 eV | convention | not varied |
 
@@ -215,10 +219,10 @@ wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
 | # | object | conclusion | judged by | what was looked at | reason, including rejected alternatives |
 |---|---|---|---|---|---|
 | 1a | grid | r32 is too strict for the ground state; about r20-24 is enough; the final r is set by the later real-time conditions | maintainer (2026-10-06) | the same overlays, and the difference plots | "r16 to r32 look the same; r32 is a bit too strict. The laser parameters might demand more; it depends on what comes next." The run log below records the assistant's first, stricter reading. |
-| 1 | grid | r32 (r28 also possible) | assistant's first reading, superseded by 1a | DOS overlays and neighbour differences of r16 to r48 at k6; ΔE_total; printed gap | r24 to r28 0.27% and r28 to r32 0.08% are below 0.3%. The "two consecutive pairs below the tolerance" rule applied mechanically gives r20 at 5% and 3% (r20 to r24 is 2.2%, r24 to r28 0.27%) and r24 at 1%; r20 was rejected because r20 to r24 still moves the energy by 8.6 meV/atom and the DOS by 2.2%. r28 is the alternative: it is cheaper (fewer iterations, 208 against 276) and the DOS differs from r32 by 0.08%. r32 was kept as the conservative side, because the energy is still falling by 0.66 meV/atom at r28 to r32 and the real-time stage later needs the same grid. The differences beyond r32 are all at the top of the window. Diamond needs a far finer grid than the r24 that Si needed in a 5.43 Angstrom cell (grid spacing 0.079 Angstrom at r32 here, 0.226 Angstrom at r24 for Si); we expect this to come from the hard C pseudopotential and the short bond but did not test it. |
-| 2 | k mesh | no value; not converged at 24 x 24 x 24 | not judged | DOS overlays and differences of k6 to k24 at r32; E_total and the printed gap | The DOS max_dev falls from 82% to 17% but has not reached a level (conduction band 17%). E_total and the printed gap say nothing about this: the energy was flat from k8, and the gap kept falling. A denser mesh (k32 or more) would be needed; it was not run. A k mesh may also be chosen separately from the DOS by the observable that follows (for example the spectrum of a linear-response run), as for Si. |
-| 3 | printed gap | not a converged quantity | provisional (Claude) — awaiting maintainer confirmation | printed gap k6 to k24 | It is the minimum over mesh points of a half-shifted mesh (no Gamma for even n) and falls with every refinement; see SALMON-TS-002. The valence-band maximum used as the DOS origin has the same limitation. |
-| 4 | structure, pseudopotential, `nstate`, DOS settings | not varied | assumed by Claude | | see [Assumptions](#assumptions-made-by-the-assistant) |
+| 1 | grid | r32 (r28 also possible) | assistant's first reading, superseded by 1a | DOS overlays and neighbor differences of r16 to r48 at k6; ΔE_total; printed gap | r24 to r28 0.27% and r28 to r32 0.08% are below 0.3%. The "two consecutive pairs below the tolerance" rule applied mechanically gives r20 at 5% and 3% (r20 to r24 is 2.2%, r24 to r28 0.27%) and r24 at 1%; r20 was rejected because r20 to r24 still moves the energy by 8.6 meV/atom and the DOS by 2.2%. r28 is the alternative: it is cheaper (fewer iterations, 208 against 276) and the DOS differs from r32 by 0.08%. r32 was kept as the conservative side, because the energy is still falling by 0.66 meV/atom at r28 to r32 and the real-time stage later needs the same grid. The differences beyond r32 are all at the top of the window. Diamond needs a far finer grid than the r24 that Si needed in a 5.43 Angstrom cell (grid spacing 0.079 Angstrom at r32 here, 0.226 Angstrom at r24 for Si); we expect this to come from the hard C pseudopotential and the short bond but did not test it. |
+| 2 | k mesh | no value; not converged at 24^3 | not judged | DOS overlays and differences of k6 to k24 at r32; E_total and the printed gap | The DOS max_dev falls from 82% to 17% but has not reached a level (conduction band 17%). E_total and the printed gap say nothing about this: the energy was flat from k8, and the gap kept falling. A denser mesh (k32 or more) would be needed; it was not run. A k mesh may also be chosen separately from the DOS by the observable that follows (for example the spectrum of a linear-response run), as for Si. |
+| 3 | printed gap | not a converged quantity | provisional (AI assistant) — awaiting maintainer confirmation | printed gap k6 to k24 | It is the minimum over mesh points of a half-shifted mesh (no Gamma for even n) and falls with every refinement; see [SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md). The valence-band maximum used as the DOS origin has the same limitation. |
+| 4 | structure, pseudopotential, `nstate`, DOS settings | not varied | assumed by the AI assistant | | see [Assumptions](#assumptions-made-by-the-assistant) |
 
 ## Assumptions made by the assistant
 
@@ -249,26 +253,27 @@ convergence results.
 
 - Each run was checked for `#GS converged`, an empty standard error, no NaN, the namelists
   read without error, `nelec` equal to twice the number of occupied bands, the number of
-  k points and their weight sum (1), and the DOS energy axis equal to the requested window.
+  k-points and their weight sum (1), and the DOS energy axis equal to the requested window.
 - The maximum of the valence band printed by SALMON agreed with the one that was used as the
   DOS origin; the DOS integral up to it was 8.0000 electrons.
 - Controlled comparisons: every deck was checked before submission against one plan manifest
   that pins all keys except the ladder variable, `nproc_k` and the k mesh. The two ladders share
   the r32 k6 run.
-- **Not validated:** no human has judged the figures. The k mesh is not converged and no value
-  is proposed. The r ladder was run at k6 only and was not repeated at denser k. No other
-  pseudopotential (for example one with a nonlinear core correction), no LDA-relaxed structure
-  and no other functional was tried, and the displaced atom positions were not compared with the
-  ideal ones. The DOS beyond about +11 eV is not complete for `nstate = 8`.
+- **Not validated:** the maintainer judged the grid ladder only. The k mesh is not converged,
+  was not judged, and no value is proposed. The r ladder was run at k6 only and was not
+  repeated at denser k. No other pseudopotential (for example one with a nonlinear core
+  correction), no LDA-relaxed structure and no other functional was tried, and the displaced
+  atom positions were not compared with the ideal ones. The DOS beyond about +11 eV is not
+  complete for `nstate = 8`.
 
 ## Surprises and failures recorded
 
-- **The DOS of a 2-atom cell needed more than 24 x 24 x 24 k points.** Energy and printed gap
+- **The DOS of a 2-atom cell needed more than 24^3 k-points.** Energy and printed gap
   are not the limiting observables: the energy was flat from k8, and the DOS was still moving by
   17% at the end of the ladder. We expect that the sharp van Hove structure of a small cell at
   0.1 eV broadening is the cause, but this was not investigated.
 - **The printed gap kept falling with k** (4.94 to 4.21 eV) while the total energy was flat: the
-  same effect as SALMON-TS-002, with the extra twist that the half-shifted mesh does not contain
+  same effect as [SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md), with the extra twist that the half-shifted mesh does not contain
   Gamma, where the valence-band maximum is, for any even n.
 - **The total energy is not monotonic in k** (k16 above k20 and k24 by 0.02 meV): differences at
   this level are of the size of the SCF convergence noise and should not be interpreted.
@@ -295,7 +300,7 @@ the finite-difference stencil gives E_max of about 659 Hartree and a time-step l
 about 1.0e-4 fs, falling with the square of the grid spacing (about 1.9e-4 fs at r24, 6.6e-5 fs
 at r40). The estimate ignores the potential energy and is not a measurement. Three short probes
 (400 steps, k6, 6 nodes) at 5.2e-5, 7.8e-5 and 1.0e-4 fs stayed finite; 400 steps is too few
-to judge long-time stability. They measured 0.0697 s per step (216 k points on 6 nodes). A
+to judge long-time stability. They measured 0.0697 s per step (216 k-points on 6 nodes). A
 50 fs run at 5.2e-5 fs is about 9.6e5 steps, i.e. about 19 hours on 6 nodes at that rate, which is
 why the choice of the grid for a real-time calculation is a cost decision as well as a
 convergence one.
@@ -306,7 +311,9 @@ This tutorial covers one diamond cell at the experimental lattice constant, PZ-L
 with 4 valence electrons and no core correction, no spin-orbit coupling, `nstate = 8`, a
 Gaussian DOS width of 0.1 eV, and SALMON v2.3.0 on Fugaku (A64FX).
 
-- The grid judgment is provisional. The k mesh is not converged.
+- The grid judgment (about r20 to r24 is enough for the ground state; r32 is too strict)
+  is the maintainer's, and the final r depends on the later laser conditions. The k mesh is
+  not converged.
 - A broader DOS width would converge at a coarser mesh; only 0.1 eV was studied.
 - The r ladder was done at k6.
 - The numbers of this tutorial are not a diamond gap.
@@ -317,5 +324,7 @@ Gaussian DOS width of 0.1 eV, and SALMON v2.3.0 on Fugaku (A64FX).
   starting point of the deck; no published diamond input was used.
 - [ABINIT LDA FHI pseudopotential collection](https://www.abinit.org/atomic_data/psps/miscellaneous/ATOMICDATA/LDA_FHI/)
 - Related tutorial: [005 Si ground-state convergence](../005-si-gs-convergence-bands-dos/)
-- Troubleshooting: [TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)
+- Troubleshooting: [TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md),
+  [TS-011](../../troubleshooting/SALMON-TS-011-lr-killed-before-response-is-written.md) (a linear-response run of this cell
+  killed at the time limit)
 - Run provenance: [provenance/run.yaml](provenance/run.yaml). Raw outputs are not committed.
