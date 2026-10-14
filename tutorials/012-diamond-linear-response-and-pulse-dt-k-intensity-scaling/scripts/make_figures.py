@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Figures and numbers for the diamond linear-response / real-time-pulse card.
+"""Figures and numbers for the diamond linear-response / real-time-pulse tutorial.
 
 usage: make_figures.py <dir holding one sub-directory per run> <output figure dir>
 

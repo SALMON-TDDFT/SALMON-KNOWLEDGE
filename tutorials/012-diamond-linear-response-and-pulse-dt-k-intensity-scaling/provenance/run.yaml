@@ -30,27 +30,47 @@ representative_inputs:
   - path: "inputs/diamond-lr-impulse-r32k06-f075.inp"
     sha256: "b7473a6e478c3941ab3c79cda8cc9af9c759f5129cf00c6fd584450e67c50a5b"
     executed_as_is: false
-    note: "Deck of the finished 50 fs response run (75 % of the estimated time-step limit); sysname, pseudopotential path, restart path (executed: relative path to the neighbouring ground-state directory, here ./restart/) and comments changed; yn_lr_w0_correction left commented out (not used in any run). The 50 % runs differ only in dt = 5.2e-5, nt = 961600 and the node count (27 for k6, 64 for k8)."
+    note: "Deck of the finished 50 fs response run (75 % of the estimated time-step limit); sysname, pseudopotential path, restart path (executed: relative path to the neighboring ground-state directory, here ./restart/) and comments changed; yn_lr_w0_correction left commented out (not used in any run). The 50 % runs differ only in dt = 5.2e-5, nt = 961600 and the node count (27 for k6, 64 for k8)."
   - path: "inputs/diamond-rt-pulse-r32k06-1e12.inp"
     sha256: "cf3233b89897fe57159914e509fa4f30b5d7c1968d06b159741d458fae936844"
     executed_as_is: false
     note: "Deck of the 1e12 W/cm^2 pulse run; sysname, pseudopotential path, restart path and comments changed. The 1e11 and 1e13 runs differ only in I_wcm2_1."
+  - path: "inputs/diamond-lr-impulse-r20k20-f075.inp"
+    sha256: "8ee2ef8a703488bc4687822805c48b0090cd5c743df3ac5eae1efd163835be2d"
+    executed_as_is: false
+    note: "Deck of the r20 k20 rung of the k ladder; sysname, pseudopotential path, restart path (executed: relative path to the neighboring ground-state directory, here ./restart/), the number format of al_vec and dt (same values) and comments changed. The other k rungs differ only in num_kgrid, nproc_k and the node count; the r rungs (k6) in num_rgrid, num_kgrid, nproc_k, dt and nt."
 figure_script:
   path: "scripts/make_figures.py"
-  sha256: "e66339febca852ce58f4231a13814e3571e766626bf09f6e087715e832d3d462"
+  sha256: "617efeb09cdebaac61e86fecd2ae5e7900f94c560bbf19bc4ce7fe16f527f08a"
   output: "provenance/figure-script-output.txt"
+  note: "First pass (r32). Only the docstring changed since the output was recorded."
+ladder_scripts:
+  rebuild:
+    path: "scripts/rebuild_damped_spectrum.py"
+    sha256: "6a5a97067f3608cf4b4c3db6469885311bac88058d0471ca1aeb28f8a19740af"
+    note: "Damped rebuild from Jm_z of *_rt.data with SALMON's window times exp(-t/tau); the complex factor is fitted once per run against SALMON's own *_response.data over 2-25 eV. The npz files of the tutorial were made with the same transform and fit (an earlier, functionally equal version of this script); this version, rerun on the full r16 k6 rt.data, reproduces that npz to 1e-14."
+    check: "undamped rebuild vs *_response.data, max relative difference 2-25 eV: 3.1e-6 to 5.5e-6 on all eleven ladder runs; fitted factor 9575.53 (imaginary part below 0.03) for all"
+  plot:
+    path: "scripts/plot_ladders.py"
+    sha256: "5aeef4a9334733f891a813d847107fe8269402de2723a35dbd8196f31c507e24"
+    output: "provenance/ladder-script-output.txt"
+    figures: ["figures/r-ladder-im-eps-z-tau10.png", "figures/k-ladder-im-eps-z-tau10.png"]
 runs:
-  dates: ["2026-10-05", "2026-10-06"]
-  common: "primitive 2-atom fcc cell a = 3.567 A (vectors (0,h,h),(h,0,h),(h,h,0), h = 1.7835 A), atoms at reduced (0.05,0.05,0.05) and (0.30,0.30,0.30), xc PZ, nelec 8, nstate 8, fixed occupations (temperature_k not set), yn_symmetry n, num_rgrid 32^3, shifted Monkhorst-Pack mesh without symmetry reduction (time-dependent k mesh = ground-state k mesh), polarisation z, de 0.01 eV, nenergy 3000"
-  stability_estimate: "Taylor-4 limit |dt*E_max| < 2.83 with E_max = 659 Ha (9-point stencil, potential ignored) -> dt_limit = 1.04e-4 fs at r32; analytic, not measured"
+  dates: ["2026-10-05", "2026-10-06", "2026-10-14 (ladder outputs collected)"]
+  common: "primitive 2-atom fcc cell a = 3.567 A (vectors (0,h,h),(h,0,h),(h,h,0), h = 1.7835 A), atoms at reduced (0.05,0.05,0.05) and (0.30,0.30,0.30), xc PZ, nelec 8, nstate 8, fixed occupations (temperature_k not set), yn_symmetry n, shifted Monkhorst-Pack mesh without symmetry reduction (time-dependent k mesh = ground-state k mesh), polarization z, de 0.01 eV, nenergy 3000"
+  stability_estimate: "Taylor-4 limit |dt*E_max| < 2.83, E_max from the 9-point stencil, potential ignored; analytic, not measured: r16 165 Ha 4.15e-4 fs, r20 258 Ha 2.66e-4 fs, r24 371 Ha 1.85e-4 fs, r28 505 Ha 1.36e-4 fs, r32 659 Ha 1.04e-4 fs"
   stages:
     - name: "ground states with restart data"
-      points: "k6 (276 iterations), k8 (286 iterations), 32^3, threshold 1d-9"
+      points: "32^3 at k6 (276 iterations) and k8 (286 iterations); 16^3, 20^3, 24^3, 28^3 at k6; 20^3 at k8, k10, k12, k16, k20, k24; threshold 1d-9"
     - name: "response probes, 400 steps, k6, 6 nodes"
       points: "dt = 5.2e-5, 7.8e-5, 1.04e-4 fs (50, 75, 100 % of the estimate)"
     - name: "response, 50 fs, impulse"
       points: "k6 dt 7.8e-5 fs nt 641100 (18 nodes, finished); k6 dt 5.2e-5 fs nt 961600 (27 nodes, killed at the elapse limit at 99.0 %); k8 dt 5.2e-5 fs nt 961600 (64 nodes, killed at the elapse limit at 94.7 %)"
     - name: "pulse, 20 fs, Acos2, 1.55 eV, tw1 10.672 fs, k6, dt 5.2e-5 fs, nt 384700, 9 nodes"
       points: "I = 1e11, 1e12, 1e13 W/cm^2"
+    - name: "grid ladder, response, 50 fs, impulse, k6, 6 nodes (9 k per process), about 75 % of the limit"
+      points: "r16 dt 3.1e-4 nt 161300 (21 min); r20 dt 2.0e-4 nt 250000 (66 min); r24 dt 1.4e-4 nt 357200 (2 h 22 min); r28 dt 1.0e-4 nt 500000 (5 h 43 min); reference = the finished r32 run above; all finished"
+    - name: "k ladder, response, 50 fs, impulse, r20, dt 2.0e-4 fs, nt 250000"
+      points: "k8 16 nodes (66 min); k10 25 nodes (85 min); k12 48 nodes (67 min); k16 128 nodes (70 min); k20 200 nodes (101 min); k24 384 nodes (71 min); 8 to 10 k per process; plus r20 k6 of the grid ladder; all finished"
   killed_runs: "no *_response.data was written; spectra in the figures are rebuilt from the printed current (every 10th step) with the transform of write_response_3d (src/io/write.f90), validated on the finished run"
-raw_outputs: "not committed; figures are derived from the *_response.data, *_rt_energy.data and *_nex.data files and the standard output of the runs above"
+raw_outputs: "not committed; figures are derived from the *_response.data, *_rt.data, *_rt_energy.data and *_nex.data files and the standard output of the runs above (ladder figures from eps_tau<tau>.npz written by scripts/rebuild_damped_spectrum.py)"
