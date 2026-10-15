@@ -74,7 +74,8 @@ transverse current does not vanish; 5^3 differs from 6^3 in density as well
 as symmetry, so the drop is not assigned to symmetry, and the source of the
 remaining current has not been traced. The k 5^3 run used `nproc_ob = 4`.
 A control at k 6^3 that changed only `nproc_ob` from 1 to 4 agreed with the
-original to 1.8e-7 in the current (2.7e-5 relative) and 1.1e-5 in `eps`, so
+original to 1.8e-7 in the current (2.7e-5 relative) and 1e-5 in `eps_zz`
+(2.1e-5 over all components of `eps`), so
 that change does not explain the k 5^3 result.
 
 The tested k 5^3 run also showed a second, worse problem. Its `Jm_z` keeps a
