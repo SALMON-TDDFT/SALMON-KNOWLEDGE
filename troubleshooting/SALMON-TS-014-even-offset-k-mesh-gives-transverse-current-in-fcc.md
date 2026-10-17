@@ -8,7 +8,7 @@ salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]
 related_tutorials: []
 created_at: 2026-10-14
-updated_at: 2026-10-15
+updated_at: 2026-10-17
 contributors: []
 reviewed_by: []
 ---
@@ -67,79 +67,117 @@ The same ratio at `num_rgrid` 16^3 and 32^3 rules out the real-space grid as
 the cause. In the transformed spectrum `|eps_xz|` reaches 0.34 of the peak of
 `Im eps_zz` at k 6^3 and at k 8^3, with or without a 10 fs damping.
 
-An odd mesh was then tested directly: k 5^3 at `num_rgrid` 16^3, otherwise
-the same deck. Its k set has the full cubic symmetry, yet rms `Jm_x` / rms
-`Jm_z` is still 0.21, against 0.52 at k 6^3. The ratio drops, but the
-transverse current does not vanish; 5^3 differs from 6^3 in density as well
-as symmetry, so the drop is not assigned to symmetry, and the source of the
-remaining current has not been traced. The k 5^3 run used `nproc_ob = 4`.
-A control at k 6^3 that changed only `nproc_ob` from 1 to 4 agreed with the
-original to 1.8e-7 in the current (2.7e-5 relative) and 1e-5 in `eps_zz`
-(2.1e-5 over all components of `eps`), so
-that change does not explain the k 5^3 result.
+On the even ladder at `num_rgrid` 20^3 the ratio stays large and falls only
+slowly with k: 0.53 (k 6^3), 0.57 (8^3), 0.61 (10^3, 12^3), 0.53 (16^3),
+0.42 (20^3), 0.37 (24^3).
 
-The tested k 5^3 run also showed a second, worse problem. Its `Jm_z` keeps a
-constant offset after the kick, about 20 times that of k 6^3. SALMON turns
-the current into `sigma(omega)` by a Fourier transform and then
-`eps = 1 + 4 pi i sigma / omega`, so a constant current adds a term that
-grows like `1/omega^2` at low energy:
+Odd meshes were then run with the same deck except for `num_kgrid` and the
+process grid (`nproc_ob = 4` and the matching `nproc_k`, because an odd k
+count has no factor 4):
 
-| energy | Re `eps_zz`, k 6^3 | Re `eps_zz`, k 5^3 |
+| `num_rgrid` | k mesh | rms `Jm_x` / rms `Jm_z` |
 |---|---|---|
-| 0.5 eV | 1.9 | 117 |
-| 1 eV | 5.0 | 33.9 |
-| 3 eV | 6.0 | 10.1 |
+| 16^3 | 5^3, 7^3, 9^3 | 0.21, 0.22, 0.18 |
+| 20^3 | 7^3, 9^3, 11^3, 13^3, 15^3 | 0.049, 0.042, 0.033, 0.045, 0.040 |
 
-`Im eps_zz` of the k 5^3 run is negative at 1 eV and 3 eV. The saved current
-was postprocessed with the formula of SALMON's `yn_lr_w0_correction = 'y'`,
-which subtracts the window-weighted mean of the current before the
-transform. That brings Re `eps_zz` at 1 eV down to 6.7, but the negative
-`Im eps_zz` and an 8 eV difference remain. The k 5^3 mesh
-contains Gamma, and the k 6^3 mesh does not.
+At 20^3 the odd meshes reduce the transverse current by about a factor of
+ten against every even mesh, but do not remove it. The residual is about 0.2
+at 16^3 and about 0.04 at 20^3 for the same odd k. Those two sets also differ
+in the time step (`dt` scales with the grid spacing, so `nt` grows from
+161300 to 250000 for the same 50 fs), so the drop is an observation; its
+cause has not been isolated. A control at 16^3, k 6^3 that changed only
+`nproc_ob` from 1 to 4 agreed with the original to 1.8e-7 in the current
+(2.7e-5 relative) and 1e-5 in `eps_zz` (2.1e-5 over all components of
+`eps`); the process grid made no visible difference in that case.
+
+The coarsest odd meshes showed a second problem: Re `eps_zz` far too large
+below the gap, together with a `Jm_z` whose late-time mean is clearly
+nonzero. SALMON turns the current into `sigma(omega)` by a Fourier transform
+and then `eps = 1 + 4 pi i sigma / omega`, so a nonzero mean current would add
+a term that grows like `1/omega^2` at low energy. The mean of `Jm_z` over the
+last 20% of the run, as a fraction of its rms, and Re `eps_zz` at 1 eV:
+
+| `num_rgrid` | k mesh | tail mean / rms `Jm_z` | Re `eps_zz` (1 eV) |
+|---|---|---|---|
+| 16^3 | 5^3 | -0.30 | 33.9 |
+| 16^3 | 7^3 | -0.07 | 9.5 |
+| 16^3 | 9^3 | 0.003 | 5.7 |
+| 20^3 | 7^3 | -0.07 | 10.0 |
+| 20^3 | 9^3 | -0.008 | 6.2 |
+| 20^3 | 11^3, 13^3, 15^3 | 0.005 to 0.012 | 5.72, 5.64, 5.54 |
+| 20^3 | even 6^3 to 24^3 | 0.003 to 0.018 | 5.54 to 5.64 (5.56 at 24^3) |
+
+Subtracting the window-weighted mean of the saved current before the
+transform (the formula of SALMON's `yn_lr_w0_correction = 'y'`) brings the
+16^3, 5^3 value at 1 eV from 33.9 down to 6.7, so the mean current accounts
+for most of the low-energy excess. The tail mean falls with k and is at the
+level of the even meshes from 9^3 on, so it behaves as a k-sampling error.
+Recovery at low energy is gradual, not complete at 9^3: the same subtraction
+still moves the 20^3, 9^3 run from 6.24 to 5.85 at 1 eV and from 7.45 to 5.89
+at 0.5 eV. Re `eps_zz` at 1 eV of the odd 15^3
+run (3375 k-points) is within 0.02 of the even 24^3 run (13824 k-points).
+That agreement is at 1 eV only; at 8 eV neither ladder has converged (odd
+15^3 `8.94 + 4.64i`, even 20^3 `9.71 + 3.46i`, even 24^3 `8.45 + 3.08i`).
+
+`Im eps_zz` is slightly negative at 1 eV and 3 eV on most meshes, even and
+odd (about -0.03 to -0.4), so a negative value there is not a sign of this
+problem.
 
 ## Diagnosis
 
 The offset even k mesh breaks the cubic symmetry of the fcc primitive cell
-down to the [111] axis. That explains the form of the transverse current
-(`J_x = J_y`) on an even mesh. It is k sampling, not physics. A smaller
-transverse current of unknown origin remains on a symmetric odd mesh.
+down to the [111] axis. That gives the transverse current (`J_x = J_y`) on an
+even mesh. It is k sampling, not physics, and it decays only slowly with k.
 
 On an even offset mesh the [111] symmetry does not bias `eps_zz` toward one
 direction. With `sigma = a I + b n n^T`, `sigma_zz = a + b/3 = Tr(sigma)/3`,
-the cubic average, the same quantity a symmetric mesh converges to. This is
-a statement about direction only. The spectrum still has to converge in k
-in the ordinary way (see
-[SALMON-TS-012](SALMON-TS-012-undamped-lr-spectrum-is-spiky-with-coarse-k.md)),
-and the low-energy part has to be checked for a constant current (see
-Resolution). It does not cover the odd-mesh result above, whose cause is
-open.
+the cubic average, the same quantity a symmetric mesh converges to. This is a
+statement about direction only; the spectrum still has to converge in k in
+the ordinary way (see
+[SALMON-TS-012](SALMON-TS-012-undamped-lr-spectrum-is-spiky-with-coarse-k.md)).
+
+A symmetric odd mesh reduces the transverse current by about a factor of ten
+at 20^3; a residual of unidentified origin remains, smaller on the finer grid.
+On a very coarse odd mesh (5^3, 7^3 for diamond) the current along the kick
+also keeps a nonzero late-time mean, and `eps` is spoiled at low energy;
+removing the mean removes most of that error. The mean falls to the
+even-mesh level by 9^3.
 
 ## Resolution
 
-- On an even offset mesh, for the dielectric function of a cubic crystal,
-  use the component along the kick (`Jm_z` for z polarization) and ignore
-  `Jm_x` and `Jm_y`. The z component equals the cubic average; converge it
-  in k as usual.
-- An odd mesh alone is not a verified remedy. The tested diamond k 5^3 run
-  still had a transverse current of 0.21 of `Jm_z`, and it exhibited a
-  constant current that made `eps` unphysical below a few eV.
-- If a run's `Jm` along the kick does not oscillate about zero after the
-  kick, the low-energy `eps` is not usable. `yn_lr_w0_correction = 'y'`
-  subtracts that offset before the transform and removes the `1/omega^2`
-  term, but not the underlying error; treat the result as a diagnostic, not
-  a value. SALMON accepts the flag only with `yn_periodic = 'y'`, and it
-  takes effect only when `temperature < 0` (fixed occupations, the default).
-- Do not use the transverse current as a sign that the run went wrong, and
-  do not take it as a physical off-diagonal response.
+- For the dielectric function of a cubic crystal on an even offset mesh, use
+  the component along the kick (`Jm_z` for z polarization) and ignore `Jm_x`
+  and `Jm_y`. The z component equals the cubic average; converge it in k as
+  usual.
+- To reduce the transverse current itself, use an odd `num_kgrid`. Then
+  check:
+  - `Jm` along the kick oscillates about zero after the kick (for diamond the
+    mean fell to the even-mesh level at 9^3), and `eps` is converged in k at
+    the energies you use;
+  - the remaining transverse current is small enough for your purpose (for
+    diamond 0.18 to 0.22 of `Jm_z` at 16^3 and 0.03 to 0.05 at 20^3).
+- Judge the low-energy `eps` by its convergence in k at the energies you
+  use, against the accuracy you need. A late-time mean of `Jm` along the kick
+  far above that of other meshes (here 7% to 30% of the rms, against 0.3% to
+  2% on converged meshes) is a warning sign; raise k.
+  `yn_lr_w0_correction = 'y'` subtracts the mean before the transform and
+  removes the `1/omega^2` term, but not the underlying error; treat its
+  result as a diagnostic, not a value. SALMON accepts the flag only
+  with `yn_periodic = 'y'`, and it takes effect only when `temperature < 0`
+  (fixed occupations, the default).
+- Do not use the transverse current as a sign that the run went wrong, and do
+  not take it as a physical off-diagonal response.
 
 ## Applicability
 
 - Observed with SALMON v2.3.0 on Fugaku for bulk diamond in the 2-atom fcc
-  primitive cell, `num_kgrid` 6^3 and 8^3, `num_rgrid` 16^3 and 32^3.
+  primitive cell, 50 fs `theory='tddft_response'` runs: even meshes 6^3 to
+  24^3 and odd meshes 5^3 to 15^3, `num_rgrid` 16^3, 20^3 and 32^3.
 - The k-set symmetry check applies to any fcc primitive cell with an even
-  offset mesh: Si, C, Ge, GaAs, Al, Cu.
+  offset mesh: Si, C, Ge, GaAs, Al, Cu. The k at which the mean current falls
+  to the even-mesh level, and the residual of the odd mesh, are for diamond
+  only.
 - A cubic conventional cell (as in the official Si linear-response sample)
   has a simple cubic reciprocal lattice, whose offset meshes keep the cubic
-  symmetry.
-- Odd mesh tested only at k 5^3, `num_rgrid` 16^3. Not tested:
-  `yn_gamma_centered = 'y'`, and odd meshes denser than 5^3.
+  symmetry. This was reasoned from the k-set symmetry, not run.
+- Not tested: `yn_gamma_centered = 'y'` on an even mesh.
