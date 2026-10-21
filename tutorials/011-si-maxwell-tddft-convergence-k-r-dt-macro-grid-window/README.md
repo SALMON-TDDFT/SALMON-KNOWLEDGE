@@ -30,9 +30,10 @@ absorbed energy is not, and the official sample grid is a functional test, not a
 converged setting.
 
 > **Draft; pending maintainer confirmation.** The k zones below (safe zone and
-> caution zone) are a **maintainer judgment**, given in a review of an earlier
-> version of this draft. Every other convergence statement (window, `dt`, macro
-> grid, r, and "R/T converged, absorbed energy not") is **provisional (AI assistant) —
+> caution zone) and the real-space grid zones (r20 acceptable when cost requires,
+> r24 preferred, r28 fully safe) are **maintainer judgments**. Every other
+> convergence statement (window, `dt`, macro
+> grid, and "R/T converged, absorbed energy not") is **provisional (AI assistant) —
 > awaiting maintainer confirmation**: it was made by the AI assistant that drafted
 > the tutorial, from the figures and numbers below. No converged setting for the
 > absorbed energy is claimed. Everything that was not varied was an assumption of
@@ -57,6 +58,8 @@ bands, see [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occu
   1 - R - T (5.3% to 5.85%), which is a small difference of two large numbers.
 - **Real-space grid** (single cell, k8, absorbed energy at 16 fs): r20 1.361, r24 1.506,
   r28 1.461, r32 1.465 eV. The sequence is not monotone; r28 and r32 agree to 0.26%.
+  **Maintainer judgment: r20 acceptable when cost requires it, r24 preferred, r28
+  fully safe.**
   The official grid r12 at k4 gives 2.41 eV, 1.9 times the r20 k4 value (1.276 eV):
   **the official grid is a functional test, not converged.**
 - **Time step.** `dt` 0.002 to 0.001 fs at r12, and 0.001 to 0.0005 fs at r20 (k4),
@@ -226,7 +229,14 @@ monotone**: r24 sits 3% above r28 and r32, so only "r28 and r32 agree to 0.26%" 
 shown, not a converging sequence. The ground-state total energy at t = 0 is also not
 monotone in r (r20 -864.43, r24 -864.63, r28 -864.50, r32 -864.73 eV), so the
 irregularity is already in the ground state and not introduced by the dynamics.
-Whether r28 is enough or r36 is needed was **not decided** (maintainer's call).
+![single-cell Eall - Eall0 versus time for r20 to r32, and the difference from r32](figures/single-cell-eall-minus-eall0-vs-r.png)
+
+The current along the field is nearly the same on all four grids (peak 0.06557 at
+r20 against 0.06665 at r32, -1.6%); the difference shows in the absorbed energy,
+which accumulates it over the pulse (r20 -7.1%, r24 +2.8%, r28 -0.3% against r32).
+**Maintainer judgment (from the time series of the absorbed energy): r20 is
+acceptable when cost requires it, r24 is preferred, and r28 is fully safe.** r36 was
+not run.
 
 The official grid, r12 at k4, gives 2.41 eV, 1.9 times the r20 k4 value (same k, 1.276
 eV). R + T at r12 k4 is 0.839 at 16 fs against 0.985 at r20 k4. **The official
@@ -326,7 +336,7 @@ AI assistant).
 | structure, pseudopotential, `xc` | Si 8-atom cubic, 5.43 Angstrom; FHI98PP LDA; PZ | not varied | assumed by the AI assistant |
 | pulse | `Acos2`, 1.55 eV, 1e12 W/cm^2, `tw1` 10.672 fs, z | not varied | assumed by the AI assistant |
 | `num_kgrid` | k >= 8 safe zone; k4 to k6 caution zone; absorbed energy not converged at k12 | R/T k8 against k12 within 1%; spurious field at k4 | **maintainer judgment (zones)**; "absorbed energy not converged" provisional (AI assistant) |
-| `num_rgrid` | not settled; r28 and r32 agree to 0.26% (single cell); r20 is the cheap base point | non-monotone sequence | provisional (AI assistant) — awaiting maintainer confirmation |
+| `num_rgrid` | r20 acceptable when cost requires; r24 preferred; r28 fully safe | single-cell absorbed energy against r32: r20 -7.1%, r24 +2.8%, r28 -0.3% (k8) | **maintainer judgment** |
 | `dt` | 0.001 fs at r20 (0.0005 fs at r28, r32) | changes of 0.05% | provisional (AI assistant) — awaiting maintainer confirmation |
 | window | 16 fs at r20 k8; check at every grid | 16 against 32 fs: 1.6e-4 | provisional (AI assistant) — awaiting maintainer confirmation |
 | macro grid | 8 points of 50 Angstrom | flat from 16 points (r12 k4) | provisional (AI assistant) — awaiting maintainer confirmation |
@@ -339,7 +349,7 @@ AI assistant).
 | 1 | k zones for R and T | safe zone k >= 8; caution zone k = 4 to 6 | **maintainer** (review comment, 2026-10-06) | R and T at k4, k8, k12 at r20; time series at k4 | The maintainer wrote that k >= 8 is preferable, that smaller k looks much less accurate, and that since it is a cost trade-off a "safe zone / caution zone" wording is acceptable. Numbers behind it: k8 to k12 R -0.7%, T -0.2%; k4 to k8 R -8%, T +11%, and a spurious static field at k4. A single recommended k was rejected because the cost of k12 (about three times k8) matters for the user. |
 | 2 | R and T converged at k8 | yes at r20 | provisional (AI assistant) — awaiting maintainer confirmation | R, T at k4, k8, k12; 16 fs against 32 fs | The assistant took "within 1% of k12" as the working meaning. Not tested: k16, other r (the k ladder is at r20 only). |
 | 3 | absorbed energy | not converged at k12 | provisional (AI assistant) — awaiting maintainer confirmation | per-point Eall - Eall0, k8 against k12 | +9% to +18% per point, +10.4% film mean, equal to the change of 1 - R - T (5.3% to 5.85%). No k16 run, so it is not known where it settles. |
-| 4 | real-space grid | not settled; r28 to r32 within 0.26%, r24 3% higher | provisional (AI assistant) — awaiting maintainer confirmation | single-cell absorbed energy r20 to r32 at k8; ground-state energy at t = 0 | The sequence is not monotone, so "converged" was rejected; r36 or another observable would be needed. The choice between r28 and a finer grid is left to the maintainer. |
+| 4 | real-space grid | r20 acceptable when cost requires; r24 preferred; r28 fully safe | **maintainer** (2026-10-21) | time series of Eall - Eall0 and of the current for r20, r24, r28, r32 at k8 (single cell), each with its difference from r32 | The maintainer judged from the time series of the absorbed energy; the currents look the same for all four grids (peak within 1.6%). Numbers behind it: absorbed energy at 16 fs against r32: r20 -7.1%, r24 +2.8%, r28 -0.3%. The sequence is not monotone, and r36 was not run. For comparison, the absorbed energy changes by about 10% from k8 to k12 (row 3). |
 | 5 | official sample grid (r12, k4) | functional test, not converged | provisional (AI assistant) — awaiting maintainer confirmation | single-cell energy 2.41 against 1.28 eV (r12 against r20, k4); R + T 0.839 against 0.985; window sensitivity | The size of the differences (a factor of 1.9 in the absorbed energy, 3 to 8% in R and T with the window) is far from the other rungs' changes. |
 | 6 | time step | `dt` = 0.001 fs at r20 is enough | provisional (AI assistant) — awaiting maintainer confirmation | `dt` pairs in section 4 | Changes of 0.05% in absorbed energy and 1e-4 in R and T. Tested at r12 k4, r20 k4 and r24 k8 (single cell) and not at the base point; the stability estimate says the margin shrinks with the grid. |
 | 7 | window | 16 fs at r20 k8 | provisional (AI assistant) — awaiting maintainer confirmation | R, T at 16 and 32 fs | 1.6e-4 at r20 k8, but 3% and 8% at r12 k4. A fixed 16 fs was rejected as a general rule. |
@@ -379,7 +389,8 @@ Fixed by the drafting assistant, not varied, and not convergence results.
   against its plan.
 - The tables are produced by the script in this directory from the output files; the
   single-cell energies, R and T agree with the values read during collection.
-- **Not validated:** no human has judged the figures other than the k zones. k5, k6 and k16
+- **Not validated:** no human has judged the figures other than the k zones and the
+  real-space grid zones. k5, k6 and k16
   were not run. The `dt`, window and macro-grid studies were not made at the base point.
   The r ladder is single cell only; no multiscale run exists at r28 or r32. The absorbed
   energy is not converged and no converged value is given. The r36 check was not run. The
@@ -423,9 +434,10 @@ FHI98PP, no spin-orbit coupling, SALMON v2.3.0 on Fugaku (A64FX).
 
 - The k zones are for R and T at r20; they say nothing about other thicknesses, other
   pulses or the absorbed energy.
-- The absorbed energy is not converged at k12 and r is not settled; no converged
-  setting is given for it.
-- All judgments except the k zones are provisional.
+- The absorbed energy is not converged at k12; no converged setting is given for it.
+- The real-space grid zones come from the single-cell absorbed energy at k8; no
+  multiscale run exists at r24 to r32.
+- All judgments except the k zones and the real-space grid zones are provisional.
 
 ## References
 

@@ -143,6 +143,32 @@ fig.tight_layout()
 fig.savefig(os.path.join(OUT, "single-cell-eabs-vs-r.png"), dpi=130)
 plt.close(fig)
 
+# ---- Figure 5: single-cell Eall-Eall0(t) versus r, and its difference from r32 -----------------------
+def pulse_erg(run):
+    a = np.loadtxt(os.path.join(DATA, run, run + "_rt_energy.data"))
+    return a[:, 0], a[:, 2]
+
+
+rcols = {20: "#c0392b", 24: "#d08a1c", 28: "#1f6fb4", 32: "#222222"}
+t32, e32 = pulse_erg(k8[-1][1])
+fig, ax = plt.subplots(1, 2, figsize=(9.0, 3.6))
+for r, run, dtl in k8:
+    t, de = pulse_erg(run)
+    ax[0].plot(t, de, color=rcols[r], lw=2.0 if r == 32 else 1.4, label="r%d (%s)" % (r, dtl))
+    if r != 32:
+        ax[1].plot(t, de - np.interp(t, t32, e32), color=rcols[r], lw=1.4, label="r%d - r32" % r)
+for a in ax:
+    a.axhline(0, color="k", lw=0.5)
+    a.set_xlabel("time (fs)")
+    a.legend(fontsize=8)
+ax[0].set_ylabel("Eall - Eall0, one cell (eV)")
+ax[0].set_title("Single-cell energy relative to the ground state, k8")
+ax[1].set_ylabel("difference from r32 (eV)")
+ax[1].set_title("Difference from r32")
+fig.tight_layout()
+fig.savefig(os.path.join(OUT, "single-cell-eall-minus-eall0-vs-r.png"), dpi=130)
+plt.close(fig)
+
 # ---- Tables ---------------------------------------------------------------------------------------
 print("# R, T over 16 fs (int E^2 dt / int E_inc^2 dt), R+T")
 for lab, run in (("r20 k4 d001", "ksl_ms_r20k04_m8h50_d001"), ("r20 k4 d0005", "ksl_ms_r20k04_m8h50_d0005"),
