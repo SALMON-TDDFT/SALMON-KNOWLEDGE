@@ -190,7 +190,9 @@ absolute values stay next to them. Absorbed energies are Eall - Eall0 per unit c
 eV (the cell has 8 atoms). R and T are dimensionless energy fractions, so their
 differences are absolute. The time-trace differences of the `dt` ladder are in % of the
 peak of the trace. The ground-state energy differences are also given in meV/atom
-(the eV value divided by 8).
+(the eV value times 1000, divided by 8). Energy differences of the absorbed-energy
+ladders are also given in meV/atom, labeled derived (for example 0.145 eV per cell =
+18.125 meV/atom).
 
 ### Convergence by observable
 
@@ -209,8 +211,8 @@ r at k8, single cell; `dt` at r12 k4, r20 k4 and r24 k8; macro grid at r12 k4.
 R and T converge early in k (k8 against k12 within 1 %). The final value of the absorbed
 energy keeps moving by 10 % between k8 and k12 and was taken as converged at k8 only from
 the time trace (the maintainer). In the real-space grid the absorbed energy is not
-monotone and still moves by 3 % from r24 to r28. The waveform shape does not converge
-with more macro points. R, T and the absorbed energy do not depend on `dt` at this level.
+monotone and still moves by 3 % from r24 to r28. The waveform shape is not established
+(its difference does not decrease with more macro points). R, T and the absorbed energy do not depend on `dt` at this level.
 
 ![single-cell absorbed energy versus r](figures/single-cell-eabs-vs-r.png)
 
@@ -220,11 +222,12 @@ with more macro points. R, T and the absorbed energy do not depend on `dt` at th
 
 | pair | R | T | R + T | film-mean absorbed energy (eV) | macro point 1 (eV) |
 |---|---|---|---|---|---|
-| k4 to k8 | 0.781 to 0.720 (-0.061, -7.8 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.947 (-0.038) | 0.0149 to 0.0538 (+0.0389) | -0.0147 to 0.0051 (+0.0198) |
-| k8 to k12 | 0.720 to 0.715 (-0.005, -0.7 %) | 0.227 to 0.227 (-0.0004, -0.2 %) | 0.947 to 0.942 (-0.005) | 0.0538 to 0.0594 (+0.0056, +10.4 %) | 0.0051 to 0.0061 (+0.0010, +18 %) |
-| k4 to k12 (densest rung, derived) | 0.781 to 0.715 (-0.066, -8.5 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.942 (-0.043) | 0.0149 to 0.0594 (+0.0445) | -0.0147 to 0.0061 (+0.0208) |
+| k4 to k8 | 0.781 to 0.720 (-0.061, -7.8 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.947 (-0.038) | 0.0149 to 0.0538 (+0.0389; derived +4.8625 meV/atom) | -0.0147 to 0.0051 (+0.0198; derived +2.475 meV/atom) |
+| k8 to k12 | 0.720 to 0.715 (-0.005, -0.7 %) | 0.227 to 0.227 (-0.0004, -0.2 %) | 0.947 to 0.942 (-0.005) | 0.0538 to 0.0594 (+0.0056, +10.4 %; derived +0.7 meV/atom) | 0.0051 to 0.0061 (+0.0010, +18 % as reported; derived +19.6 %, 0.0010 / 0.0051; +0.125 meV/atom) |
+| k4 to k12 (densest rung, derived) | 0.781 to 0.715 (-0.066, -8.5 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.942 (-0.043) | 0.0149 to 0.0594 (+0.0445; derived +5.5625 meV/atom) | -0.0147 to 0.0061 (+0.0208; derived +2.6 meV/atom) |
 
-The differences of R + T, the percentages, the k4 to k8 rows of the absorbed energy and
+The differences of R + T, the percentages (except +18 %, which was reported; the
+recomputation +19.6 % is next to it), the meV/atom values, the k4 to k8 rows of the absorbed energy and
 the k4 to k12 row are derived. The absolute values per macro point behind the film mean
 (absorbed energy per unit cell at 16 fs, eV):
 
@@ -307,12 +310,12 @@ eV at both).
 
 | pair | Eall - Eall0 at 16 fs (eV) | ground-state energy at t = 0 (eV) | to the densest rung r32 (Eall - Eall0) |
 |---|---|---|---|
-| r20 to r24 | 1.361 to 1.506 (+0.145, +10.7 %) | -864.43 to -864.63 (-0.20, -25 meV/atom) | r20: -0.104 eV, -7.1 % |
-| r24 to r28 | 1.506 to 1.461 (-0.045, -3.0 %) | -864.63 to -864.50 (+0.13, +16 meV/atom) | r24: +0.041 eV, +2.8 % |
-| r28 to r32 | 1.461 to 1.465 (+0.004, +0.26 %) | -864.50 to -864.73 (-0.23, -29 meV/atom) | r28: -0.004 eV, -0.3 % |
-| r12 to r20 (k4, official grid) | 2.411 to 1.276 (-1.135, -47 %) | not given | not applicable |
+| r20 to r24 | 1.361 to 1.506 (+0.145, +10.7 %; derived +18.125 meV/atom) | -864.43 to -864.63 (-0.20, -25 meV/atom) | r20: -0.104 eV, -7.1 % (derived -13 meV/atom) |
+| r24 to r28 | 1.506 to 1.461 (-0.045, -3.0 %; derived -5.625 meV/atom) | -864.63 to -864.50 (+0.13, +16 meV/atom) | r24: +0.041 eV, +2.8 % (derived +5.125 meV/atom) |
+| r28 to r32 | 1.461 to 1.465 (+0.004, +0.26 %; derived +0.5 meV/atom) | -864.50 to -864.73 (-0.23, -29 meV/atom) | r28: -0.004 eV, -0.3 % (derived -0.5 meV/atom) |
+| r12 to r20 (k4, official grid; single cell, r12 at `dt` 0.001 fs, the official multiscale setting uses 0.002 fs) | 2.411 to 1.276 (-1.135 eV, derived -141.875 meV/atom; -47 %, derived: (1.276 - 2.411) / 2.411 = -47.1 %) | not given | not applicable |
 
-The eV differences, the +10.7 % and the ground-state differences in meV/atom (divided by 8
+The eV differences, the +10.7 %, the -47 %, the meV/atom values of the absorbed energy and the ground-state differences in meV/atom (divided by 8
 atoms, from the rounded energies) are derived; the percentages to r32 and -3.0 % and +0.26 %
 are the printed values. The sequence r20, r24, r28, r32 is **not monotone**: r24 sits 3 %
 above r28 and r32, so only "r28 and r32 agree to 0.26 %" is shown, not a converging
@@ -340,13 +343,14 @@ change became small; r28 to r32 is the smallest one (+0.26 %).
 
 | pair | absorbed energy | R | T | maximum difference of the time trace (% of its peak) |
 |---|---|---|---|---|
-| r12 k4, `dt` 0.002 to 0.001 fs | film mean 0.16230 to 0.16237 eV (+0.05 %) | 0.6993 to 0.6994 (1e-4) | 0.1395 to 0.1396 (1e-4) | 0.081 |
-| r20 k4, `dt` 0.001 to 0.0005 fs | film mean 0.01490 to 0.01491 eV (+0.05 %) | 0.7809 to 0.7810 (1e-4) | 0.2042 (1e-4) | not printed |
-| r24 k8, single cell, `dt` 0.001 to 0.0005 fs | 1.50623 to 1.50618 eV (-3e-5 relative) | not applicable | not applicable | 0.027 |
+| r12 k4, `dt` 0.002 to 0.001 fs | film mean 0.16230 to 0.16237 eV (+0.05 % as reported; derived +0.0431 %, +0.00875 meV/atom) | 0.6993 to 0.6994 (1e-4) | 0.1395 to 0.1396 (1e-4) | 0.081 |
+| r20 k4, `dt` 0.001 to 0.0005 fs | film mean 0.01490 to 0.01491 eV (+0.05 % as reported; derived +0.0671 %, +0.00125 meV/atom) | 0.7809 to 0.7810 (1e-4) | 0.2042 (1e-4) | not printed |
+| r24 k8, single cell, `dt` 0.001 to 0.0005 fs | 1.50623 to 1.50618 eV (-3e-5 relative; derived -0.00625 meV/atom) | not applicable | not applicable | 0.027 |
 
 For each pair the two curves nearly coincide (lower panels of the figure); the change of
-the final value is the separate quantity in the second column. The percentages in the
-second column are the values printed by the figure script from the unrounded outputs.
+the final value is the separate quantity in the second column. The +0.05 % labels are the reported
+values; recomputed from the printed endpoints the changes are +0.0431 % (r12) and +0.0671 %
+(r20), derived (the unrounded outputs behind the label are not recorded here).
 There is no densest-rung column: each pair has two members only.
 
 `dt` is not a factor at this level. The r20 test was made at k4 (the anomalous run) and
@@ -389,16 +393,18 @@ Film of 400 Angstrom.
 
 | pair | spacing | film-mean absorbed energy (eV) | R | T | waveform difference from the 8-point run (% of its own peak) |
 |---|---|---|---|---|---|
-| 8 to 16 points | 50 to 25 Angstrom | 0.16230 to 0.16237 (+0.04 %) | 0.6993 to 0.6984 (-0.0009, -0.13 %) | 0.1395 to 0.1404 (+0.0009, +0.65 %) | 3.1 to 3.2 |
-| 16 to 32 points | 25 to 12.5 Angstrom | 0.16237 to 0.16239 (+0.01 %) | 0.6984 to 0.6981 (-0.0003, -0.04 %) | 0.1404 to 0.1406 (+0.0002, +0.14 %) | not printed |
-| 8 to 32 points (densest, derived) | 50 to 12.5 Angstrom | 0.16230 to 0.16239 (+0.06 %) | 0.6993 to 0.6981 (-0.0012, -0.17 %) | 0.1395 to 0.1406 (+0.0011, +0.79 %) | 4.7 to 4.8 |
+| 8 to 16 points | 50 to 25 Angstrom | 0.16230 to 0.16237 (+0.04 %; derived +0.00875 meV/atom) | 0.6993 to 0.6984 (-0.0009, -0.13 %) | 0.1395 to 0.1404 (+0.0009, +0.65 %) | 3.1 to 3.2 |
+| 16 to 32 points | 25 to 12.5 Angstrom | 0.16237 to 0.16239 (+0.01 %; derived +0.0025 meV/atom) | 0.6984 to 0.6981 (-0.0003, -0.04 %) | 0.1404 to 0.1406 (+0.0002, +0.14 %) | not printed |
+| 8 to 32 points (densest, derived) | 50 to 12.5 Angstrom | 0.16230 to 0.16239 (+0.06 %; derived +0.01125 meV/atom) | 0.6993 to 0.6981 (-0.0012, -0.17 %) | 0.1395 to 0.1406 (+0.0011, +0.79 %) | 4.7 to 4.8 |
 
 The film mean is flat from 16 points on, and the per-point absorbed energies differ by at
 most 1.2 % after block-averaging the fine grids onto the 8 points. The reflected and
 transmitted **waveforms** differ by 3 to 5 % of their peaks between the macro grids (a
 phase shift of the front surface was suspected; not explained) and this does not decrease
 with more points, while their time-integrated energies agree within 0.1 % (R) and 0.6 %
-(T) between 8 and 16 points (0.2 % and 0.8 % between 8 and 32 points, derived). The
+(T) between 8 and 16 points (0.2 % and 0.8 % between 8 and 32 points, derived). Recomputed from the printed R and T
+(derived): 8 to 16 points R -0.1287 %, T +0.6452 %; 8 to 32 points R -0.1716 %, T +0.7885 %;
+these exceed the stated 0.1 % and 0.6 % bounds slightly. The
 waveform differences are relative to the 8-point run, not to the densest rung. The
 macro-grid test was made at the official setting (r12 k4) and not at the base point. The
 absolute differences and percentages in the R and T columns are derived from the printed
