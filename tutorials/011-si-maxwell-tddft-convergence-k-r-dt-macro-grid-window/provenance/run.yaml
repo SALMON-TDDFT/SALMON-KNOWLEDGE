@@ -32,7 +32,7 @@ representative_inputs:
     note: "Deck of the (r20, k8, dt 0.001 fs, 16 fs, 8 macro points x 50 Angstrom) multiscale run with sysname, pseudopotential path and comments changed. The executed deck read the ground-state restart in place through an absolute directory_read_data; here it is './restart/' (copy of the ground-state data_for_restart/)."
 figure_script:
   path: "scripts/make_figures.py"
-  sha256: "564e61da991dcfe188298b8af6127a646324d8495eac9bd822d45335f9dbe015"
+  sha256: "6aca26bbdb802c3be57a7ba9b86abc8869daddadbb73bcf6a5a57245504365c6"
 runs:
   dates: ["2026-10-05", "2026-10-06"]
   common: "8-atom cubic cell a = 5.43 A, FHI98PP LDA, xc PZ, nelec 32, nstate 32, shifted Monkhorst-Pack k mesh without symmetry reduction (RT k mesh = GS k mesh), Acos2 pulse 1.55 eV, 1e12 W/cm2, tw1 10.672 fs, z-polarized, 1D macro grid 8 points x 50 A (film 400 A) with 1000 vacuum cells on each side (held at 5 um per side when the macro grid was refined), abc boundaries, nt*dt = 16 fs unless stated"
