@@ -38,10 +38,10 @@ for j,(ttl,a,b,la,lb,kind,readme) in enumerate(pairs):
     if kind=="ms":
         ta,ea,fa=rt_energy_mean(a); tb,eb,fb=rt_energy_mean(b)
         ra,rb=RT(a,16),RT(b,16)
-        txt=f"final: {ea[-1]:.5f} -> {eb[-1]:.5f} eV ({100*(eb[-1]/ea[-1]-1):+.3f} %)\nR {ra[0]:.4f}->{rb[0]:.4f}, T {ra[1]:.4f}->{rb[1]:.4f}\nREADME: {readme}, R,T 1e-4"
+        txt=f"final: {ea[-1]:.5f} to {eb[-1]:.5f} eV ({100*(eb[-1]/ea[-1]-1):+.3f} %)\nR {ra[0]:.4f} to {rb[0]:.4f}, T {ra[1]:.4f} to {rb[1]:.4f}\nREADME: {readme}, R,T 1e-4"
     else:
         ta,ea=pu(a); tb,eb=pu(b)
-        txt=f"final: {ea[-1]:.5f} -> {eb[-1]:.5f} eV (rel {eb[-1]/ea[-1]-1:+.1e})\nREADME: {readme}"
+        txt=f"final: {ea[-1]:.5f} to {eb[-1]:.5f} eV (rel {eb[-1]/ea[-1]-1:+.1e})\nREADME: {readme}"
     ax[0,j].plot(ta,ea,color="#1f6fb4",lw=1.6,label=la); ax[0,j].plot(tb,eb,color="#c0392b",lw=1.1,ls="--",label=lb)
     ax[0,j].set_title(ttl); ax[0,j].legend(fontsize=8,loc="upper left")
     ax[0,j].text(.98,.04,txt,transform=ax[0,j].transAxes,ha="right",va="bottom",fontsize=7.5,bbox=dict(fc="w",ec="#aaa"))
@@ -95,5 +95,5 @@ for col,ls,nm in ((6,"-","refl"),(9,"--","trans")):
         dp=np.abs(d).max()/np.abs(w[8][:,col]).max()*100
         axd.plot(w[8][:,0],d/np.abs(w[8][:,col]).max()*100,color=c,ls=ls,lw=.9,label=f"{nm} m{n}-m8: max {dp:.1f} % of own peak")
 axw.set_title("reflected (solid) & transmitted (dashed), 16 fs",fontsize=9); axw.set_xlabel("time (fs)"); axw.set_ylabel("V/Angstrom"); axw.legend(fontsize=6,ncol=2)
-axd.set_title("diff to m8 (% of peak); README 3-5 %",fontsize=9); axd.set_xlabel("time (fs)"); axd.set_ylabel("% of peak"); axd.legend(fontsize=6.5)
+axd.set_title("diff to m8 (% of peak); README 3 to 5 %",fontsize=9); axd.set_xlabel("time (fs)"); axd.set_ylabel("% of peak"); axd.legend(fontsize=6.5)
 fig.suptitle("011 section 6: macro grid (r12 k4, dt 0.002 fs)",y=.995); fig.tight_layout(); fig.savefig(f"{OUT}/macro-grid.png",dpi=100); plt.close(fig)

@@ -35,7 +35,7 @@ figure_script:
   sha256: "6aca26bbdb802c3be57a7ba9b86abc8869daddadbb73bcf6a5a57245504365c6"
 figure_script_dt_window_macro:
   path: "scripts/plot_dt_window_macro.py"
-  sha256: "3287b43d2b2e6ebb033765cbc9987aee8e73573205dadc6b6076d47108cf1e9b"
+  sha256: "2444e84c3b1446aabb90e82355f7c9e86c534f7a10a61efb1f3e797d0cce9c67"
   figures: ["figures/dt-pairs.png", "figures/propagation-window.png", "figures/macro-grid.png"]
 runs:
   dates: ["2026-10-05", "2026-10-06"]

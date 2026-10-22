@@ -33,16 +33,15 @@ the absorbed energy, a waveform) at one setting.
 > record holds ten rows and the maintainer judged all of them. Confirmed as proposed
 > by the AI assistant: R and T converge at k8 (r20); the official sample grid (r12 k4)
 > is a functional test, not converged; the propagation window of 16 fs at r20 k8;
-> the macro grid of 8 points of 50 Angstrom, for integrated quantities only; the
-> origin of the r20 k4 anomaly (not `dt`, not the microscopic cell alone, gone at k8,
+> the origin of the r20 k4 anomaly (not `dt`, not the microscopic cell alone, gone at k8,
 > mechanism still a hypothesis); `nstate` = 32 as the setting used. Judged by the
 > maintainer in their own words: the k zones (safe zone k >= 8, caution zone k = 4 to
 > 6); the real-space grid zones (r20 acceptable when cost requires, r24 preferred, r28
 > fully safe); the absorbed energy converged at k8 (read from the time trace, with the
 > +10% difference of the final value between k8 and k12 kept as a stated number); the
 > time steps (`dt` 0.002 fs at r12, 0.001 fs at r20 and r24, 0.0005 fs at r28 and r32);
-> the macro grid limited to integrated quantities, with the waveform shape not
-> established. Everything that was not varied was an assumption of the assistant and is
+> the macro grid of 8 points of 50 Angstrom, limited to integrated quantities
+> (absorbed energy and its depth profile, R, T), with the waveform shape not established. Everything that was not varied was an assumption of the assistant and is
 > listed in [Assumptions](#assumptions-made-by-the-assistant).
 
 # Summary
@@ -312,8 +311,7 @@ Practical rule: at k4 to k6 look at the time series of `Ac_tot_z` and of
 
 ![Eall - Eall0 for each dt pair and the difference between the two members](figures/dt-pairs.png)
 
-Figure: for each pair the two curves coincide and the difference stays at or below the
-tabulated level (section 4).
+Figure: for each pair the two curves nearly coincide. The maximum difference over time is 0.081% of the peak at r12 k4 and 0.027% at r24 k8 (lower panels); the change of the final value is the separate quantity tabulated above (0.05% and 3e-5 relative).
 
 `dt` is not a factor at this level. The r20 test was made at k4 (the anomalous run) and
 r24, not at the base point k8, and it was not repeated at r28 and r32. The explicit
