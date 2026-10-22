@@ -48,7 +48,7 @@ follows.
 
 - **Vacuum.** `Lz` = 15 Angstrom is already converged: the DOS differs from
   that at 20 Angstrom by 0.01% of its peak, and the total energy by
-  0.3 neV. `Lz` = 10 Angstrom is not converged (total energy 0.66 meV/atom
+  0.0001 meV/atom. `Lz` = 10 Angstrom is not converged (total energy 0.66 meV/atom
   higher, conduction-band DOS 2.5%). Maintainer's choice:
   **`Lz` = 15 Angstrom**.
 - **Real-space grid.** `num_rgrid` = 24,24,144 at `Lz` = 20 Angstrom (spacing
@@ -184,7 +184,7 @@ reasons and the alternatives that were rejected are written in the
 4. **Verify the time-reversal reduction.** The 12 x 12 x 1 mesh without
    reduction (192 k-points including the path) against the reduced one (132
    k-points): the total energy differs by 1.2e-3 meV per cell (4e-4 meV/atom),
-   the gap at K by 1.7e-4 meV, and the DOS by 0.003% of its peak. The
+   the gap at K by 1.7e-4 meV, and the DOS by 0.003% of its peak (rel-L1 0.001%). The
    reduction is exact without spin-orbit coupling only.
 5. **Compare neighboring rungs on overlays and differences**, then look at the
    total energy and the gap separately from the DOS.
@@ -220,7 +220,7 @@ divided by 3. The total energies of the runs stay in eV in the
 | observable | vacuum `Lz` (r24, k12) | real-space grid r (`Lz` 20, k12) | k mesh (`Lz` 20, r24) |
 |---|---|---|---|
 | total energy | L15 (0.0001 meV/atom at L15 to L20; maintainer, row 1) | falls by 2.9 meV/atom at r24 to r30 and by 0.18 at r30 to r36; not judged, and not used as a criterion | k18 (at most 0.003 meV/atom for every pair from k18; maintainer, row 3) |
-| direct gap at K | 0.0004 meV at L15 to L20; not judged | r24 (1.06 meV at r24 to r30); r18 is 14.1 meV low and r12 117.5 meV below r18 (maintainer, row 2) | k18 (at most 0.0001 meV for every pair from k18; maintainer, row 3) |
+| gap at K | L15 (0.0004 meV at L15 to L20; maintainer, row 1) | r24 (1.06 meV at r24 to r30); r18 is 14.1 meV low; r12 is 113.77 meV (direct gap at K) or 117.5 meV (fundamental gap) below r18 (maintainer, row 2) | k18 (at most 0.0001 meV for every pair from k18; maintainer, row 3) |
 | DOS shape, whole window | L15 (0.014 % of the peak at L15 to L20; maintainer, row 1) | r24 kept (0.90 % at r24 to r30; maintainer, row 2); on the overlay r18 already lies on r24 to r36 and only r12 differs visibly (r18 to r24: 2 to 3 % in the difference panel, 3.55 % at most) | k30 (2.45 % at k30 to k36; maintainer, row 3) |
 
 In the vacuum ladder all three observables settle together, at L15. In k the
@@ -236,19 +236,19 @@ with the finer rungs.
 
 ![Vacuum ladder: DOS overlay and neighbor differences](figures/dos-vacuum-ladder.png)
 
-| pair | max_dev (% of peak) | where | rel-L1 | ΔE_total (meV/atom) | Δgap (meV) |
+| pair | max_dev (% of peak) | where | rel-L1 | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) |
 |---|---:|---|---:|---:|---:|
-| L10 to L15 | 2.51 | +2.0 eV (conduction) | 0.71% | -0.657 | -0.163 |
-| L15 to L20 | 0.014 | +2.5 eV | 0.003% | -0.0001 | +0.0004 |
-| L20 to L25 | 0.00007 | | 0.00002% | -0.00003 | -0.00002 |
-| L25 to L30 | 0.00004 | | 0.00002% | +0.0001 | +0.00002 |
-| L30 to L40 | 0.00014 | | 0.00007% | -0.0012 | -0.00007 |
+| L10 to L15 | 2.51 | +2.0 eV (conduction) | 0.71% | 0.657 | 0.163 |
+| L15 to L20 | 0.014 | +2.5 eV | 0.003% | 0.0001 | 0.0004 |
+| L20 to L25 | 0.00007 | | 0.00002% | 0.00003 | 0.00002 |
+| L25 to L30 | 0.00004 | | 0.00002% | 0.0001 | 0.00002 |
+| L30 to L40 | 0.00014 | | 0.00007% | 0.0012 | 0.00007 |
 
 The L10 to L15 difference is mostly in the conduction band (valence part
 0.97%). From L15 on, the DOS curves cannot be told apart on the overlay.
 
 **Judgment: L15** (maintainer, 2026-10-22; [Judgment record](#judgment-record)
-row 1). The change became small at L15 to L20 (0.014 % of the peak, 0.3 neV in
+row 1). The change became small at L15 to L20 (0.014 % of the peak, 0.0001 meV/atom in
 the total energy); the looser member, L15, was taken. The AI assistant's
 earlier provisional choice, L20, is superseded.
 
@@ -256,12 +256,12 @@ earlier provisional choice, L20, is superseded.
 
 ![Grid ladder: DOS overlay and neighbor differences](figures/dos-rgrid-ladder.png)
 
-| pair | max_dev (% of peak) | where | rel-L1 | ΔE_total (meV/atom) | Δgap (meV) |
+| pair | max_dev (% of peak) | where | rel-L1 | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) |
 |---|---:|---|---:|---:|---:|
-| r12 to r18 | 44.8 | -3.4 eV | 21.0% | -317.7 | +117.5 |
-| r18 to r24 | 3.55 | -3.3 eV | 2.00% | -17.0 | +14.1 |
-| r24 to r30 | 0.90 | -4.0 eV | 0.36% | -2.88 | +1.06 |
-| r30 to r36 | 0.07 | +2.4 eV | 0.03% | -0.18 | -0.08 |
+| r12 to r18 | 44.8 | -3.4 eV | 21.0% | 317.7 | 117.5 (113.77 for the direct gap at K) |
+| r18 to r24 | 3.55 | -3.3 eV | 2.00% | 17.0 | 14.1 |
+| r24 to r30 | 0.90 | -4.0 eV | 0.36% | 2.88 | 1.06 |
+| r30 to r36 | 0.07 | +2.4 eV | 0.03% | 0.18 | 0.08 |
 
 The DOS and the gap converge differently with r. On the overlay r12 is the
 only rung that differs visibly; r18 lies on top of r24 to r36, and the
@@ -281,15 +281,15 @@ grid is not read from the DOS alone.
 
 ![k ladder: DOS overlay and neighbor differences](figures/dos-kgrid-ladder.png)
 
-| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 | ΔE_total (meV/atom) | Δgap (meV) |
+| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) |
 |---|---:|---|---|---:|---:|---:|
-| k6 to k12 | 46.7 | +3.5 eV | 39.3 / 46.7 | 28.3% | -0.513 | +0.600 |
-| k12 to k18 | 22.5 | -1.7 eV | 22.5 / 20.5 | 9.55% | -0.0077 | +0.002 |
-| k18 to k24 | 11.3 | -1.9 eV | 11.3 / 5.2 | 2.96% | -0.0023 | +0.0001 |
-| k24 to k30 | 5.99 | -2.0 eV | 6.0 / 0.75 | 1.15% | -0.0010 | +0.00005 |
-| k30 to k36 | 2.45 | -1.9 eV | 2.45 / 0.31 | 0.49% | -0.0030 | -0.00005 |
-| k36 to k42 | 1.09 | -2.0 eV | 1.09 / 0.03 | 0.19% | +0.0030 | +0.0001 |
-| k42 to k48 | 0.44 | -2.0 eV | 0.44 / 0.01 | 0.08% | -0.0013 | -0.00002 |
+| k6 to k12 | 46.7 | +3.5 eV | 39.3 / 46.7 | 28.3% | 0.513 | 0.600 |
+| k12 to k18 | 22.5 | -1.7 eV | 22.5 / 20.5 | 9.55% | 0.0077 | 0.002 |
+| k18 to k24 | 11.3 | -1.9 eV | 11.3 / 5.2 | 2.96% | 0.0023 | 0.0001 |
+| k24 to k30 | 5.99 | -2.0 eV | 6.0 / 0.75 | 1.15% | 0.0010 | 0.00005 |
+| k30 to k36 | 2.45 | -1.9 eV | 2.45 / 0.31 | 0.49% | 0.0030 | 0.00005 |
+| k36 to k42 | 1.09 | -2.0 eV | 1.09 / 0.03 | 0.19% | 0.0030 | 0.0001 |
+| k42 to k48 | 0.44 | -2.0 eV | 0.44 / 0.01 | 0.08% | 0.0013 | 0.00002 |
 
 - **Energy and gap.** The total energy at 12 x 12 x 1 differs from that at
   48 x 48 x 1 by 0.013 meV/atom, and from 18 x 18 x 1 on by less than
@@ -317,15 +317,18 @@ assistant's earlier provisional choice, 36 x 36 x 1, is superseded.
 
 ![DOS of the confirmation run against its neighbors](figures/confirmation-L15-r24-k30.png)
 
-| comparison | ΔE_total (meV/atom) | Δgap (meV) | DOS max_dev (% of peak) | DOS rel-L1 |
+| comparison | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) | DOS max_dev (% of peak) | DOS rel-L1 |
 |---|---:|---:|---:|---:|
-| L15 k30 to L20 k30 (vacuum only) | -0.0003 | -0.00045 | 0.0092 | 0.0014% |
-| L15 k30 to L20 k36 (earlier provisional point) | +0.0026 | -0.00041 | 2.4506 | 0.6115% |
-| control: L20 k30 to L20 k36 (k step only) | not computed | not computed | 2.4503 | 0.6111% |
+| L15 k30 to L20 k30 (vacuum only) | 0.0003 | 0.00045 | 0.0092 | 0.0014% |
+| L15 k30 to L20 k36 (earlier provisional point) | 0.0026 | 0.00041 | 2.4506 | 0.6115% |
+| control: L20 k30 to L20 k36 (k step only) | 0.0029 | 0.000046 | 2.4503 | 0.6111% |
 
-The DOS measures are taken over -6 to +4 eV, the range of the figure; over the
+The energy and gap columns are derived absolute values from the printed total energies and the
+raw eigenvalues (left minus right: L15 k30 minus L20 k30 is -0.0003 meV/atom and
+-0.00045 meV; L15 k30 minus L20 k36 is +0.0026 and -0.00041; the control L20 k30 minus
+L20 k36 is +0.0029 meV/atom, +0.000046 meV). The DOS measures are taken over -6 to +4 eV, the range of the figure; over the
 whole window the maximum deviation is the same and the rel-L1 values are 0.0015 %
-and 0.486 %. The run converged in 111 iterations and gave
+and 0.486 %. The run converged at iteration marker 111 (110 iterations) and gave
 `E_total = -782.143887` eV (-260.714629 eV/atom) and a direct gap at K of
 1.7219918 eV. It took 195 s on 12 nodes (2338 node-seconds) with
 8.1 GiB per node; the earlier point took 272 s on 16 nodes (4352 node-seconds).
@@ -357,7 +360,7 @@ computes these numbers and draws the figure.
 | L20 r24 k12, full mesh (verification) | 4 | 192 | 151 | -782.143854 | 1.721990 | 386 | 11.1 |
 | L15 r24 k30 (confirmation, adopted) | 12 | 528 | 111 | -782.143887 | 1.721992 | 195 | 8.1 |
 
-The iteration column is the number printed after `#GS converged at`. The
+The iteration column is the number printed after `#GS converged at` (the marker; the confirmation run ran 110 iterations to it). The gap column is the fundamental gap printed by SALMON; at r12 the direct gap at K is 1.5941 eV. The
 number of iterations changes erratically (for example 221 at k24 against 116
 at k36 on the same grid), so it should not be used to compare rungs.
 
@@ -365,7 +368,7 @@ at k36 on the same grid), so it should not be used to compare rungs.
 
 | use | setting | measure | evidence |
 |---|---|---|---|
-| ground state, vacuum | `Lz` = 15 Angstrom (vacuum between S planes 11.9 Angstrom), z spacing 5/36 Angstrom | DOS 0.014 % of the peak and total energy 0.3 neV at L15 to L20 (r24, k12) | maintainer, row 1; confirmed at k30 (0.009 %, 0.0003 meV/atom) |
+| ground state, vacuum | `Lz` = 15 Angstrom (vacuum between S planes 11.9 Angstrom), z spacing 5/36 Angstrom | DOS 0.014 % of the peak and total energy 0.0001 meV/atom at L15 to L20 (r24, k12) | maintainer, row 1; confirmed at k30 (0.009 %, 0.0003 meV/atom) |
 | ground state, real-space grid | `num_rgrid` = 24 in plane (24,24,108 at `Lz` = 15 Angstrom) | DOS 0.90 % and gap 1.06 meV at r24 to r30 | maintainer, row 2 |
 | DOS shape only, coarse screening | r18 would show the DOS shape on the overlay; not adopted | r18 to r24 2 to 3 % of the peak (3.55 % at most); the gap is 14.1 meV low | the maintainer's reading of the overlay, row 2; not judged as a setting |
 | DOS, k mesh | 30 x 30 x 1 (Gamma-centered, 528 k-points including 76 path points) | 2.45 % of the peak at k30 to k36 | maintainer, row 3; confirmation run |
@@ -380,9 +383,9 @@ at k36 on the same grid), so it should not be used to compare rungs.
 
 | # | object | conclusion | judged by | what was looked at | reason, including rejected alternatives |
 |---|---|---|---|---|---|
-| 1 | vacuum | `Lz` = 15 Angstrom | maintainer (2026-10-22): `Lz` = 15 Angstrom | DOS overlays and neighbor differences of L10 to L40; ΔE_total and Δgap | L15 to L20 is 0.014% of the DOS peak and 0.3 neV in the total energy; the maintainer takes the looser member of the pair where the change became small. L10 is not converged (E +0.66 meV/atom, conduction DOS 2.5%). Rejected: L20, the AI assistant's provisional choice (the grid and k ladders are centered on it, and it costs about 1.2 times L15: 254 s against 217 s on 3 nodes). L25 to L40 were run only to confirm that nothing changes. Confirmed at k30: L15 against L20 0.009% in the DOS, 0.0003 meV/atom. |
-| 2 | grid | r24 | maintainer (2026-10-22): r24 kept | r12 to r36 overlays at k12; max_dev, ΔE_total, Δgap | The DOS and the gap converge differently. In the DOS, r18 already lies on r24 to r36 and only r12 differs visibly (r18 to r24 is 2 to 3% of the peak in the difference panel, 3.55% at most in the table); the gap at r18 is 14.1 meV low and agrees only from r24. r24 to r30 is 0.90% in the DOS and 1.06 meV in the gap; r30 to r36 is 0.07%. Rejected: r18, because its gap is 14 meV low; r30, which costs about three times the node-seconds (371 s on 6 nodes against 254 s on 3). The total energy keeps falling with r (-2.9 meV/atom at r24 to r30) and was not used as a criterion. |
-| 3 | k mesh | 30 x 30 x 1 | maintainer (2026-10-22): 30 x 30 x 1 | k6 to k48 overlays and neighbor differences; energy and gap against DOS | The total energy and the gap are flat from 18 x 18 x 1 (at most 0.003 meV/atom and 0.0001 meV for every pair from k18). For the DOS: k24 to k30 6.0%, k30 to k36 2.45%, k36 to k42 1.09%, k42 to k48 0.44%; the remaining differences look like oscillations in the valence band at -2 eV, not shifts. The maintainer takes the looser member (k30) of the pair where the change became small. Rejected: 36 x 36 x 1, the AI assistant's provisional choice; 48 x 48 x 1, which is needed only for a DOS accurate to below 1% (449 s on 16 nodes against 195 s on 12 for the adopted point). Confirmed with the run at (L15, r24, k30): against k36 the DOS differs by 2.45%, which is the k30 to k36 step alone. |
+| 1 | vacuum | `Lz` = 15 Angstrom | maintainer (2026-10-22): `Lz` = 15 Angstrom | DOS overlays and neighbor differences of L10 to L40; change in E_total and in gap | L15 to L20 is 0.014% of the DOS peak and 0.0001 meV/atom in the total energy; the maintainer takes the looser member of the pair where the change became small. L10 is not converged (E +0.66 meV/atom, conduction DOS 2.5%). Rejected: L20, the AI assistant's provisional choice (the grid and k ladders are centered on it, and it costs about 1.2 times L15: 254 s against 217 s on 3 nodes). L25 to L40 were run only to confirm that nothing changes. Confirmed at k30: L15 against L20 0.009% in the DOS, 0.0003 meV/atom. |
+| 2 | grid | r24 | maintainer (2026-10-22): r24 kept | r12 to r36 overlays at k12; max_dev, change in E_total, change in gap | The DOS and the gap converge differently. In the DOS, r18 already lies on r24 to r36 and only r12 differs visibly (r18 to r24 is 2 to 3% of the peak in the difference panel, 3.55% at most in the table); the gap at r18 is 14.1 meV low and agrees only from r24. r24 to r30 is 0.90% in the DOS and 1.06 meV in the gap; r30 to r36 is 0.07%. Rejected: r18, because its gap is 14 meV low; r30, which costs about three times the node-seconds (371 s on 6 nodes against 254 s on 3). The total energy keeps falling with r (-2.9 meV/atom at r24 to r30) and was not used as a criterion. |
+| 3 | k mesh | 30 x 30 x 1 | maintainer (2026-10-22): 30 x 30 x 1 | k6 to k48 overlays and neighbor differences; energy and gap against DOS | The total energy and the gap are flat from 18 x 18 x 1 (at most 0.003 meV/atom and 0.0001 meV for every pair from k18). For the DOS: k24 to k30 6.0%, k30 to k36 2.45%, k36 to k42 1.09%, k42 to k48 0.44%; the remaining differences look like oscillations in the valence band at -2 eV, not shifts. The maintainer takes the looser member (k30) of the pair where the change became small. Rejected: 36 x 36 x 1, the AI assistant's provisional choice; 48 x 48 x 1 (449 s on 16 nodes, against 195 s on 12 for the adopted point; k42 to k48 changes the DOS by 0.44%, the only step measured beyond k42). The two-consecutive-pairs reference rule gives k30 at 5% and at 3% and no lock at 1% inside the ladder. Confirmed with the run at (L15, r24, k30): against k36 the DOS differs by 2.45%, which is the k30 to k36 step alone. |
 | 4 | structure, pseudopotentials, `nstate`, DOS settings | not varied | assumed by the AI assistant | | see [Assumptions](#assumptions-made-by-the-assistant) |
 
 The time-reversal reduction of the k list is not a judgment; it is verified in
