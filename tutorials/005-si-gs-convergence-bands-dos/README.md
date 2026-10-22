@@ -150,7 +150,126 @@ list (24^3 + path via `file_kw`) and `nproc_k`.
 Unless marked *estimated*, every number below was measured from a converged
 SCF (residual below 1e-9) that ended with `end SALMON` and empty standard
 error. Gap and band numbers are differences between eigenvalues of each run;
-absolute energies are compared only where stated.
+absolute energies are compared only where stated. Energies of the eight-atom
+cell are given in meV/atom: a value in meV/cell is divided by 8.
+
+### Convergence by observable
+
+| observable | `num_rgrid` (r) | `num_kgrid` (k) | `nstate` |
+|---|---|---|---|
+| total energy | not converged to 0.1 eV/cell (about 12 meV/atom) even at r32; not monotonic; no r convergence claimed | from k8 each later step is below 0.005 meV/atom (derived from 0.04 meV/cell); not judged | 48 changes it by 1.5e-5 meV/atom (derived from 1.2e-7 eV/cell); not judged |
+| bands 1 to 20 relative to the VBM | r24 as judged in this README (r24 to r28 21 meV) | SCF k6 as judged in this README (bands 1 to 17 agree to 0.03 meV between k6, k8, k12) | 32 adopted (48 changes bands by 0.11 meV) |
+| path-resolved gap | not monotonic in r (r24 to r28 9 meV, derived); not judged on its own | k6 to k8 0.03 meV (0.52218, 0.52221, 0.52221 eV at k6, k8, k12); not judged | 48 changes it by 1.5e-5 meV; not judged |
+| printed `Fundamental gap` | not examined | still decreasing at k24 (15 meV from k20 to k24); a sampling artifact of the shifted mesh, not judged | not examined |
+| DOS shape, sigma = 0.15 eV | not established: r20 to r24 at k24 is 2.95 % (valence) and 2.51 % (conduction); r24 to r28 not measured | k16 taken (a 1 % DOS criterion was not required); k16 against k24 is 1.2 % / 1.5 % | not examined |
+| DOS shape, sigma = 0.1 eV | not examined | not judged; k20 to k24 is 1.4 % / 1.1 %, and the k16 and k20 differences are sampling ripple | not examined |
+
+The DOS numbers are relative L1 differences, not the maximum difference in %
+of the peak; the maximum-difference values were not recorded for this
+tutorial. The total energy and the band-path observables change little with k from k8
+and SCF k6. The printed gap and the DOS are still changing at k24, and the DOS
+also moves with r (r20 to r24). Bands need the finer real-space grid (r24)
+even though the SCF k mesh is already sufficient for them.
+
+![Total energy and gap versus num_kgrid](figures/kgrid-energy-and-gap.png)
+
+### Ladder: real-space grid
+
+![Bands 1 to 20 versus num_rgrid](figures/bands-rgrid-convergence.png)
+
+The figure overlays the bands of all four rungs at SCF k8 (left) and the band
+edges on Gamma-X (right). The difference panel is not drawn: the band data
+are not in the repository and this tutorial has no regeneration script.
+
+| pair | max band change, bands 1 to 20 (meV) | path-resolved gap (eV) | gap change (meV, derived) | total energy change (meV/atom, derived) |
+|---|---:|---:|---:|---:|
+| r16 to r20 | 276 | 0.419 to 0.522 | +103 | not examined |
+| r20 to r24 | 75 | 0.522 to 0.488 | -34 | -25 |
+| r24 to r28 | 21 | 0.488 to 0.497 | +9 | +16 |
+| r28 to r32 | not examined | not examined | not examined | -29 |
+
+The band and gap columns are at SCF k8 (r16 to r28). The gap changes are
+differences of the printed path-resolved gaps. The total-energy column is the
+absolute `E_total` at k6 (-864.431, -864.631, -864.501, and -864.731 eV for
+r20, 24, 28, and 32), differenced and divided by 8. Differences of each rung
+to the densest rung are not in the source data and are left out.
+
+**Judgment:** bands were judged at r24 (r24 to r28 is 21 meV), as stated in
+this README. The judge is not recorded in this tutorial (it has no Judgment
+record).
+
+- The gap is not monotonic in r. The deep valence bands (1 to 8) and the
+  conduction bands (17 to 20) shift with r, while the upper valence bands (9
+  to 16) move by at most 24 meV. The conduction-band-minimum (CBM) position on
+  Gamma-X is stable to about 0.002 (2 pi/a).
+- A judgment of "r20 converged" was first made by eye from sigma = 0.1 eV DOS
+  overlays at k6. It did not hold for bands: r20 to r24 moved bands by 75 meV.
+- The k6 DOS overlays used for that judgment are not converged in k. Coarse-k
+  DOS is spiky, and those spikes exaggerate the effect of any energy shift.
+  For this reason, this tutorial does not quantify r convergence of the DOS
+  from the k6 or k8 data. The only r effect quantified on a k-converged DOS is
+  r20 to r24 at k24, reported under the confirmation run below. r24 to r28 on a
+  k-converged DOS was not measured.
+- Observation: the absolute `E_total` is not converged to 0.1 eV/cell (about 12 meV/atom)
+  even at r32. This tutorial claims k convergence of `E_total` only. It does
+  not claim r convergence of the absolute total energy. The choice of r24 is
+  set by the bands.
+
+### Ladder: k mesh (num_rgrid=20)
+
+![DOS versus num_kgrid for three broadenings](figures/dos-kgrid-sigma.png)
+
+DOS convergence was judged by inspecting the overlays and difference panels
+(top and bottom of the figure). It is not reduced to one percentage, because
+localized states, energy shifts, and sampling ripple mean different things.
+The relative L1 differences, `sum|D_a-D_b| / sum D_b`, on the common 0.0125 eV
+axis are reference numbers only. Valence is [-14, 0] eV and conduction is
+(0, 5.5] eV relative to each run's VBM; r20 is used throughout. DOS columns
+give valence / conduction.
+
+| pair | printed gap change (meV) | total energy change (meV/atom) | DOS sigma = 0.10 eV | DOS sigma = 0.15 eV | DOS sigma = 0.20 eV |
+|---|---:|---:|---:|---:|---:|
+| k6 to k8 | -101 | 0.03 (whole spread) | not examined | not examined | not examined |
+| k8 to k10 | -79 | below 0.005 | not examined | not examined | not examined |
+| k10 to k12 | -42 | below 0.005 | not examined | not examined | not examined |
+| k12 to k14 | -29 | below 0.005 | not examined | not examined | not examined |
+| k14 to k16 | -24 | below 0.005 | 4.7 % / 3.4 % | 1.6 % / 1.3 % | 0.6 % / 0.6 % |
+| k16 to k20 | -22 | below 0.005 | 3.2 % / 3.5 % | 1.0 % / 1.3 % | 0.6 % / 0.6 % |
+| k20 to k24 | -15 | below 0.005 | 1.4 % / 1.1 % | 0.4 % / 0.5 % | 0.3 % / 0.3 % |
+| k16 vs k24 (direct) | -37 | below 0.010 (two steps, derived) | 3.2 % / 3.3 % | 1.2 % / 1.5 % | 0.9 % / 0.9 % |
+
+The printed gap values are 0.867, 0.766, 0.687, 0.645, 0.616, 0.592, 0.570,
+and 0.555 eV for k6/8/10/12/14/16/20/24. The total-energy column is the bound
+quoted in the source (each step from k8 below 0.04 meV/cell, divided by 8);
+the entire spread of 0.26 meV/cell (0.03 meV/atom) is in the k6 to k8 step, which gives the 0.03 entry.
+The "below 0.005" entries are derived bounds, and the direct row is the sum of two such bounds.
+The direct k16-versus-k24 row was computed for this tutorial from the same
+data and is the only densest-rung difference available.
+
+**Judgment:** k16 was taken for the DOS because a 1 % DOS criterion was not
+required (k16 against k24 is 1.2 % / 1.5 % at sigma = 0.15 eV; the k20 to k24
+step is 0.4 % / 0.5 %). The judge is not recorded in this tutorial (it has no
+Judgment record).
+
+- The same percentage can come from different kinds of change, so read it
+  together with the overlays. At sigma = 0.1 eV, the k16 and k20 differences
+  are sampling ripple around sharp van Hove features near -10 to -6 eV and +4
+  to +5.5 eV. A rigid energy shift, such as moving the DOS origin by 10 meV,
+  already changes the L1 metric by about 0.7 % at sigma = 0.15 eV without any
+  change in shape. Localized changes in one peak and broad shifts of whole
+  band groups can give the same percentage.
+- A larger sigma converges faster in k because it removes structure. The choice
+  of sigma is a decision about the resolution required, not only a
+  convergence parameter. The conduction DOS is complete only below about +5.9
+  eV relative to the VBM at `nstate=32`.
+- The printed `Fundamental gap` keeps decreasing at k24. This is a sampling
+  artifact of the shifted mesh, not a k-convergence problem of the electronic
+  structure
+  ([SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)).
+- Bands on the path versus SCF k: path-resolved gaps were 0.52218, 0.52221,
+  and 0.52221 eV for k6, k8, and k12. Bands 1 to 17 agree to 3e-5 eV, so the
+  SCF density is converged for bands at k6. The Gamma-centered 8^3 mesh
+  (`yn_gamma_centered='y'`) printed 0.528 eV.
 
 ### Starting point: the official sample
 
@@ -161,124 +280,46 @@ ladder had no DOS. It was rerun with the `&analysis` block above. The rerun
 reproduced every SCF iteration exactly, so adding DOS output does not change
 the physics.
 
-### Real-space grid
+### Check of `nstate` (k8, r20)
 
-![Bands 1–20 versus num_rgrid](figures/bands-rgrid-convergence.png)
-
-| `num_rgrid` (SCF k8) | path-resolved gap (eV) | max band change vs previous, bands 1–20 (eV) |
-|---:|---:|---:|
-| 16 | 0.419 | – |
-| 20 | 0.522 | 0.276 |
-| 24 | 0.488 | 0.075 |
-| 28 | 0.497 | 0.021 |
-
-- The gap is not monotonic in r. The deep valence bands (1–8) and the
-  conduction bands (17–20) shift with r, while the upper valence bands (9–16)
-  move by at most 24 meV. The conduction-band-minimum (CBM) position on Gamma-X is
-  stable to about 0.002 (2π/a).
-- A judgment of "r20 converged" was first made by eye from σ = 0.1 eV DOS
-  overlays at k6. It did not hold for bands: r20 to r24 moved bands by 75 meV.
-  Bands were judged at r24 (r24 to r28 = 21 meV).
-- The k6 DOS overlays used for that judgment are not converged in k. Coarse-k
-  DOS is spiky, and those spikes exaggerate the effect of any energy shift.
-  For this reason, this tutorial does not quantify r convergence of the DOS
-  from the k6 or k8 data. The only r effect quantified on a k-converged DOS is
-  r20 to r24 at k24, reported under the confirmation run below. r24 to r28 on a
-  k-converged DOS was not measured.
-- Observation: the absolute `E_total` at k6 is −864.431, −864.631, −864.501,
-  and −864.731 eV for r20, 24, 28, and 32. It is not monotonic and is not
-  converged to 0.1 eV even at r32. This tutorial claims k convergence of
-  `E_total` only. It does not claim r convergence of the absolute total
-  energy. The choice of r24 is set by the bands.
-
-### k-point mesh (num_rgrid=20)
-
-![Total energy and gap versus num_kgrid](figures/kgrid-energy-and-gap.png)
-
-- `E_total`: k6 to k24 differ by at most 0.26 meV (8-atom cell). The entire
-  spread is in the k6 to k8 step; from k8 onward, each step is below 0.04 meV.
-- Printed `Fundamental gap` for k6/8/10/12/14/16/20/24: 0.867, 0.766,
-  0.687, 0.645, 0.616, 0.592, 0.570, and 0.555 eV, still decreasing at k24.
-  This is a sampling artifact of the shifted mesh, not a k-convergence
-  problem of the electronic structure
-  ([SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)).
-- Bands on the path versus SCF k: path-resolved gaps were 0.52218, 0.52221,
-  and 0.52221 eV for k6, k8, and k12. Bands 1–17 agree to 3e-5 eV, so the
-  SCF density is converged for bands at k6. The Gamma-centered 8^3 mesh
-  (`yn_gamma_centered='y'`) printed 0.528 eV.
-- `nstate=48` versus `nstate=32` (k8, r20): bands 1–20 agree to 1.1e-4 eV,
-  the gap to 1.5e-8 eV, and `E_total` to 1.2e-7 eV. Bands above 20 are the
-  unrefined top of the `nstate=32` window and were not used.
-
-### DOS: k mesh and broadening together
-
-![DOS versus num_kgrid for three broadenings](figures/dos-kgrid-sigma.png)
-
-DOS convergence was judged by inspecting the overlays and difference panels.
-It is not reduced to one percentage, because localized states, energy shifts,
-and sampling ripple mean different things. The relative L1 differences,
-`sum|D_a-D_b| / sum D_b`, on the common 0.0125 eV axis are reference numbers
-only. Valence is [−14, 0] eV and conduction is (0, 5.5] eV relative
-to each run's VBM; r20 is used throughout:
-
-| step | σ = 0.10 eV | σ = 0.15 eV | σ = 0.20 eV |
-|---|---:|---:|---:|
-| k14 to k16 | 4.7% / 3.4% | 1.6% / 1.3% | 0.6% / 0.6% |
-| k16 to k20 | 3.2% / 3.5% | 1.0% / 1.3% | 0.6% / 0.6% |
-| k20 to k24 | 1.4% / 1.1% | 0.4% / 0.5% | 0.3% / 0.3% |
-| k16 vs k24 (direct) | 3.2% / 3.3% | 1.2% / 1.5% | 0.9% / 0.9% |
-
-The direct k16-versus-k24 row was computed for this tutorial from the same
-data.
-
-The same percentage can come from different kinds of change, so read it
-together with the overlays:
-
-- at σ = 0.1 eV, the k16 and k20 differences are sampling ripple around
-  sharp van Hove features near −10 to −6 eV and +4 to +5.5 eV;
-- a rigid energy shift, such as moving the DOS origin by 10 meV, already
-  changes the L1 metric by about 0.7% at σ = 0.15 eV without any change in
-  shape;
-- localized changes in one peak and broad shifts of whole band groups can give
-  the same percentage.
-
-A larger σ converges faster in k because it removes structure. The choice of
-σ is a decision about the resolution required, not only a convergence
-parameter. The conduction DOS is complete only below about +5.9 eV relative to
-the VBM at `nstate=32`.
+`nstate=48` versus `nstate=32`: bands 1 to 20 agree to 1.1e-4 eV, the gap to
+1.5e-8 eV, and `E_total` to 1.2e-7 eV (1.5e-5 meV/atom). Bands above 20 are
+the unrefined top of the `nstate=32` window and were not used.
 
 ### Confirmation run at the intersection (r24, 24^3 + path)
 
 - `#GS converged at 68 : 0.88842326E-09`; electron number 32 throughout.
-- `E_total = -864.63156` eV, within 0.016 meV of the k8, r24 path run.
-- Bands 1–20 on all 128 path points: maximum difference 0.29 meV from the
+- `E_total = -864.63156` eV, within 0.016 meV/cell (0.002 meV/atom) of the
+  k8, r24 path run.
+- Bands 1 to 20 on all 128 path points: maximum difference 0.29 meV from the
   k8, r24 run.
 - Path-resolved gap: 0.4877 eV, with the VBM at Gamma and CBM at
-  (0.1625, 0, 0)·2π/a of the eight-atom cubic cell on Gamma-X. The printed
+  (0.1625, 0, 0) * 2 pi/a of the eight-atom cubic cell on Gamma-X. The printed
   `Fundamental gap` equals this value because the path points are included in
   the k list.
-- DOS, mesh points only, σ = 0.15 eV, aligned VBM origins, r20 to r24 at k24:
-  valence 2.95% and conduction 2.51% on (0, 9] eV, or 1.91% on (0, 5.5] eV.
-  This is about 7.5 times the k20 to k24 step. It consists mainly of an about 50–70 meV
-  downward shift of deep valence bands 1–8 relative to the VBM and a 35 meV
-  smaller mesh gap. This is a reference number; the overlay below shows what
-  changes. The effect of r24 to r28 on a k-converged DOS was not measured.
+- DOS, mesh points only, sigma = 0.15 eV, aligned VBM origins, r20 to r24 at
+  k24: valence 2.95 % and conduction 2.51 % on (0, 9] eV, or 1.91 % on (0, 5.5]
+  eV. This is about 7.5 times the k20 to k24 step. It consists mainly of an
+  about 50 to 70 meV downward shift of deep valence bands 1 to 8 relative to
+  the VBM and a 35 meV smaller mesh gap. This is a reference number; the
+  overlay below shows what changes. The effect of r24 to r28 on a k-converged
+  DOS was not measured.
 
   ![DOS r20 versus r24 at k24](figures/dos-rgrid-r20-r24.png)
 
-### Adopted set
+### Recommended settings by use
 
-| parameter | value | deciding observable |
-|---|---|---|
-| `num_rgrid` | 24,24,24 | bands (r20 to r24 75 meV; r24 to r28 21 meV) |
-| `num_kgrid` | 16,16,16 | DOS at σ = 0.15 eV; `E_total` and bands need only k8 and k6 |
-| `out_dos_width` | 0.15 eV | DOS resolution versus k cost |
-| `nstate` | 32 | bands 1–20 unchanged at 48 |
+| use | setting | measure | evidence |
+|---|---|---|---|
+| total energy | k8 at r20 (the absolute value is not r-converged) | each k step below 0.005 meV/atom from k8 (derived) | k ladder at r20 |
+| band structure | `num_rgrid=24,24,24`, SCF `num_kgrid=6`, `nstate=32` | r24 to r28 21 meV; k6 to k12 0.03 meV; `nstate=48` 0.11 meV | r ladder at SCF k8; path runs |
+| DOS at sigma = 0.15 eV | `num_kgrid=16,16,16`, `out_dos_width=0.15` eV (DOS resolution versus k cost) | k16 versus k24 1.2 % / 1.5 % at r20; at r24 this is an estimate, since k16 at r24 was not run | k ladder at r20; r24 not established for the DOS |
+| adopted set (total energy, bands, DOS) | `num_rgrid=24,24,24`, `num_kgrid=16,16,16`, `nstate=32`, `out_dos_width=0.15` eV | as in the three rows above | [inputs/si-gs-adopted.inp](inputs/si-gs-adopted.inp) |
 
-The k16 mesh was chosen over k24 because a 1% DOS criterion was not required.
-*Estimated:* at r24 and σ = 0.15 eV, the k16 DOS differs from k24 by about
-1–1.5%. This estimate comes from the r20 ladder, where the measured direct
-k16-versus-k24 difference was 1.2% / 1.5%; k16 at r24 was not run. Whether
+The k16 mesh was chosen over k24 because a 1 % DOS criterion was not required.
+*Estimated:* at r24 and sigma = 0.15 eV, the k16 DOS differs from k24 by about
+1 to 1.5 %. This estimate comes from the r20 ladder, where the measured direct
+k16-versus-k24 difference was 1.2 % / 1.5 %; k16 at r24 was not run. Whether
 r24 is sufficient for the DOS was not established: r24 to r28 was not measured
 on a k-converged DOS. If the DOS is the main observable, run that comparison
 at k24.

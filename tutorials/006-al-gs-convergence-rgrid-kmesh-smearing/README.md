@@ -164,124 +164,194 @@ Only `sysname`, the pseudopotential path, and comments differ.
 Unless stated otherwise, every run reached `#GS converged`, finished with
 `end SALMON`, wrote nothing to standard error, and conserved the electron
 number to better than 5e-8. Every occupation lay in [0, 2]. No run reached
-`nscf=300`; the maximum was 214 iterations (four-atom r32).
+`nscf=300`; the maximum was 214 iterations (four-atom r32). Energies are in
+meV/atom: the primitive cell has one atom, so its meV/cell values are
+unchanged, and four-atom-cell values in meV/cell are divided by 4.
 
-### 1. Published input (four-atom, PBE psp8) and FHI LDA at the same settings
+### Convergence by observable
 
-- The published input converged in 122 iterations. Its occupied bandwidth was
-  11.071 eV, and DOS(E_F) was 1.730 states/eV/cell.
+| observable | r (primitive cell, k6) | k (primitive cell, r12) | temperature (four-atom cell, 100 to 3000 K) |
+|---|---|---|---|
+| total energy | -5.0, -0.7, and +0.8 meV/atom at r12 to r14, r14 to r16, and r16 to r20; not judged | below 0.3 meV/atom from k24 (measured, not a judgment) | not a convergence quantity: the printed energy rises by 5.0, 19.8, and 44.5 meV/atom at 1000, 2000, and 3000 K against 100 K |
+| `E_F` | 2.3 meV at r12 to r14 and 0.3 meV at r14 to r16; not judged | below 0.6 meV from k24; 0.23 meV at k48 to k64 (window means and `E_F` flat) | at most 4 meV |
+| occupied bandwidth | 0.9 meV at r12 to r14 and 0.1 meV at r14 to r16; not judged | still increasing: 1.5 meV at k48 to k64; not judged | not examined |
+| DOS shape, whole window | r12 (the maintainer, row 6; 1.10 % at r12 to r14) | k48 (proposed by the AI assistant, confirmed by the maintainer, row 7; 1.44 % at k48 to k64) | unchanged (relative L1 at most 0.07 %); the maintainer kept 300 K (row 3) |
+| DOS mean over `E_F` +/- 1 eV | at most 0.03 % from r12 onward; not judged | each pair difference at most 0.09 % at k48 and k64 (means over +/- 0.25 to +/- 2 eV between 0.405 and 0.409 states/eV); not judged | not examined |
+| DOS at the single point `E_F` | not examined | 0.415, 0.428, 0.412, 0.411, and 0.411 states/eV/atom for k16 to k64; not judged | not examined |
+
+The point value of the DOS at `E_F` was unusable on the four-atom cell (row 5): it varied by
+24 % over the isotropic k12 to k24 ladder
+([SALMON-TS-004](../../troubleshooting/SALMON-TS-004-metal-dos-near-ef-converges-slowly-in-k.md)).
+The scalars and the window means change little from about k24, while the DOS shape
+differs by 9.5 % of the peak at k24 to k32 and the bandwidth was still increasing at k64.
+In r, the scalars and the DOS change together at r12 to r16. The DOS does not depend
+on the smearing temperature. Only the cells that cite a row are judgments.
+
+![DOS at E_F versus window mean for all three k ladders](figures/dos-ef-point-vs-window.png)
+
+### Ladder: real-space grid (primitive cell, k6)
+
+![Primitive-cell r ladder at k6](figures/dos-rgrid-ladder-primitive.png)
+
+The spikes are k6 sampling structure. They are the same in every rung, so the
+overlay compares r at a fixed sampling. The difference panel is drawn against
+r20, not between neighboring rungs; the neighbor-difference panel is not drawn
+because the DOS data are not in the repository and this tutorial has no
+regeneration script.
+
+| pair | max_dev (% of peak) | rel-L1 whole window | change in `E_F` (meV) | change in bandwidth (meV) | change in `E_total` (meV/atom) |
+|---|---:|---:|---:|---:|---:|
+| r8 to r10 | 7.54 | 6.05% | -8.3 | -31.8 | +3.7 |
+| r10 to r12 | 4.70 | 2.50% | -11.5 | -13.6 | -28.3 |
+| r12 to r14 | 1.10 | 0.47% | -2.3 | -0.9 | -5.0 |
+| r14 to r16 | 1.03 | 0.33% | -0.3 | +0.1 | -0.7 |
+| r16 to r20 | 0.19 | 0.15% | -0.0 | -0.3 | +0.8 |
+
+Here max_dev is 100 times max|D_b - D_a| / max D_b over the window from -14 to
++6 eV, and b is the denser rung. The maxima of r10 to r16 lie near +5.5 eV,
+where the DOS peak used for normalization is. The +/- 1 eV window mean changed
+by at most 0.03% from r12 onward. Differences of each rung to the densest rung
+(r20) are not in the source numbers and are left out.
+
+**Judgment: r12** (the maintainer; [Judgment record](#judgment-record) row 6).
+The change at r12 to r14 is 1.10 %, and r12 was taken: "it overlaps r16 and above". For reference, a rule
+requiring two consecutive pairs below a tolerance gives r10 at 5% and r12 at
+3%. The maintainer's choice agrees with the 3% result and with the
+maintainer's earlier Al work.
+
+### Ladder: k mesh (primitive cell, r12)
+
+![Primitive-cell k ladder at r12](figures/dos-kgrid-ladder-primitive.png)
+
+| pair | max_dev (% of peak) | rel-L1 whole | rel-L1 +/- 1 eV | change in `E_F` (meV) | change in `E_total` (meV/atom) | change in bandwidth (meV) |
+|---|---:|---:|---:|---:|---:|---:|
+| k6 to k16 | 99.1 | 49.9% | 32.1% | +59.2 | -9.01 | +221.1 |
+| k16 to k24 | 19.8 | 6.03% | 6.15% | +20.2 | +0.06 | +34.9 |
+| k24 to k32 | 9.50 | 2.80% | 2.17% | +0.02 | -0.22 | +5.2 |
+| k32 to k48 | 3.59 | 1.13% | 0.93% | -0.57 | -0.04 | +3.1 |
+| k48 to k64 | 1.44 | 0.30% | 0.38% | +0.23 | -0.001 | +1.5 |
+
+Differences of each rung to the densest rung (k64) are not in the source
+numbers and are left out.
+
+**Judgment: k48** (proposed by the AI assistant, confirmed by the maintainer;
+[Judgment record](#judgment-record) row 7). The change at k48 to k64 is 1.44 %
+(ripple without a shift), and k48 was taken. The two-consecutive-pairs rule gives k48 at a 5% tolerance and no
+lock at 3%. The maintainer had earlier asked for the ladder to reach "k48 and
+beyond". The k64 run exists, so k64 is the alternative if a finer DOS is
+needed.
+
+- From k24, `E_total` changed by less than 0.3 meV per atom and E_F by less
+  than 0.6 meV. However, the DOS still changed by 9.5% of its peak at
+  k24 to k32.
+- The differences are oscillations with a period of about 0.3 to 0.8 eV, not a
+  shift. The best rigid shift removed less than 1% of the k48 to k64
+  difference. The ripple amplitude fell by a factor of about 90 from the
+  k6 to k16 pair to the k48 to k64 pair.
+- The window means converged faster than the point value. At k48 and k64,
+  the means over +/- 0.25, +/- 0.5, +/- 1, and +/- 2 eV all lie between 0.405 and 0.409
+  states/eV, with each pair difference at most 0.09%. DOS(E_F) at the single
+  point was 0.415, 0.428, 0.412, 0.411, and 0.411 for k16 to k64.
+- The bandwidth still increased by 1.5 meV at k48 to k64. All even meshes miss
+  Gamma, where the band bottom lies, and the nearest point approaches Gamma as 1/n.
+  *Interpretation, not measured:* this Gamma exclusion contributes to the
+  drift. No odd-n or Gamma-centered control was run.
+- The result agrees with the maintainer's earlier Al work, which also chose
+  k48 and found 1.53% for the same pair. That calculation used a lattice
+  constant 0.26% smaller and an older SALMON build. The k48 to k64 change has
+  no shift (period about 0.33 eV), and the window means and `E_F` changed by
+  0.1% or less and 0.23 meV.
+
+### Ladder: smearing temperature (four-atom cell, k 16,16,44, r24)
+
+![Temperature ladder: DOS and printed Total energy](figures/temperature-dos-and-energy.png)
+
+The DOS curves coincide on the left. The neighbor-difference panel is not
+drawn because the DOS data are not in the repository and this tutorial has no
+regeneration script.
+
+| pair | change in printed `Total energy` (meV/atom) | change in DOS | change in `E_F` |
+|---|---:|---|---|
+| 100 K to 300 K | not reported | not reported | not reported |
+| 300 K to 1000 K | not reported | not reported | not reported |
+| 100 K to 1000 K (not a neighbor pair: it skips 300 K) | +5.0 | not reported per pair | not reported per pair |
+| 1000 K to 2000 K | +14.8 | not reported per pair | not reported per pair |
+| 2000 K to 3000 K | +24.8 | not reported per pair | not reported per pair |
+| each rung to 300 K | not reported | at most 0.07% (relative L1) | at most 4 meV |
+
+The energy changes are the printed `Total energy` at 1000, 2000, and 3000 K
+(+0.020, +0.079, and +0.178 eV/cell against 100 K), differenced and divided
+by 4. The printed energy is not a free energy
+([SALMON-TS-005](../../troubleshooting/SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md)).
+
+**Judgment: 300 K** (the maintainer; [Judgment record](#judgment-record) row
+3). The DOS did not change between 100 and 3000 K (relative L1 at most 0.07 %
+against 300 K), and the maintainer kept 300 K.
+
+### Ladder: real-space grid (four-atom cell, k 16,16,44)
+
+No figure was kept for this ladder, and the neighbor-difference panel is not
+drawn (the data are not in the repository).
+
+| pair | change in `E_total` (meV/atom) | first rung of the pair against r32: `E_total` (meV/atom) | first rung of the pair against r32: other observables |
+|---|---:|---:|---|
+| r16 to r20 | -6.7 | +15.7 | r16: `E_F` 8 meV, bandwidth 14 meV, relative L1 0.20 % over +/- 2 eV, largest point deviation 1.2 % of the local DOS |
+| r20 to r24 | -7.6 | +9.1 | not given |
+| r24 to r28 | +0.2 | +1.5 | not given |
+| r28 to r32 | -1.6 | +1.6 | not given |
+
+The `E_total` columns are the meV/cell values +62.8, +36.2, +5.8, +6.4, and 0
+for r16 to r32 against r32, differenced where needed and divided by 4. The
+absolute `E_total` was not monotonic in r and was not used for the r decision.
+
+**Judgment: r16 is sufficient** (the maintainer; [Judgment record](#judgment-record)
+row 4). The published r24 was the center only because it was the published
+value.
+
+### Ladder: k mesh (four-atom cell)
+
+No figure was kept for these ladders apart from the point-versus-window plot
+above, and no per-pair numbers were recorded, so a pair table is not given.
+
+- **Anisotropic ladder** (n, n, 2.75n for n = 8 to 24). `E_total` scattered by
+  +/- 0.5 meV/atom from k12. DOS window means over +/- 1 to 2 eV agreed to 0.1
+  to 0.4% from k12. DOS(E_F) at a single point varied by 11% without a trend
+  up to 24,24,66.
+- **Isotropic ladder** (n^3 for n = 12 to 24). E_F scattered over 43 meV, and
+  DOS(E_F) at a point varied by 24% (k12 to k24). The +/- 1 eV window mean
+  still rose by 0.4% per rung at k24. The DOS peak near +2.1 eV and the dip
+  near -0.5 eV followed the in-plane mesh number in both mesh families, so
+  they are sampling features. Isotropic k24 and anisotropic 24,24,66 agreed
+  to 0.09 meV/atom in `E_total` and 0.3 meV in E_F.
+
+**Judgment: not converged at k24; extend the ladder to k48 and beyond** (the
+maintainer; [Judgment record](#judgment-record) row 5).
+
+### Published input and FHI LDA at the same settings
+
+- The published input (four-atom, PBE psp8) converged in 122 iterations. Its
+  occupied bandwidth was 11.071 eV, and DOS(E_F) was 1.730 states/eV/cell.
 - With FHI LDA at the same settings, it converged in 131 iterations. Its
-  bandwidth was 11.059 eV (−0.1%), and DOS(E_F) was 1.718 (−0.7%). See
+  bandwidth was 11.059 eV (-0.1%), and DOS(E_F) was 1.718 (-0.7%). See
   [SALMON-TS-006](../../troubleshooting/SALMON-TS-006-pseudopotential-functional-differs-from-xc.md).
 - The fine DOS structure on the 0.0125 eV grid was common to both
   pseudopotentials at the same mesh (high-pass correlation 0.92). This
   indicated that the structure is k-sampling structure, not physics.
 
-### 2. Four-atom ladders (FHI LDA)
+### Recommended settings by use
 
-- **r ladder (k 16,16,44).** Against r32, r16 differed by 8 meV in E_F,
-  14 meV in occupied bandwidth, and 0.20% in relative L1 over ±2 eV. The
-  largest point deviation was 1.2% of the local DOS. The absolute `E_total`
-  was not monotonic in r (+62.8, +36.2, +5.8, +6.4, 0 meV/cell for r16–r32)
-  and was not used for the r decision. The maintainer judged that **r16 is
-  sufficient** for the DOS. The published r24 was the center only because it
-  was the published value.
-- **Anisotropic k ladder.** `E_total` scattered by ±2 meV/cell from k12. DOS
-  window means over ±1–2 eV agreed to 0.1–0.4% from k12. DOS(E_F) at a
-  single point varied by 11% without a trend up to 24,24,66.
-- **Isotropic k ladder.** E_F scattered over 43 meV, and DOS(E_F) at a
-  point varied by 24% (k12–k24). The ±1 eV window mean still rose by 0.4%
-  per rung at k24. The DOS peak near +2.1 eV and the dip near −0.5 eV
-  followed the in-plane mesh number in both mesh families, so they are
-  sampling features. Isotropic k24 and anisotropic 24,24,66 agreed to
-  0.36 meV/cell in `E_total` and 0.3 meV in E_F. The maintainer judged that **k
-  is not converged at 24**; the k ladder must be extended to k48 and beyond.
-- **Temperature ladder.** The DOS did not change between 100 and 3000 K: the
-  relative L1 distance to 300 K was at most 0.07%, and E_F moved by at most
-  4 meV. The printed `Total energy` rose by +0.020, +0.079, and +0.178 eV
-  at 1000, 2000, and 3000 K relative to 100 K. The maintainer kept **300 K**.
-
-![Temperature ladder: DOS and printed Total energy](figures/temperature-dos-and-energy.png)
-
-### 3. Primitive cell: r ladder at k6
-
-![Primitive-cell r ladder at k6](figures/dos-rgrid-ladder-primitive.png)
-
-The spikes are k6 sampling structure. They are the same in every rung, so the
-overlay compares r at a fixed sampling.
-
-| pair | max_dev (% of peak) | rel-L1 whole window | ΔE_F (meV) | Δ bandwidth (meV) | ΔE_total (meV) |
-|---|---:|---:|---:|---:|---:|
-| r8 to r10 | 7.54 | 6.05% | −8.3 | −31.8 | +3.7 |
-| r10 to r12 | 4.70 | 2.50% | −11.5 | −13.6 | −28.3 |
-| r12 to r14 | 1.10 | 0.47% | −2.3 | −0.9 | −5.0 |
-| r14 to r16 | 1.03 | 0.33% | −0.3 | +0.1 | −0.7 |
-| r16 to r20 | 0.19 | 0.15% | −0.0 | −0.3 | +0.8 |
-
-Here max_dev is 100 · max|D_b − D_a| / max D_b over the window from −14 to
-+6 eV, and b is the denser rung. The maxima of r10 to r16 lie near +5.5 eV,
-where the DOS peak used for normalization is. The ±1 eV window mean changed
-by at most 0.03% from r12 onward.
-
-**Judgment (maintainer): r12**, "it overlaps r16 and above". For reference, a
-rule requiring two consecutive pairs below a tolerance gives r10 at 5% and
-r12 at 3%. The maintainer's choice agrees with the 3% result and with the
-maintainer's earlier Al work.
-
-### 4. Primitive cell: k ladder at r12
-
-![Primitive-cell k ladder at r12](figures/dos-kgrid-ladder-primitive.png)
-
-| pair | max_dev (% of peak) | rel-L1 whole | rel-L1 ±1 eV | ΔE_F (meV) | ΔE_total (meV) | Δ bandwidth (meV) |
-|---|---:|---:|---:|---:|---:|---:|
-| k6 to k16 | 99.1 | 49.9% | 32.1% | +59.2 | −9.01 | +221.1 |
-| k16 to k24 | 19.8 | 6.03% | 6.15% | +20.2 | +0.06 | +34.9 |
-| k24 to k32 | 9.50 | 2.80% | 2.17% | +0.02 | −0.22 | +5.2 |
-| k32 to k48 | 3.59 | 1.13% | 0.93% | −0.57 | −0.04 | +3.1 |
-| k48 to k64 | 1.44 | 0.30% | 0.38% | +0.23 | −0.001 | +1.5 |
-
-- From k24, `E_total` changed by less than 0.3 meV per atom and E_F by less
-  than 0.6 meV. However, the DOS still changed by 9.5% of its peak at
-  k24 to k32.
-- The differences are oscillations with a period of about 0.3–0.8 eV, not a
-  shift. The best rigid shift removed less than 1% of the k48 to k64
-  difference. The ripple amplitude fell by a factor of about 90 from the
-  k6 to k16 pair to the k48 to k64 pair.
-- The window means converged faster than the point value. At k48 and k64,
-  the means over ±0.25, ±0.5, ±1, and ±2 eV all lie between 0.405 and 0.409
-  states/eV, with each pair difference at most 0.09%. DOS(E_F) at the single
-  point was 0.415, 0.428, 0.412, 0.411, and 0.411 for k16–k64.
-- The bandwidth still increased by 1.5 meV at k48 to k64. All even meshes miss
-  Gamma, where the band bottom lies, and the nearest point approaches Gamma as 1/n.
-  *Interpretation, not measured:* this Gamma exclusion contributes to the
-  drift. No odd-n or Gamma-centered control was run.
-
-![DOS at E_F versus window mean for all three k ladders](figures/dos-ef-point-vs-window.png)
-
-**Judgment: k48 (proposed by the AI assistant, confirmed by the maintainer).**
-Reasons:
-
-- The k48 to k64 change is ripple-scale (period about 0.33 eV) with no shift.
-- The window means and E_F changed by 0.1% or less and 0.23 meV.
-- The result agrees with the maintainer's earlier Al work, which also chose k48
-  and found 1.53% for the same pair. That calculation used a lattice
-  constant 0.26% smaller and an older SALMON build.
-
-The two-consecutive-pairs rule gives k48 at a 5% tolerance and no lock at
-3%. The maintainer had earlier asked for the ladder to reach "k48 and beyond".
-The k64 run exists, so k64 is the alternative if a finer DOS is needed.
-
-### 5. Adopted set
-
-| parameter | value | deciding observation | judged by |
+| use | setting | measure | evidence |
 |---|---|---|---|
-| cell | primitive fcc, a = 4.0494 Angstrom, 1 atom | the maintainer's established procedure | maintainer |
-| pseudopotential / `xc` | `13-Al.LDA.fhi`, `lloc_ps=2` / `'PZ'` | matching functional; consistent with Si | maintainer |
-| `num_rgrid` | 12,12,12 (0.239 Angstrom) | DOS overlay against r14–r20 | maintainer |
-| `num_kgrid` | 48,48,48, `yn_symmetry='n'` | DOS overlay against k64; window means | AI proposal, confirmed by the maintainer |
-| `temperature_k` | 300 | DOS unchanged from 100 to 3000 K | maintainer |
-| `nstate` | 20 | DOS complete to more than +41 eV above E_F | not varied |
-| DOS | Gaussian, σ = 0.1 eV | unchanged from the maintainer's procedure | not varied |
+| ground-state DOS, cell | primitive fcc, a = 4.0494 Angstrom, 1 atom | not varied | the maintainer's established procedure; maintainer |
+| ground-state DOS, pseudopotential and `xc` | `13-Al.LDA.fhi`, `lloc_ps=2` / `xc='PZ'` | not varied | matching functional; consistent with Si; maintainer |
+| ground-state DOS, `num_rgrid` | 12,12,12 (0.239 Angstrom) | DOS overlay against r14 to r20; 1.10 % at r12 to r14 | maintainer, row 6 |
+| ground-state DOS, `num_kgrid` | 48,48,48 with `yn_symmetry='n'` | DOS overlay against k64; window means; 1.44 % at k48 to k64 | proposed by the AI assistant, confirmed by the maintainer, row 7 |
+| ground-state DOS, finer | `num_kgrid=64,64,64` (the alternative) | k48 to k64 1.44 % of the peak | the k64 run exists |
+| smearing | `temperature_k=300` | DOS unchanged from 100 to 3000 K; relative L1 at most 0.07 %, `E_F` at most 4 meV | maintainer, row 3 |
+| ground-state DOS, `nstate` | 20 | DOS complete to more than +41 eV above `E_F` | not varied |
+| ground-state DOS, broadening | Gaussian, sigma = 0.1 eV | unchanged from the maintainer's procedure | not varied |
+
+The adopted input is [inputs/al-gs-adopted.inp](inputs/al-gs-adopted.inp).
 
 The (r12, k48) run converged at iteration 36 (residual 8.9e-10), with
 `E_total = -57.16372` eV and E_F = 7.6385 eV on the absolute eigenvalue
