@@ -6,13 +6,13 @@ verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
 next_tutorials: []
-estimated_cost: 18 runs of 2-16 nodes, each under 11 minutes (about 14 node-hours in total)
+estimated_cost: 19 runs of 2-16 nodes, each under 11 minutes (about 15 node-hours in total)
 topics: [mos2, two-dimensional-material, monolayer, ground-state, convergence, density-of-states, k-points, real-space-grid, vacuum, hexagonal-cell, band-gap]
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
-updated_at: 2026-10-06
+updated_at: 2026-10-22
 contributors: []
 reviewed_by: []
 ---
@@ -25,13 +25,15 @@ direct gap at K will be reported. Learn that the total energy and the gap
 converge on a far coarser k mesh than the DOS does, and how to get the total
 energy, the DOS, and the gap at K from one SCF run.
 
-> **Draft; pending maintainer confirmation.** Every convergence choice in this
-> tutorial (vacuum `Lz`, `num_rgrid`, `num_kgrid`) is **provisional (AI assistant) —
-> awaiting maintainer confirmation**. They were made by the AI assistant that
-> drafted this tutorial, from the overlays and numbers shown below. No human
-> has judged these figures yet. The structure, pseudopotentials, and every
-> numerical setting that was not varied were also assumptions of the
-> assistant; they are listed in [Assumptions](#assumptions-made-by-the-assistant).
+> **Draft; the three convergence judgments are the maintainer's (2026-10-22).**
+> Vacuum `Lz` = 15 Angstrom, `num_rgrid` = 24,24,108 (r24 in plane), and a
+> 30 x 30 x 1 k mesh were judged by the maintainer from the overlays and
+> numbers shown below; see the [Judgment record](#judgment-record). **No row is
+> provisional.** The earlier choice of the AI assistant (`Lz` = 20 Angstrom and
+> 36 x 36 x 1) is kept only as a superseded reading. The structure,
+> pseudopotentials, and every numerical setting that was not varied are
+> assumptions of the assistant; they are listed in
+> [Assumptions](#assumptions-made-by-the-assistant).
 
 # Summary
 
@@ -39,26 +41,39 @@ We ran three one-variable ladders around one base point: the vacuum length
 `Lz`, the real-space grid, and the in-plane k mesh of an MoS2 monolayer
 (LDA, FHI98PP Mo and S, SALMON v2.3.0). Each ladder shares the base point
 (`Lz` = 20 Angstrom, `num_rgrid` = 24,24,144, 12 x 12 x 1 k-points), so the
-three ladders are controlled against each other. The results were as follows.
+three ladders are controlled against each other. One further run at the
+point the maintainer adopted (`Lz` = 15 Angstrom, r24, 30 x 30 x 1) confirms
+it. Energies are in meV/atom (the cell has 3 atoms). The results were as
+follows.
 
 - **Vacuum.** `Lz` = 15 Angstrom is already converged: the DOS differs from
   that at 20 Angstrom by 0.01% of its peak, and the total energy by
-  0.3 neV. `Lz` = 10 Angstrom is not converged (total energy +2.0 meV,
-  conduction-band DOS 2.5%). Provisional choice: **`Lz` = 20 Angstrom**
-  (15 Angstrom would also do).
-- **Real-space grid.** `num_rgrid` = 24,24,144 (spacing 0.1325 Angstrom in
-  plane, 0.1389 Angstrom along z). From r24 to r30 the DOS changes by 0.90%
-  of its peak, from r30 to r36 by 0.07%. Provisional choice: **r24**.
-- **k mesh.** The total energy and the direct gap at K converge at
-  **12 x 12 x 1**: the gap agrees within 2.5e-7 eV from 18 x 18 x 1
-  to 48 x 48 x 1. The DOS does not: 30 to 36 changes it by 2.45%, 36 to 42 by
-  1.09%, and 42 to 48 by 0.44%. Provisional choice: **36 x 36 x 1**.
+  0.0001 meV/atom. `Lz` = 10 Angstrom is not converged (total energy 0.66 meV/atom
+  higher, conduction-band DOS 2.5%). Maintainer's choice:
+  **`Lz` = 15 Angstrom**.
+- **Real-space grid.** `num_rgrid` = 24,24,144 at `Lz` = 20 Angstrom (spacing
+  0.1325 Angstrom in plane, 0.1389 Angstrom along z). The DOS and the gap
+  converge differently. In the DOS, r18 already lies on top of r24 to r36 and
+  only r12 differs visibly (r18 to r24 is 2 to 3% of the peak in the
+  difference panel; r24 to r30 changes it by 0.90%, r30 to r36 by 0.07%). The
+  gap at r18 is 14 meV low and agrees only from r24. Maintainer's choice:
+  **r24**.
+- **k mesh.** The total energy and the direct gap at K are flat from
+  **18 x 18 x 1**: the gap agrees within 2.5e-7 eV from 18 x 18 x 1
+  to 48 x 48 x 1. The DOS is not: 30 to 36 changes it by 2.45%, 36 to 42 by
+  1.09%, and 42 to 48 by 0.44%. Maintainer's choice: **30 x 30 x 1**.
+- **Confirmation run at (`Lz` = 15 Angstrom, r24, 30 x 30 x 1).** It differs
+  from the same k mesh at `Lz` = 20 Angstrom by 0.0003 meV/atom in energy,
+  0.0005 meV in the gap, and 0.009% of the peak in the DOS. Against the
+  earlier provisional point (`Lz` = 20 Angstrom, 36 x 36 x 1) the DOS differs
+  by 2.45%, which is the k30 to k36 step alone. It took 2338 node-seconds
+  against 4352.
 - **Gap.** With these settings the direct gap at K, which is also the
   fundamental gap, is 1.722 eV (LDA, no spin-orbit coupling). Only the
   coarsest grid (r12) puts the conduction-band minimum slightly off K.
 - **Time-reversal check.** The k lists hold only half of each mesh (k and -k
-  are equivalent without spin-orbit coupling). A control run with the full
-  12 x 12 x 1 mesh gives the same total energy to 1.2e-3 meV and the same DOS
+  are equivalent without spin-orbit coupling). A verification run with the full
+  12 x 12 x 1 mesh gives the same total energy to 4e-4 meV/atom and the same DOS
   to 0.003% of its peak.
 
 These are observations for one model: a fixed, unrelaxed MoS2 monolayer,
@@ -118,7 +133,7 @@ reasons and the alternatives that were rejected are written in the
   `nstate = 24` (9 occupied and 15 empty bands).
 - SCF: `method_init_wf = 'random'`, `ncg = 5`, `nscf = 500`,
   `threshold = 1d-9`, Broyden mixing with `alpha_mb = 0.5` and
-  `nmemory_mb = 8`. All 18 runs converged.
+  `nmemory_mb = 8`. All 19 runs converged.
 - DOS: `yn_out_dos = 'y'`, `yn_out_dos_set_fe_origin = 'y'` (origin at the
   valence-band maximum, the maximum over all k including the path points),
   Gaussian width 0.1 eV, window -18 to +5 eV, 1841 points (0.0125 eV).
@@ -150,11 +165,11 @@ reasons and the alternatives that were rejected are written in the
      [SALMON-TS-001](../../troubleshooting/SALMON-TS-001-dft-band-off-mesh-eigenvalues.md).
 
    [scripts/make_kpoints.py](scripts/make_kpoints.py) writes the list
-   (`make_kpoints.py 36 54 > kmos_k.dat`). The number of path points changes
+   (`make_kpoints.py 36 54 > kmos_k.dat`; `make_kpoints.py 30 76` gives the adopted list). The number of path points changes
    between runs only so that the total number of k-points is divisible by
    `nproc_k`. SALMON ignores `num_kgrid` and `dk_shift` when `file_kw` is
-   given; the deck keeps them for the reader. The explicit lists for the 36 x 36
-   and the 12 x 12 (reduced and full) meshes were regenerated with the script
+   given; the deck keeps them for the reader. The explicit lists for the 36 x 36,
+   the 30 x 30 and the 12 x 12 (reduced and full) meshes were regenerated with the script
    and are byte-identical to those used in the runs (SHA-256 compared).
 3. **Choose the base point and fix the other variables.** `Lz` = 20 Angstrom,
    `num_rgrid` = 24,24,144, 12 x 12 x 1. Each ladder changes one variable:
@@ -166,20 +181,27 @@ reasons and the alternatives that were rejected are written in the
      cell about the Mo site. The in-plane and z spacings change together
      (their ratio is fixed at 1.05); an in-plane-versus-z split was not run;
    - k mesh: n x n x 1 with n = 6, 12, 18, 24, 30, 36, 42, 48.
-4. **Run a control for the time-reversal reduction.** The 12 x 12 x 1 mesh
-   without reduction (192 k-points including the path) against the reduced one
-   (132 k-points).
+4. **Verify the time-reversal reduction.** The 12 x 12 x 1 mesh without
+   reduction (192 k-points including the path) against the reduced one (132
+   k-points): the total energy differs by 1.2e-3 meV per cell (4e-4 meV/atom),
+   the gap at K by 1.7e-4 meV, and the DOS by 0.003% of its peak (rel-L1 0.001%). The
+   reduction is exact without spin-orbit coupling only.
 5. **Compare neighboring rungs on overlays and differences**, then look at the
    total energy and the gap separately from the DOS.
+6. **Run the point the maintainer adopted** (Lz = 15 Angstrom, r24, 30 x 30 x 1)
+   once, and compare it with its neighbors.
 
 The representative input [inputs/mos2-gs-adopted.inp](inputs/mos2-gs-adopted.inp)
-is the (Lz = 20, r24, k36) deck. Only `sysname`, the pseudopotential paths, and
-comments differ from the executed deck.
+is the adopted (Lz = 15, r24, k30) deck. The earlier provisional point
+(Lz = 20, r24, k36) is kept as [inputs/mos2-gs-L20-r24-k36.inp](inputs/mos2-gs-L20-r24-k36.inp).
+In both, only `sysname`, the pseudopotential paths, and comments differ from
+the executed deck.
 
 ## Observed result
 
-All 18 runs reached `#GS converged`, wrote nothing to standard error, finished
-with `end SALMON`, and printed a DOS whose energy axis equals the requested
+All 19 runs (18 ladder and verification runs, and the confirmation run) reached
+`#GS converged`, wrote nothing to standard error, finished with
+`end SALMON`, and printed a DOS whose energy axis equals the requested
 window (no clamping). The integral of the DOS up to the valence-band maximum
 was 17.95 states for 18 electrons in the k36 run (the 0.05 difference is the
 Gaussian tail of the edge state). The valence-band maximum and the
@@ -189,57 +211,89 @@ lies on the path point next to K (toward Gamma), and the fundamental gap
 (1.5904 eV) is 3.7 meV below the direct gap at K (1.5941 eV); no other run
 shows such a difference.
 
-### 1. Vacuum ladder (r24, 12 x 12 x 1)
+Energies are in meV/atom: the cell has 3 atoms, so a value in meV/cell is
+divided by 3. The total energies of the runs stay in eV in the
+[all-runs table](#all-runs).
+
+### Convergence by observable
+
+| observable | vacuum `Lz` (r24, k12) | real-space grid r (`Lz` 20, k12) | k mesh (`Lz` 20, r24) |
+|---|---|---|---|
+| total energy | L15 (0.0001 meV/atom at L15 to L20; maintainer, row 1) | falls by 2.9 meV/atom at r24 to r30 and by 0.18 at r30 to r36; not judged, and not used as a criterion | k18 (at most 0.003 meV/atom for every pair from k18; maintainer, row 3) |
+| gap at K | L15 (0.0004 meV at L15 to L20; maintainer, row 1) | r24 (1.06 meV at r24 to r30); r18 is 14.1 meV low; r12 is 113.77 meV (direct gap at K) or 117.5 meV (fundamental gap) below r18 (maintainer, row 2) | k18 (at most 0.0001 meV for every pair from k18; maintainer, row 3) |
+| DOS shape, whole window | L15 (0.014 % of the peak at L15 to L20; maintainer, row 1) | r24 kept (0.90 % at r24 to r30; maintainer, row 2); on the overlay r18 already lies on r24 to r36 and only r12 differs visibly (r18 to r24: 2 to 3 % in the difference panel, 3.55 % at most) | k30 (2.45 % at k30 to k36; maintainer, row 3) |
+
+In the vacuum ladder all three observables settle together, at L15. In k the
+energy and the gap settle early (k18) and the DOS late (k30). In r the DOS and
+the gap settle at different rungs: the DOS shape already at r18 by eye, the
+gap only from r24, and the total energy does not settle in the range run; the
+maintainer kept r24, the first rung at which the DOS and the gap both agree
+with the finer rungs.
+
+![Energy and gap against DOS for the k ladder](figures/k-energy-gap-vs-dos.png)
+
+### Ladder: vacuum (r24, 12 x 12 x 1)
 
 ![Vacuum ladder: DOS overlay and neighbor differences](figures/dos-vacuum-ladder.png)
 
-| pair | max_dev (% of peak) | where | rel-L1 | ΔE_total (meV/cell) | Δgap (meV) |
+| pair | max_dev (% of peak) | where | rel-L1 | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) |
 |---|---:|---|---:|---:|---:|
-| L10 to L15 | 2.51 | +2.0 eV (conduction) | 0.71% | -1.97 | -0.163 |
-| L15 to L20 | 0.014 | +2.5 eV | 0.003% | -0.0003 | +0.0004 |
-| L20 to L25 | 0.00007 | | 0.00002% | -0.0001 | -0.00002 |
-| L25 to L30 | 0.00004 | | 0.00002% | +0.0003 | +0.00002 |
-| L30 to L40 | 0.00014 | | 0.00007% | -0.0036 | -0.00007 |
+| L10 to L15 | 2.51 | +2.0 eV (conduction) | 0.71% | 0.657 | 0.163 |
+| L15 to L20 | 0.014 | +2.5 eV | 0.003% | 0.0001 | 0.0004 |
+| L20 to L25 | 0.00007 | | 0.00002% | 0.00003 | 0.00002 |
+| L25 to L30 | 0.00004 | | 0.00002% | 0.0001 | 0.00002 |
+| L30 to L40 | 0.00014 | | 0.00007% | 0.0012 | 0.00007 |
 
 The L10 to L15 difference is mostly in the conduction band (valence part
 0.97%). From L15 on, the DOS curves cannot be told apart on the overlay.
 
-### 2. Real-space-grid ladder (L20, 12 x 12 x 1)
+**Judgment: L15** (maintainer, 2026-10-22; [Judgment record](#judgment-record)
+row 1). The change became small at L15 to L20 (0.014 % of the peak, 0.0001 meV/atom in
+the total energy); the looser member, L15, was taken. The AI assistant's
+earlier provisional choice, L20, is superseded.
+
+### Ladder: real-space grid (L20, 12 x 12 x 1)
 
 ![Grid ladder: DOS overlay and neighbor differences](figures/dos-rgrid-ladder.png)
 
-| pair | max_dev (% of peak) | where | rel-L1 | ΔE_total (meV/cell) | Δgap (meV) |
+| pair | max_dev (% of peak) | where | rel-L1 | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) |
 |---|---:|---|---:|---:|---:|
-| r12 to r18 | 44.8 | -3.4 eV | 21.0% | -953 | +117.5 |
-| r18 to r24 | 3.55 | -3.3 eV | 2.00% | -51.1 | +14.1 |
-| r24 to r30 | 0.90 | -4.0 eV | 0.36% | -8.65 | +1.06 |
-| r30 to r36 | 0.07 | +2.4 eV | 0.03% | -0.53 | -0.08 |
+| r12 to r18 | 44.8 | -3.4 eV | 21.0% | 317.7 | 117.5 (113.77 for the direct gap at K) |
+| r18 to r24 | 3.55 | -3.3 eV | 2.00% | 17.0 | 14.1 |
+| r24 to r30 | 0.90 | -4.0 eV | 0.36% | 2.88 | 1.06 |
+| r30 to r36 | 0.07 | +2.4 eV | 0.03% | 0.18 | 0.08 |
 
-The gap at r12 is 1.590 eV and at r18 1.708 eV, against 1.722 eV from r24
-onward. The total energy keeps falling with r: -9.2 meV/cell from r24 to r36,
-which is much larger than any k or vacuum effect. It was not used as a
-criterion. The SCF needed more iterations with finer grids (53, 108, 109,
-148, 277 for r12 to r36).
+The DOS and the gap converge differently with r. On the overlay r12 is the
+only rung that differs visibly; r18 lies on top of r24 to r36, and the
+r18 to r24 curve in the difference panel stays at 2 to 3 % of the peak
+(3.55 % at most, table). The gap does not follow: it is 1.590 eV at r12 and
+1.708 eV at r18, against 1.722 eV from r24 onward, so r18 is 14 meV low. The
+total energy keeps falling with r: -3.1 meV/atom from r24 to r36, which is much
+larger than any k or vacuum effect. It was not used as a criterion. The SCF
+needed more iterations with finer grids (53, 108, 109, 148, 277 for r12 to r36).
 
-### 3. k ladder (L20, r24): the energy and the gap converge long before the DOS
+**Judgment: r24** (maintainer, 2026-10-22; row 2). The change at r24 to r30
+is 0.90 % in the DOS and 1.06 meV in the gap; r24, the looser member, was
+kept. Because the gap at r18 is 14 meV low although its DOS is close, the
+grid is not read from the DOS alone.
+
+### Ladder: k mesh (L20, r24)
 
 ![k ladder: DOS overlay and neighbor differences](figures/dos-kgrid-ladder.png)
 
-| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 | ΔE_total (meV/cell) | Δgap (meV) |
+| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) |
 |---|---:|---|---|---:|---:|---:|
-| k6 to k12 | 46.7 | +3.5 eV | 39.3 / 46.7 | 28.3% | -1.54 | +0.600 |
-| k12 to k18 | 22.5 | -1.7 eV | 22.5 / 20.5 | 9.55% | -0.023 | +0.002 |
-| k18 to k24 | 11.3 | -1.9 eV | 11.3 / 5.2 | 2.96% | -0.007 | +0.0001 |
-| k24 to k30 | 5.99 | -2.0 eV | 6.0 / 0.75 | 1.15% | -0.003 | +0.00005 |
-| k30 to k36 | 2.45 | -1.9 eV | 2.45 / 0.31 | 0.49% | -0.009 | -0.00005 |
-| k36 to k42 | 1.09 | -2.0 eV | 1.09 / 0.03 | 0.19% | +0.009 | +0.0001 |
-| k42 to k48 | 0.44 | -2.0 eV | 0.44 / 0.01 | 0.08% | -0.004 | -0.00002 |
-
-![Energy and gap against DOS for the k ladder](figures/k-energy-gap-vs-dos.png)
+| k6 to k12 | 46.7 | +3.5 eV | 39.3 / 46.7 | 28.3% | 0.513 | 0.600 |
+| k12 to k18 | 22.5 | -1.7 eV | 22.5 / 20.5 | 9.55% | 0.0077 | 0.002 |
+| k18 to k24 | 11.3 | -1.9 eV | 11.3 / 5.2 | 2.96% | 0.0023 | 0.0001 |
+| k24 to k30 | 5.99 | -2.0 eV | 6.0 / 0.75 | 1.15% | 0.0010 | 0.00005 |
+| k30 to k36 | 2.45 | -1.9 eV | 2.45 / 0.31 | 0.49% | 0.0030 | 0.00005 |
+| k36 to k42 | 1.09 | -2.0 eV | 1.09 / 0.03 | 0.19% | 0.0030 | 0.0001 |
+| k42 to k48 | 0.44 | -2.0 eV | 0.44 / 0.01 | 0.08% | 0.0013 | 0.00002 |
 
 - **Energy and gap.** The total energy at 12 x 12 x 1 differs from that at
-  48 x 48 x 1 by 0.04 meV per cell, and from 18 x 18 x 1 on by less than
-  0.015 meV. The direct gap at K is 1.721990 eV at k12 and 1.721992 eV for
+  48 x 48 x 1 by 0.013 meV/atom, and from 18 x 18 x 1 on by less than
+  0.005 meV/atom. The direct gap at K is 1.721990 eV at k12 and 1.721992 eV for
   every mesh from k18 to k48; the scatter among them is 2.5e-7 eV.
   Every mesh from k12 to k48 contains K, so the gap printed by SALMON
   was not a mesh artifact here.
@@ -254,31 +308,35 @@ criterion. The SCF needed more iterations with finer grids (53, 108, 109,
   minutes on 12 to 16 nodes (memory up to 16 GiB per node at k48), so the
   cost does not force the choice.
 
-### 4. Time-reversal control
+**Judgment: 30 x 30 x 1** (maintainer, 2026-10-22; row 3). The DOS change became
+small at k30 to k36 (2.45 % of the peak), and the looser member, k30, was
+taken; the gap and the energy are already flat from 18 x 18 x 1. The AI
+assistant's earlier provisional choice, 36 x 36 x 1, is superseded.
 
-The full (unreduced) 12 x 12 x 1 mesh and the reduced one agree in total
-energy to 1.2e-3 meV, in the gap to 1.7e-4 meV, and in the DOS to 0.003% of its
-peak (rel-L1 0.001%). The reduction is exact here only because there is no
-spin-orbit coupling.
+### Confirmation at the adopted point (L15, r24, k30)
 
-### 5. Adopted set (provisional)
+![DOS of the confirmation run against its neighbors](figures/confirmation-L15-r24-k30.png)
 
-| parameter | value | deciding observation | judged by |
-|---|---|---|---|
-| structure | MoS2, a = 3.18 Angstrom, S-S 3.1276 Angstrom, fixed | not varied | assumed by the AI assistant |
-| pseudopotentials / `xc` | FHI LDA Mo (6e), S (6e) / `'PZ'` | not varied | assumed by the AI assistant |
-| `Lz` | 20 Angstrom (vacuum between S planes 16.9 Angstrom) | DOS identical to L15 (0.01%), L25-L40 | **provisional (AI assistant) — awaiting maintainer confirmation** |
-| `num_rgrid` | 24,24,144 | r24 to r30 0.90%, r30 to r36 0.07% | **provisional (AI assistant) — awaiting maintainer confirmation** |
-| k mesh | 36 x 36 x 1 (Gamma-centered, 704 k-points including 54 path points) | k36 to k42 1.09%; gap and energy converged at k12 | **provisional (AI assistant) — awaiting maintainer confirmation** |
-| `nstate` | 24 | DOS complete to 11.7 eV above the valence-band maximum | not varied |
-| DOS | Gaussian, 0.1 eV | convention carried over from tutorials 005 and 006 | not varied |
+| comparison | change in E_total (meV/atom, derived, absolute) | change in gap (meV, derived, absolute) | DOS max_dev (% of peak) | DOS rel-L1 |
+|---|---:|---:|---:|---:|
+| L15 k30 to L20 k30 (vacuum only) | 0.0003 | 0.00045 | 0.0092 | 0.0014% |
+| L15 k30 to L20 k36 (earlier provisional point) | 0.0026 | 0.00041 | 2.4506 | 0.6115% |
+| control: L20 k30 to L20 k36 (k step only) | 0.0029 | 0.000046 | 2.4503 | 0.6111% |
 
-The (L20, r24, k36) run is the k36 rung of the k ladder, so it is itself the
-run at the intersection of the three choices. It converged in 116 iterations
-(residual 1.8e-10), gave `E_total = -782.143895` eV and a gap of 1.721992 eV,
-and took 272 s on 16 nodes with 10.4 GiB per node.
+The energy and gap columns are derived absolute values from the printed total energies and the
+raw eigenvalues (left minus right: L15 k30 minus L20 k30 is -0.0003 meV/atom and
+-0.00045 meV; L15 k30 minus L20 k36 is +0.0026 and -0.00041; the control L20 k30 minus
+L20 k36 is +0.0029 meV/atom, +0.000046 meV). The DOS measures are taken over -6 to +4 eV, the range of the figure; over the
+whole window the maximum deviation is the same and the rel-L1 values are 0.0015 %
+and 0.486 %. The run converged at iteration marker 111 (110 iterations) and gave
+`E_total = -782.143887` eV (-260.714629 eV/atom) and a direct gap at K of
+1.7219918 eV. It took 195 s on 12 nodes (2338 node-seconds) with
+8.1 GiB per node; the earlier point took 272 s on 16 nodes (4352 node-seconds).
+The difference to the earlier point is the k30 to k36 step alone, as the control
+row shows. [scripts/compare_confirmation.py](scripts/compare_confirmation.py)
+computes these numbers and draws the figure.
 
-### 6. All runs
+### All runs
 
 | run | nodes | k-points | iterations | E_total (eV) | gap (eV) | calc. time (s) | memory (GiB/node) |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -299,21 +357,39 @@ and took 272 s on 16 nodes with 10.4 GiB per node.
 | L20 r24 k36 | 16 | 704 | 116 | -782.143895 | 1.721992 | 272 | 10.4 |
 | L20 r24 k42 | 16 | 960 | 170 | -782.143886 | 1.721992 | 542 | 13.4 |
 | L20 r24 k48 | 16 | 1216 | 112 | -782.143890 | 1.721992 | 449 | 16.4 |
-| L20 r24 k12, full mesh (control) | 4 | 192 | 151 | -782.143854 | 1.721990 | 386 | 11.1 |
+| L20 r24 k12, full mesh (verification) | 4 | 192 | 151 | -782.143854 | 1.721990 | 386 | 11.1 |
+| L15 r24 k30 (confirmation, adopted) | 12 | 528 | 111 | -782.143887 | 1.721992 | 195 | 8.1 |
 
-The iteration column is the number printed after `#GS converged at`. The
+The iteration column is the number printed after `#GS converged at` (the marker; the confirmation run ran 110 iterations to it). The gap column is the fundamental gap printed by SALMON; at r12 the direct gap at K is 1.5941 eV. The
 number of iterations changes erratically (for example 221 at k24 against 116
 at k36 on the same grid), so it should not be used to compare rungs.
+
+### Recommended settings by use
+
+| use | setting | measure | evidence |
+|---|---|---|---|
+| ground state, vacuum | `Lz` = 15 Angstrom (vacuum between S planes 11.9 Angstrom), z spacing 5/36 Angstrom | DOS 0.014 % of the peak and total energy 0.0001 meV/atom at L15 to L20 (r24, k12) | maintainer, row 1; confirmed at k30 (0.009 %, 0.0003 meV/atom) |
+| ground state, real-space grid | `num_rgrid` = 24 in plane (24,24,108 at `Lz` = 15 Angstrom) | DOS 0.90 % and gap 1.06 meV at r24 to r30 | maintainer, row 2 |
+| DOS shape only, coarse screening | r18 would show the DOS shape on the overlay; not adopted | r18 to r24 2 to 3 % of the peak (3.55 % at most); the gap is 14.1 meV low | the maintainer's reading of the overlay, row 2; not judged as a setting |
+| DOS, k mesh | 30 x 30 x 1 (Gamma-centered, 528 k-points including 76 path points) | 2.45 % of the peak at k30 to k36 | maintainer, row 3; confirmation run |
+| total energy and gap, k mesh | 18 x 18 x 1 would do | at most 0.003 meV/atom and 0.0001 meV for every pair from k18 | maintainer, row 3 (flat from k18) |
+| adopted point | (`Lz` 15, r24, k30), deck [inputs/mos2-gs-adopted.inp](inputs/mos2-gs-adopted.inp) | against (L20, k30): 0.0003 meV/atom, 0.00045 meV, 0.009 %; 2338 node-seconds | confirmation run; the earlier provisional point is [inputs/mos2-gs-L20-r24-k36.inp](inputs/mos2-gs-L20-r24-k36.inp) |
+| structure | MoS2, a = 3.18 Angstrom, S-S 3.1276 Angstrom, fixed | not varied | assumed by the AI assistant |
+| pseudopotentials / `xc` | FHI LDA Mo (6e), S (6e) / `'PZ'` | not varied | assumed by the AI assistant |
+| `nstate` | 24 | DOS complete to 11.7 eV above the valence-band maximum | not varied |
+| DOS | Gaussian, 0.1 eV | convention carried over from tutorials 005 and 006 | not varied |
 
 ## Judgment record
 
 | # | object | conclusion | judged by | what was looked at | reason, including rejected alternatives |
 |---|---|---|---|---|---|
-| 1 | vacuum | `Lz` = 20 Angstrom; 15 Angstrom would also do | provisional (AI assistant) — awaiting maintainer confirmation | DOS overlays and neighbor differences of L10 to L40; ΔE_total and Δgap | L15 to L20 0.014%, E 0.3 neV, so L15 is converged for every observable; L10 is not (E +2.0 meV, conduction DOS 2.5%). L20 was kept because the grid and k ladders are centered on it and L20 costs about 1.2 times L15 (254 s against 217 s on 3 nodes); L15 is the alternative if cost matters. L25 to L40 were run only to confirm that nothing changes. |
-| 2 | grid | r24 | provisional (AI assistant) — awaiting maintainer confirmation | r12 to r36 overlays at k12; max_dev, ΔE_total, Δgap | r24 to r30 is 0.90% (Δgap 1.1 meV, ΔE -8.6 meV/cell), r30 to r36 is 0.07%. A rule "two consecutive pairs below the tolerance" gives r18 at 5% (r18 to r24 is 3.55%, but Δgap 14 meV and ΔE 51 meV/cell) and r24 at 3% and at 1%. r18 was rejected because its gap is 14 meV low. r30 is the alternative: it costs about three times the node-time (371 s on 6 nodes against 254 s on 3) and moves the energy by another 8.6 meV/cell. |
-| 3 | k mesh | 36 x 36 x 1 | provisional (AI assistant) — awaiting maintainer confirmation | k6 to k48 overlays and neighbor differences; energy and gap against DOS | For the DOS: k30 to k36 2.45%, k36 to k42 1.09%, k42 to k48 0.44%; the remaining differences look like oscillations in the valence band at -2 eV, not shifts. The two-consecutive-pairs rule gives k30 at 5% and at 3%, and no lock at 1% inside the ladder. k36 was taken instead of k30 because the k36 to k42 step (1.1%) is the point at which the DOS differences become small oscillations, and because the intersection run already exists. k48 is the alternative if a DOS accurate to below 1% is needed; it costs 1.7 times more than k36 (449 s against 272 s, both on 16 nodes). For the energy and the gap alone, k12 would have been enough. |
-| 4 | time-reversal reduction | valid for these runs | provisional (AI assistant) — awaiting maintainer confirmation | control run with the full 12 x 12 x 1 mesh | ΔE 1.2e-3 meV, DOS 0.003% of peak. The reduction is exact without spin-orbit coupling only. |
-| 5 | structure, pseudopotentials, `nstate`, DOS settings | not varied | assumed by the AI assistant | | see [Assumptions](#assumptions-made-by-the-assistant) |
+| 1 | vacuum | `Lz` = 15 Angstrom | maintainer (2026-10-22): `Lz` = 15 Angstrom | DOS overlays and neighbor differences of L10 to L40; change in E_total and in gap | L15 to L20 is 0.014% of the DOS peak and 0.0001 meV/atom in the total energy; the maintainer takes the looser member of the pair where the change became small. L10 is not converged (E +0.66 meV/atom, conduction DOS 2.5%). Rejected: L20, the AI assistant's provisional choice (the grid and k ladders are centered on it, and it costs about 1.2 times L15: 254 s against 217 s on 3 nodes). L25 to L40 were run only to confirm that nothing changes. Confirmed at k30: L15 against L20 0.009% in the DOS, 0.0003 meV/atom. |
+| 2 | grid | r24 | maintainer (2026-10-22): r24 kept | r12 to r36 overlays at k12; max_dev, change in E_total, change in gap | The DOS and the gap converge differently. In the DOS, r18 already lies on r24 to r36 and only r12 differs visibly (r18 to r24 is 2 to 3% of the peak in the difference panel, 3.55% at most in the table); the gap at r18 is 14.1 meV low and agrees only from r24. r24 to r30 is 0.90% in the DOS and 1.06 meV in the gap; r30 to r36 is 0.07%. Reference rule (two consecutive pairs below the tolerance, not a decision): it gives r18 at 5% (r18 to r24 is 3.55%, but the gap is 14 meV low and the energy 17.0 meV/atom away), and r24 at 3% and at 1%. Rejected: r18, because its gap is 14 meV low; r30, which costs about three times the node-seconds (371 s on 6 nodes against 254 s on 3). The total energy keeps falling with r (-2.9 meV/atom at r24 to r30) and was not used as a criterion. |
+| 3 | k mesh | 30 x 30 x 1 | maintainer (2026-10-22): 30 x 30 x 1 | k6 to k48 overlays and neighbor differences; energy and gap against DOS | The total energy and the gap are flat from 18 x 18 x 1 (at most 0.003 meV/atom and 0.0001 meV for every pair from k18). For the DOS: k24 to k30 6.0%, k30 to k36 2.45%, k36 to k42 1.09%, k42 to k48 0.44%; the remaining differences look like oscillations in the valence band at -2 eV, not shifts. The maintainer takes the looser member (k30) of the pair where the change became small. Rejected: 36 x 36 x 1, the AI assistant's provisional choice; 48 x 48 x 1 (449 s on 16 nodes, against 195 s on 12 for the adopted point; k42 to k48 changes the DOS by 0.44%, the only step measured beyond k42). The two-consecutive-pairs reference rule gives k30 at 5% and at 3% and no lock at 1% inside the ladder. Confirmed with the run at (L15, r24, k30): against k36 the DOS differs by 2.45%, which is the k30 to k36 step alone. |
+| 4 | structure, pseudopotentials, `nstate`, DOS settings | not varied | assumed by the AI assistant | | see [Assumptions](#assumptions-made-by-the-assistant) |
+
+The time-reversal reduction of the k list is not a judgment; it is verified in
+[Procedure](#procedure) (step 4).
 
 ## Assumptions made by the assistant
 
@@ -353,21 +429,25 @@ convergence results.
   one plan manifest that pins all keys except the ladder variable, `nproc_k`,
   and the k list. The three ladders share the base point.
 - The k lists were regenerated by `make_kpoints.py` and compared by SHA-256
-  with the lists used in the runs (36 x 36 reduced, 12 x 12 reduced, 12 x 12
-  full).
-- **Not validated:** no human has judged the figures. No semicore
-  pseudopotential, no LDA-relaxed structure, and no other functional was
-  tried. The grid ladder was run at 12 x 12 x 1 and the vacuum ladder at r24
-  and 12 x 12 x 1, where the DOS is not yet k-converged; the pairs compare the
-  same k sampling, but r30 and r36 were not repeated at 36 x 36 x 1. The
-  in-plane and the z grid spacing were not separated.
+  with the lists used in the runs (36 x 36 reduced, 30 x 30 reduced,
+  12 x 12 reduced, 12 x 12 full).
+- **Not validated:** no semicore pseudopotential, no LDA-relaxed structure,
+  and no other functional was tried. The grid ladder was run at 12 x 12 x 1
+  and the vacuum ladder at r24 and 12 x 12 x 1, where the DOS is not yet
+  k-converged; the pairs compare the same k sampling, but r30 and r36 were not
+  repeated at 30 x 30 x 1. The vacuum choice was confirmed at k30 only for
+  L15 against L20. The in-plane and the z grid spacing were not separated.
 
 ## Surprises and failures recorded
 
-- **The DOS needed 36 x 36 x 1 although the gap and the energy needed
-  12 x 12 x 1.** This is the same pattern as in tutorial 005 (Si): a quantity
-  that converges early (energy, gap) says nothing about the DOS. Had the
-  ladder been judged on the gap, `num_kgrid` would have stopped at 12.
+- **The DOS needed 30 x 30 x 1 although the gap and the energy were flat
+  from 18 x 18 x 1.** This is the same pattern as in tutorial 005 (Si): a
+  quantity that converges early (energy, gap) says nothing about the DOS. Had
+  the ladder been judged on the gap, `num_kgrid` would have stopped at 18.
+- **The real-space grid goes the other way: the DOS looks converged before the
+  gap.** On the overlay r18 lies on r24 to r36 and only r12 differs visibly,
+  yet the gap at r18 is 14 meV low. A grid judged on the DOS overlay alone
+  would have stopped at r18.
 - **Post-processing of the output files misled the checker.** The first
   job ran correctly (converged, gap 1.722 eV) but the job script marked it as
   failed, because it misread two files.
@@ -395,6 +475,10 @@ convergence results.
 - **Judge the k mesh on the DOS, not on the energy or the gap**, and look at
   the differences between neighboring meshes: they show whether the change is
   a shift or an oscillation.
+- **Judge the real-space grid on the DOS and on the gap separately.** The DOS
+  overlay already agrees at r18 (2 to 3% of the peak in the difference panel)
+  while the gap is 14 meV low and agrees only from r24; the order of the
+  observables is the opposite of the k mesh.
 - **For a point of interest that is not on the default mesh (K here), write
   the k list yourself.** An explicit list that holds the mesh and a
   zero-weight path gives the energy, the DOS, and the gap at the point from
@@ -404,9 +488,10 @@ convergence results.
 - **When reading SALMON output programmatically, check units and coordinate
   systems in the file, not in the header text.**
 - **Use time-reversal reduction only without spin-orbit coupling**, and
-  validate it with one unreduced control run.
+  verify it with one unreduced run.
 - **Compare total energies only when the grid is the same.** The energy
-  changes by 9 meV/cell between r24 and r36 although the DOS and the gap do not.
+  changes by 3.1 meV/atom between r24 and r36 although the DOS and the gap do
+  not.
 
 ## Limitations and applicability
 
@@ -419,7 +504,8 @@ DOS broadening of 0.1 eV, and SALMON v2.3.0 on Fugaku (A64FX).
 - A broader DOS width would converge at a coarser mesh; only 0.1 eV was studied.
 - Convergence of the vacuum was judged on the ground state only. A calculation
   that is sensitive to the field in the vacuum may need more.
-- All three judgments are provisional.
+- The three judgments are the maintainer's (2026-10-22), made on this model
+  and these ladders only; no row is provisional.
 
 ## References
 
