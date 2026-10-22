@@ -211,8 +211,9 @@ eV). The pointwise maximum against the same finest rung is given in brackets.
 | total energy (meV/atom) | -4.8, -3.6, -1.0 at r44 to r48, r48 to r56, r56 to r64; not converged to 1 meV/atom at r48; not used as a criterion | -0.053 at k4 to k6; 0.03 between k6 and k12 (derived: 0.29 meV/cell / 9); not judged |
 | printed gap (meV) | +0.83, +0.62, +0.17 at r44 to r48, r48 to r56, r56 to r64; r48 within 0.6 meV of r56; not judged | stays within 5.7526 to 5.7571 eV for k6 to k12 (4 meV spread, cause not tracked); not judged |
 
-The DOS shape converges later than the scalars in r: the total energy keeps
-falling at r64, while the DOS after the shift is within 0.6% of r64 at r44.
+In r the total energy is the slowest quantity: it keeps falling at r64, after
+the DOS differences have fallen below 1% (the DOS after the shift is within
+0.6% of r64 at r44).
 In k, the energy is flat from k6 and the conduction DOS converges steadily,
 but the valence DOS keeps a pointwise plateau of about 2% of the peak from k8
 to k12. Only the cells that cite a row are judgments.
