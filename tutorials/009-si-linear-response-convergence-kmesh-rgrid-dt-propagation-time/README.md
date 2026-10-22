@@ -192,61 +192,83 @@ executed decks only in `sysname`, the pseudopotential path and comments.
 All sixteen response runs finished with the requested number of steps and wrote
 a `*_response.data` file. In the figures the y axis is cut to the range of the
 peak; the low-frequency `1/omega` part (see below) is outside it. Column 13 of
-`*_response.data` is `Im eps_z`, column 10 is `Re eps_z`.
+`*_response.data` is `Im eps_z`, column 10 is `Re eps_z`. Differences of
+`Im eps_z` are the maximum over 1 to 10 eV in % of the peak of the denser or
+longer rung. Peak positions are in eV; peak values are `Im eps_z` at the peak.
 
-### 1. k ladder (r20, dt 0.0005 fs, T 12 fs)
+### Convergence by observable
+
+| observable | k (r20, dt 0.0005 fs, T 12 fs) | r (k8, dt 0.0005 fs, T 12 fs) | dt (r20, k8, T 12 fs) | T (r20, k8, dt 0.0005 fs) | nstate (r20, k4) |
+|---|---|---|---|---|---|
+| `Im eps_z` shape, maximum difference (% of peak) | k16 (the maintainer, row 1a): k16 vs k24 0.92%, k20 vs k24 1.17%; neighbor pairs 4.36% at k12 to k16 and 1.48% at k16 to k20 | r20 (the maintainer, row 2a): after a rigid shift r20 is within 1.2% of r32 (5.8% pointwise); r24 and finer are the safe zone, r16 the caution zone | 0.0005 fs, provisional (AI assistant, row 3); all pairs within 0.23% | not a convergence quantity (row 4): 37.5% at 12 fs to 48 fs | identical to within 0.005%; use 32 for the GS, provisional (AI assistant, row 5) |
+| rigid energy shift against the densest rung | not examined | -130, +30, -12, 0 meV for r16, r20, r24, r28 against r32 (row 2a) | not examined | not examined | not examined |
+| peak position (eV) and value | fixed from k16: 3.72 to 3.73 eV, 48.1 to 48.2 (row 1a); not judged separately | 3.65, 3.61, 3.62, 3.62 eV and 43.92, 44.08, 44.06, 43.98 for r20, r24, r28, r32; not judged | 3.65 eV unchanged; 43.92, 43.89, 43.86 for dt 0.0005, 0.001, 0.0015 fs; not judged | 43.9 (12 fs) becomes 69.2 (48 fs), narrower with satellites | not examined |
+| `Re eps_z` at 1 eV | not examined | 15.13, 13.93, 14.32, 14.24 for r16, r20, r24, r32; r20 is -2% against r32 (row 2a) | not examined | not examined | not examined |
+| `Re eps_z` at 0.5 eV (static) | not examined | not examined | not examined | 12.90 at 12 fs and 12.86 at 48 fs; not judged | not examined |
+
+The peak position and height settle early in k (from k16), while the shoulder
+at 4 to 5 eV and the rigid shift of the steep absorption edge converge later;
+in r the shift matters more than the shape. The time step changes nothing at
+the 0.23% level at r20. Only the cells that cite a row are judgments.
+
+### Ladder: k mesh (r20, dt 0.0005 fs, T 12 fs)
 
 ![k ladder: Im eps_z overlay and neighbor differences](figures/im-eps-k-ladder.png)
 
-| pair | max diff (% of peak, 1-10 eV) | where (eV) | peak position (eV) | peak value |
-|---|---:|---:|---:|---:|
-| k4 to k8 | 93.0 | 3.52 | 3.65 | 43.92 |
-| k8 to k12 | 22.2 | 4.18 | 3.74 | 48.36 |
-| k12 to k16 | 4.36 | 4.19 | 3.73 | 48.17 |
-| k16 to k20 | 1.48 | 4.61 | 3.72 | 48.09 |
-| k20 to k24 | 1.17 | 4.56 | 3.73 | 48.04 |
+| pair | max diff (% of peak, 1-10 eV) | where (eV) | peak position (eV) | peak value | first member vs k24 (% of peak) |
+|---|---:|---:|---:|---:|---:|
+| k4 to k8 | 93.0 | 3.52 | 3.65 | 43.92 | not recorded |
+| k8 to k12 | 22.2 | 4.18 | 3.74 | 48.36 | not recorded |
+| k12 to k16 | 4.36 | 4.19 | 3.73 | 48.17 | not recorded |
+| k16 to k20 | 1.48 | 4.61 | 3.72 | 48.09 | 0.92 |
+| k20 to k24 | 1.17 | 4.56 | 3.73 | 48.04 | 1.17 |
 
-(The k4 to k8 pair compares spectra of clearly different shape; the percentage
-is not meaningful beyond "not close".) The peak
-position and height are fixed from k16 (3.72-3.73 eV, 48.1-48.2); the differences
-that remain are a shoulder at 4-5 eV. Against the densest rung, k24, the
-pointwise difference is 0.92% for k16 and 1.17% for k20: from k16 on the
-spectra agree with k24 to about 1%, and the extra k-points of k20 (8000 against
-4096) do not reduce the difference. The cost of the last step is large (k24 has
-13824 k-points against 8000 at k20).
+The k4 to k8 pair compares spectra of clearly different shape; the percentage
+is not meaningful beyond "not close". The peak position and height are fixed
+from k16 (3.72 to 3.73 eV, 48.1 to 48.2); the differences that remain are a
+shoulder at 4 to 5 eV. From k16 on the spectra agree with k24 to about 1%, and
+the extra k-points of k20 (8000 against 4096) do not reduce the difference.
+The cost of the last step is large (k24 has 13824 k-points against 8000 at
+k20).
 
-### 2. r ladder (k8, dt 0.0005 fs, T 12 fs)
+**Judgment: k16** (the maintainer, [Judgment record](#judgment-record) row 1a).
+The change became small at k16 to k20 (1.48%), judged against k24 (k16 0.92%,
+k20 1.17%), and the looser member, k16 (4096 k-points), was taken. The
+assistant's earlier k20 (row 1) is superseded.
+
+### Ladder: real-space grid (k8, dt 0.0005 fs, T 12 fs)
 
 ![r ladder: Im eps_z overlay and neighbor differences](figures/im-eps-r-ladder.png)
 
-| pair | max diff (% of peak, 1-10 eV) | where (eV) | peak position (eV) | peak value |
-|---|---:|---:|---:|---:|
-| r16 to r20 | 23.7 | 3.37 | 3.65 | 43.92 |
-| r20 to r24 | 8.15 | 3.44 | 3.61 | 44.08 |
-| r24 to r28 | 2.17 | 3.42 | 3.62 | 44.06 |
-| r28 to r32 | 0.25 | 3.50 | 3.62 | 43.98 |
+| pair | max diff (% of peak, 1-10 eV) | where (eV) | peak position (eV) | peak value | first member vs r32: rigid shift (meV) | shape after shift (% of peak) | pointwise (% of peak) | `Re eps_z` at 1 eV |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| r16 to r20 | 23.7 | 3.37 | 3.65 | 43.92 | -130 | about 5 | 18.9 | 15.13 (+6% against r32) |
+| r20 to r24 | 8.15 | 3.44 | 3.61 | 44.08 | +30 | 1.2 | 5.8 | 13.93 (-2% against r32) |
+| r24 to r28 | 2.17 | 3.42 | 3.62 | 44.06 | -12 | 0.4 | 2.4 | 14.32 (+0.6% against r32, derived) |
+| r28 to r32 | 0.25 | 3.50 | 3.62 | 43.98 | 0 | 0.25 | 0.25 | not recorded |
 
-The differences are located at the rise of the absorption edge (3.4-3.5 eV): the
-curve moves slightly in energy with the grid. A steep edge turns a small
-shift into a large pointwise difference, so the maintainer judged each rung
-against r32 by a rigid shift plus the shape difference that remains after the
-shift, and looked at `Re eps_z` at 1 eV as a second quantity:
+`Re eps_z` at 1 eV is 14.24 at r32. Derived: 14.32 / 14.24 - 1 = +0.56%, shown
+as +0.6%.
 
-| rung (against r32, at k8) | rigid shift (meV) | shape after shift (% of peak) | pointwise (% of peak) | `Re eps_z` at 1 eV |
-|---|---:|---:|---:|---:|
-| r16 | -130 | about 5 | 18.9 | 15.13 (+6% against r32) |
-| r20 | +30 | 1.2 | 5.8 | 13.93 (-2% against r32) |
-| r24 | -12 | 0.4 | 2.4 | 14.32 |
-| r28 | 0 | 0.25 | 0.25 | not recorded |
-| r32 | | | | 14.24 |
+The differences are located at the rise of the absorption edge (3.4 to 3.5
+eV): the curve moves slightly in energy with the grid. A steep edge turns a
+small shift into a large pointwise difference, so the maintainer judged each
+rung against r32 by a rigid shift plus the shape difference that remains after
+the shift, and looked at `Re eps_z` at 1 eV as a second quantity. After the
+shift, r20 is within 1.2% of r32 and r24 within 0.4%; r16 is still about 5%
+away and its `Re eps_z` is 6% too high. The ground-state bands of
+[tutorial 005](../005-si-gs-convergence-bands-dos/) needed r24. The grid ladder was run at k8, where the spectrum
+is not yet converged in k; the pairs compare the same sampling, and the check
+at (r28, k20) below shows that the r effect is the same at k20.
 
-After the shift, r20 is within 1.2% of r32 and r24 within 0.4%; r16 is still
-about 5% away and its `Re eps_z` is 6% too high. The ground-state bands of
-tutorial 005 needed r24. The grid ladder was run at k8, where the spectrum is
-not yet converged in k; the pairs compare the same sampling, and the check at
-(r28, k20) below shows that the r effect is the same at k20.
+**Judgment: r20 adopted; r24 and finer are the safe zone and r16 is the
+caution zone** (the maintainer, [Judgment record](#judgment-record) row 2a).
+The pair r20 to r24 is still 8.15% pointwise but only a 30 meV shift plus 1.2%
+of shape against r32, and the looser r20 was taken: "r20 is already fairly
+strict". The assistant's earlier r28 (row 2), read from the pointwise
+neighbor differences, is superseded.
 
-### 3. Time step (r20, k8, T 12 fs)
+### Ladder: time step (r20, k8, T 12 fs)
 
 ![dt ladder: Im eps_z overlay and neighbor differences](figures/im-eps-dt-ladder.png)
 
@@ -256,18 +278,24 @@ not yet converged in k; the pairs compare the same sampling, and the check at
 | dt 0.0005 to 0.001 | 0.23 | 1.00 | 3.65 | 43.89 |
 | dt 0.001 to 0.0015 | 0.23 | 1.00 | 3.65 | 43.86 |
 
-All four time steps agree within 0.23% of the peak and none was unstable. The
-largest differences lie at 1.0 eV, far from the peak. The explicit time
-stepping (4th-order Taylor) has a stability limit that depends on the grid
-spacing: an estimate from the finite-difference stencil gives about 0.0018 fs at
-r20 and about 0.0009 fs at r28 (scaling as the square of the spacing; an
-estimate from the stencil, not a measurement). `dt` = 0.0015 fs ran at r20, i.e.
-at about 83% of the estimated limit there. The dt ladder was run at r20, which
-is the adopted grid; if a grid in the safe zone (r24 or finer) is used, the
-limit is lower and the chosen 0.0005 fs is about half of the estimated limit at
-r28. The dt ladder was not repeated at r24 or finer.
+Differences of each rung to the densest rung are not in the source numbers and
+are left out. All four time steps agree within 0.23% of the peak and none was
+unstable. The largest differences lie at 1.0 eV, far from the peak. The
+explicit time stepping (4th-order Taylor) has a stability limit that depends on
+the grid spacing: an estimate from the finite-difference stencil gives about
+0.0018 fs at r20 and about 0.0009 fs at r28 (scaling as the square of the
+spacing; an estimate from the stencil, not a measurement). `dt` = 0.0015 fs ran
+at r20, i.e. at about 83% of the estimated limit there. The dt ladder was run
+at r20, which is the adopted grid; if a grid in the safe zone (r24 or finer) is
+used, the limit is lower and the chosen 0.0005 fs is about half of the
+estimated limit at r28. The dt ladder was not repeated at r24 or finer.
 
-### 4. Propagation time (r20, k8, dt 0.0005 fs)
+**Judgment: 0.0005 fs, provisional (AI assistant)** ([Judgment record](#judgment-record)
+row 3; the maintainer has not judged it). No pair changes by more than 0.23%;
+the value is that of the official sample, and 0.001 fs and 0.0015 fs also ran
+at r20 and would be cheaper.
+
+### Ladder: propagation time (r20, k8, dt 0.0005 fs)
 
 ![T ladder: Im eps_z overlay and difference](figures/im-eps-T-ladder.png)
 
@@ -287,7 +315,11 @@ spectrum whose broadening is set by T**, not a T-independent one.
 (In this figure the y axis starts at zero and the spike at the left edge is the
 low-frequency artifact.)
 
-### 5. nstate control (r20, k4, dt 0.0005 fs, T 12 fs)
+**Judgment: none.** T = 12 fs is fixed and assumed by the AI assistant
+([Judgment record](#judgment-record) row 4); the spectrum changes by 37.5% and is not a
+convergence choice.
+
+### Control: nstate (r20, k4, dt 0.0005 fs, T 12 fs)
 
 `nstate` = 16, 32 and 64, each with its own ground state, give spectra that
 agree to within 0.005% of the peak (the script prints 0.00 for 16 to 32 and 32 to
@@ -296,9 +328,9 @@ current are weighted by the occupation, and empty orbitals have occupation zero,
 so they are propagated but contribute nothing. The empty orbitals do cost time
 (`nstate` = 32 is twice and 64 four times the cost of 16), so there is no benefit
 from a larger `nstate` in the response run. **But** the ground state has to be
-solved with empty bands, see below.
+solved with empty bands, see below. Provisional (AI assistant), row 5.
 
-### 6. Low-frequency artifact and `yn_lr_w0_correction`
+### Low-frequency artifact and `yn_lr_w0_correction`
 
 Below about `2 pi hbar / T` (0.35 eV for T = 12 fs) `Im eps` of the default analysis is
 not small. At k4 it is -4102 at 0.01 eV; at k8 it is +133 (the first row of the
@@ -313,22 +345,7 @@ the mean was subtracted. At k4, T 12 fs: `Im eps_z`(0.01 eV) goes from -4102 to
 occupations (`temperature < 0`, the default) are used. The option was **not**
 used in any SALMON run of this tutorial.
 
-### 7. Adopted set
-
-| parameter | value | safe zone / caution zone | deciding observation | judged by |
-|---|---|---|---|---|
-| structure, pseudopotential, `xc` | Si 8-atom cubic, a = 5.43 Angstrom; FHI98PP LDA; PZ | | not varied | assumed by the AI assistant |
-| `num_kgrid` | 16^3 (GS and response) | k16 and denser | k16 vs k24 0.92%, k20 vs k24 1.17% (pointwise); peak fixed from k16 | maintainer |
-| `num_rgrid` | 20^3 | safe: r24 and finer; caution: r16 | r20 vs r32: +30 meV shift plus 1.2% of shape (5.8% pointwise), `Re eps_z`(1 eV) -2%; r24: -12 meV plus 0.4%; r16: -130 meV plus about 5%, `Re eps_z` +6% | maintainer |
-| `dt` | 0.0005 fs | | 0.00025 to 0.0015 fs within 0.23% at r20 (the adopted grid) | provisional (AI assistant) |
-| T = `nt` * `dt` | 12 fs (`nt` = 24000) | | not a convergence choice; broadening set by T | assumed by the AI assistant |
-| `nstate` | 32 for the GS; any value in the response | | 16/32/64 identical; GS needs empty bands | provisional (AI assistant) |
-| `yn_lr_w0_correction` | `'n'` (default) | `'y'` when the region below `2 pi hbar / T` matters | `'y'` checked offline only | maintainer (default kept) |
-
-The (r20, k16) ground state and response are the k16 rung of the k ladder,
-so the adopted set has been run.
-
-### 8. Check at the (r28, k20) intersection
+### Check at the (r28, k20) intersection
 
 The run at the intersection of the assistant's first choices, (r28, k20,
 `nstate` = 32, `dt` = 0.0005 fs, T = 12 fs), finished normally: the ground
@@ -356,6 +373,21 @@ They are not exactly additive: adding the k8 r-shift to the r20 k20 spectrum
 misses the r28 k20 spectrum by 3.6% of the peak, so the r correction depends
 mildly on k. An (r32, k20) run would pin this down if a tighter criterion is
 needed; it was not run.
+
+### Recommended settings by use
+
+| use | setting | measure | evidence |
+|---|---|---|---|
+| structure, pseudopotential, `xc` | Si 8-atom cubic, a = 5.43 Angstrom; FHI98PP LDA; PZ | not varied | assumed by the AI assistant |
+| k mesh of the GS and the response | `num_kgrid` 16^3; safe zone k16 and denser | k16 vs k24 0.92%, k20 vs k24 1.17% (pointwise); peak fixed from k16 | the maintainer, row 1a |
+| real-space grid | `num_rgrid` 20^3; safe zone r24 and finer; caution zone r16 | r20 vs r32: +30 meV shift plus 1.2% of shape (5.8% pointwise), `Re eps_z`(1 eV) -2%; r24: -12 meV plus 0.4%; r16: -130 meV plus about 5%, `Re eps_z` +6% | the maintainer, row 2a |
+| time step | `dt` 0.0005 fs | 0.00025 to 0.0015 fs within 0.23% at r20 (the adopted grid) | provisional (AI assistant), row 3 |
+| propagation time | T = `nt` * `dt` = 12 fs (`nt` = 24000) | not a convergence choice; broadening set by T | assumed by the AI assistant, row 4 |
+| `nstate` | 32 for the GS; any value in the response | 16/32/64 identical; GS needs empty bands | provisional (AI assistant), row 5 |
+| `yn_lr_w0_correction` | `'n'` (default); `'y'` when the region below `2 pi hbar / T` matters | `'y'` checked offline only | the maintainer (default kept), row 6a |
+
+The (r20, k16) ground state and response are the k16 rung of the k ladder,
+so the adopted set has been run.
 
 ## Judgment record
 
