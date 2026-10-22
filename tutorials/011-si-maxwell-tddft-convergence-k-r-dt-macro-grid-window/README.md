@@ -82,7 +82,7 @@ bands, see [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occu
   official grid
   (r12 k4: R 0.699 to 0.722, T 0.140 to 0.151 between 16 and 32 fs).
 - **Macro grid** (r12 k4, `dt` 0.002 fs): 8, 16, 32 macro points give a film-mean
-  absorbed energy of 0.16230, 0.16237, 0.16239 eV and R / T within 0.1% / 0.6%.
+  absorbed energy of 0.16230, 0.16237, 0.16239 eV and R / T within 0.1% / 0.6% from 8 to 16 points (0.2% / 0.8% from 8 to 32 points, derived).
   **Maintainer judgment: 8 points of 50 Angstrom are enough for the integrated
   quantities (absorbed energy and its depth profile, R, T); the waveform shape is not
   established** (the reflected and transmitted waveforms differ by 3 to 5% of their
@@ -185,28 +185,48 @@ All runs shown finished with the requested number of steps and conserved the ele
 number; the single-cell and multiscale decks were checked for NaN. Time series are
 those of the first macro point (the one facing the incident pulse) unless stated.
 
-### 1. k mesh: R, T and the absorbed energy converge at k8
+Differences labeled "derived" are computed in this tutorial from the printed values; the
+absolute values stay next to them. Absorbed energies are Eall - Eall0 per unit cell in
+eV (the cell has 8 atoms). R and T are dimensionless energy fractions, so their
+differences are absolute. The time-trace differences of the `dt` ladder are in % of the
+peak of the trace. The ground-state energy differences are also given in meV/atom
+(the eV value divided by 8).
+
+### Convergence by observable
+
+Every cell with a verdict quotes the maintainer ([Judgment record](#judgment-record) row in
+brackets). The other cells give the measured change and say "not judged". The ladders are
+one-variable studies at different base points: k and window at r20 k8 (window) or r20 (k);
+r at k8, single cell; `dt` at r12 k4, r20 k4 and r24 k8; macro grid at r12 k4.
+
+| observable | k mesh (r20, 16 fs) | real-space grid (single cell, k8) | time step | window | macro grid (r12 k4) |
+|---|---|---|---|---|---|
+| R | k8 (-0.005, 0.7 % from k8 to k12; maintainer, rows 1 and 2) | not examined in the multiscale run; r12 k4 against r20 k4 gives R + T 0.839 against 0.985 (functional test, row 5) | change 1e-4 at r12 k4 and r20 k4; looser member taken; maintainer, row 6 | 16 fs at r20 k8 (2e-5; maintainer, row 7); 3 % at r12 k4 | 8 points (0.0009, 0.13 % from 8 to 16 points, derived; maintainer, row 8) |
+| T | k8 (-0.0004, 0.2 % from k8 to k12; maintainer, rows 1 and 2) | not examined (as R) | change 1e-4 at r12 k4 and r20 k4 (maintainer, row 6) | 16 fs at r20 k8 (1.6e-4; maintainer, row 7); 8 % at r12 k4 | 8 points (0.0009, 0.65 % from 8 to 16 points, derived; maintainer, row 8) |
+| absorbed energy, final value (film mean in the multiscale runs) | k8 (+0.0056 eV, +10.4 % from k8 to k12; maintainer, row 3, read from the time trace) | single cell: r24 preferred, r20 acceptable when cost requires it, r28 fully safe (maintainer, row 4); r28 to r32 +0.26 % | +0.05 % at r12 k4 and r20 k4, -3e-5 relative at r24 k8 (single cell); looser member taken (maintainer, row 6) | not examined | 8 points for the integrated quantities (0.04 % from 8 to 16 points; maintainer, row 8) |
+| waveform (reflected, transmitted) | not examined | not examined | not examined | at r20 k8 negligible after 16 fs; 3 to 6 % of the incident peak at 32 fs at r12 k4 (not judged) | shape not established (3.1 to 3.2 % of its own peak at 16 points, 4.7 to 4.8 % at 32 points, against 8 points; maintainer, row 8) |
+
+R and T converge early in k (k8 against k12 within 1 %). The final value of the absorbed
+energy keeps moving by 10 % between k8 and k12 and was taken as converged at k8 only from
+the time trace (the maintainer). In the real-space grid the absorbed energy is not
+monotone and still moves by 3 % from r24 to r28. The waveform shape does not converge
+with more macro points. R, T and the absorbed energy do not depend on `dt` at this level.
+
+![single-cell absorbed energy versus r](figures/single-cell-eabs-vs-r.png)
+
+### Ladder: k mesh (r20, `dt` 0.001 fs, 16 fs)
 
 ![R and T versus k](figures/rt-vs-k.png)
 
-| run (r20, 16 fs) | R | T | R + T |
-|---|---:|---:|---:|
-| k4 | 0.781 | 0.204 | 0.985 |
-| k8 | 0.720 | 0.227 | 0.947 |
-| k12 | 0.715 | 0.227 | 0.942 |
+| pair | R | T | R + T | film-mean absorbed energy (eV) | macro point 1 (eV) |
+|---|---|---|---|---|---|
+| k4 to k8 | 0.781 to 0.720 (-0.061, -7.8 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.947 (-0.038) | 0.0149 to 0.0538 (+0.0389) | -0.0147 to 0.0051 (+0.0198) |
+| k8 to k12 | 0.720 to 0.715 (-0.005, -0.7 %) | 0.227 to 0.227 (-0.0004, -0.2 %) | 0.947 to 0.942 (-0.005) | 0.0538 to 0.0594 (+0.0056, +10.4 %) | 0.0051 to 0.0061 (+0.0010, +18 %) |
+| k4 to k12 (densest rung, derived) | 0.781 to 0.715 (-0.066, -8.5 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.942 (-0.043) | 0.0149 to 0.0594 (+0.0445) | -0.0147 to 0.0061 (+0.0208) |
 
-R and T move by -0.005 and -0.0004 from k8 to k12 (0.7% and 0.2% of their values);
-from k4 to k8 they move by -0.061 and +0.023. **Zones (maintainer judgment):**
-
-- **safe zone, k >= 8**: R and T within 1% of the k12 value;
-- **caution zone, k = 4 to 6**: R and T off by several percent, and the run may carry a
-  spurious static field (section 3). k = 5 and 6 were not run here; the zone edge at 6
-  is the maintainer's wording, the runs are k4, k8, k12.
-
-The cost of safety is real (k12 took about three times as long as k8 on the same 128
-nodes), which is why the zones are given as a trade-off and not as a single value.
-
-Absorbed energy per unit cell at 16 fs (eV):
+The differences of R + T, the percentages, the k4 to k8 rows of the absorbed energy and
+the k4 to k12 row are derived. The absolute values per macro point behind the film mean
+(absorbed energy per unit cell at 16 fs, eV):
 
 | macro point (front to back) | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | film mean |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -215,57 +235,35 @@ Absorbed energy per unit cell at 16 fs (eV):
 | k12 | 0.0061 | 0.0124 | 0.0246 | 0.0432 | 0.0664 | 0.0904 | 0.1103 | 0.1216 | 0.0594 |
 | k8 to k12 | +18% | +18% | +15% | +12% | +11% | +10% | +9% | +9% | +10% |
 
-**Absorbed energy: converged at k8 (maintainer judgment).** The maintainer read the
-time trace of Eall - Eall0 at the first macro point (the figure in section 3): the k8
-and k12 curves nearly coincide, and the final values differ by about 1 meV per cell at
-macro point 1 (5.1 and 6.1 meV, +18%), against a transient peak of about 30 meV. The
-film mean differs by +10.4% (0.0538 and 0.0594 eV). The maintainer judged this small
-and took k8 as converged for the absorbed energy; the +10% relative difference of the
-final value is kept here as a number, not hidden. The same 10% appears in the absorbed
-fraction: R + T at 32 fs, r20 k8, is 0.9472 (tails negligible), so about 5.3% of the
-incident energy is absorbed, and at k12 the 16 fs value gives 5.85%, assuming the
-tails are similarly negligible. The absorption is a small remainder of two large
-numbers, so a given relative change in R and T moves it more. There is no k16 run, so
-the size of any remaining change is unknown.
+The cost of safety is real (k12 took about three times as long as k8 on the same 128
+nodes), which is why the zones are given as a trade-off and not as a single value.
+The k5 and k6 meshes were not run, and there is no k16 run.
 
-### 2. Real-space grid: the official grid is a functional test
+The maintainer read the time trace of Eall - Eall0 at the first macro point (the figure in
+[the r20 k4 anomaly](#the-r20-k4-anomaly-summary-mechanism-in-salmon-ts-009)): the k8 and
+k12 curves nearly coincide, and the final values differ by about 1 meV per cell at macro
+point 1 (5.1 and 6.1 meV, +18 %), against a transient peak of about 30 meV. The film mean
+differs by +10.4 % (0.0538 and 0.0594 eV). The maintainer judged this small and took k8
+as converged for the absorbed energy; the +10 % relative difference of the final value is
+kept here as a number, not hidden. The same 10 % appears in the absorbed fraction: R + T at
+32 fs, r20 k8, is 0.9472 (tails negligible), so about 5.3 % of the incident energy is
+absorbed, and at k12 the 16 fs value gives 5.85 %, assuming the tails are similarly
+negligible. The absorption is a small remainder of two large numbers, so a given relative
+change in R and T moves it more. There is no k16 run, so the size of any remaining change
+is unknown.
 
-![single-cell absorbed energy versus r](figures/single-cell-eabs-vs-r.png)
+**Judgment (the maintainer; [Judgment record](#judgment-record) rows 1 to 3):** the change
+of R and T became small at k8 to k12 (0.7 % and 0.2 %) and k8 was taken, as the start of a
+safe zone, **safe zone k >= 8** (R and T within 1 % of the k12 value), **caution zone
+k = 4 to 6** (R and T off by several percent, and the run may carry a spurious static
+field, see [the anomaly below](#the-r20-k4-anomaly-summary-mechanism-in-salmon-ts-009)).
+k = 5 and 6 were not run here; the zone edge at 6 is the maintainer's wording, the runs are
+k4, k8, k12. The absorbed energy was judged converged at k8 (row 3).
 
-Single-cell pulse (`tddft_pulse`, no Maxwell coupling), k8 unless stated, absorbed
-energy at 16 fs:
+### The r20 k4 anomaly (summary; mechanism in [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md))
 
-| r | k | `dt` (fs) | Eall - Eall0 (eV) |
-|---|---|---:|---:|
-| 12 | 4 | 0.001 | 2.411 |
-| 20 | 4 | 0.001 | 1.276 |
-| 20 | 8 | 0.001 | 1.361 |
-| 24 | 8 | 0.001 | 1.506 |
-| 24 | 8 | 0.0005 | 1.506 |
-| 28 | 8 | 0.0005 | 1.461 |
-| 32 | 8 | 0.0005 | 1.465 |
-
-r24 to r28 is -3.0% and r28 to r32 +0.26%. The sequence r20, r24, r28, r32 is **not
-monotone**: r24 sits 3% above r28 and r32, so only "r28 and r32 agree to 0.26%" is
-shown, not a converging sequence. The ground-state total energy at t = 0 is also not
-monotone in r (r20 -864.43, r24 -864.63, r28 -864.50, r32 -864.73 eV), so the
-irregularity is already in the ground state and not introduced by the dynamics.
-![single-cell Eall - Eall0 versus time for r20 to r32, and the difference from r32](figures/single-cell-eall-minus-eall0-vs-r.png)
-
-The current along the field is nearly the same on all four grids (peak 0.06557 at
-r20 against 0.06665 at r32, -1.6%); the difference shows in the absorbed energy,
-which accumulates it over the pulse (r20 -7.1%, r24 +2.8%, r28 -0.3% against r32).
-**Maintainer judgment (from the time series of the absorbed energy): r20 is
-acceptable when cost requires it, r24 is preferred, and r28 is fully safe.** r36 was
-not run.
-
-The official grid, r12 at k4, gives 2.41 eV, 1.9 times the r20 k4 value (same k, 1.276
-eV). R + T at r12 k4 is 0.839 at 16 fs against 0.985 at r20 k4. **The official
-sample grid (r12, k4) is a functional test, not a converged setting.** The r and k
-ladders here were run at the base values of the other (r at k8, k at r20); they were
-assumed independent and the intersection (for example r28 with k12) was not run.
-
-### 3. The r20 k4 anomaly (summary; mechanism in [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md))
+This is a diagnostic of the k ladder, not a ladder of its own; its two figures are the time
+series that the k judgments above refer to.
 
 ![Ac_tot_z at the first macro point](figures/ac-tot-z-macro1.png)
 
@@ -299,89 +297,134 @@ The diagnosis chain, summarized:
 Practical rule: at k4 to k6 look at the time series of `Ac_tot_z` and of
 `Eall - Eall0` after the pulse before trusting R, T or the absorbed energy.
 
-### 4. Time step
+### Ladder: real-space grid (single cell, k8)
 
-| pair | quantity | change |
-|---|---|---:|
-| r12 k4, `dt` 0.002 to 0.001 fs | film-mean absorbed energy (0.16230 to 0.16237 eV) | +0.05% |
-| r12 k4, `dt` 0.002 to 0.001 fs | R, T (0.6993 to 0.6994, 0.1395 to 0.1396) | 1e-4 |
-| r20 k4, `dt` 0.001 to 0.0005 fs | film-mean absorbed energy (0.01490 to 0.01491 eV) | +0.05% |
-| r20 k4, `dt` 0.001 to 0.0005 fs | R, T (0.7809 to 0.7810, 0.2042) | 1e-4 |
-| r24 k8, single cell, `dt` 0.001 to 0.0005 fs | absorbed energy (1.50623 to 1.50618 eV) | -3e-5 (relative) |
+![single-cell Eall - Eall0 versus time for r20 to r32, and the difference from r32](figures/single-cell-eall-minus-eall0-vs-r.png)
+
+Single-cell pulse (`tddft_pulse`, no Maxwell coupling), k8 unless stated, absorbed energy
+at 16 fs. `dt` is 0.001 fs for r20 and r24 and 0.0005 fs for r28 and r32 (r24 gives 1.506
+eV at both).
+
+| pair | Eall - Eall0 at 16 fs (eV) | ground-state energy at t = 0 (eV) | to the densest rung r32 (Eall - Eall0) |
+|---|---|---|---|
+| r20 to r24 | 1.361 to 1.506 (+0.145, +10.7 %) | -864.43 to -864.63 (-0.20, -25 meV/atom) | r20: -0.104 eV, -7.1 % |
+| r24 to r28 | 1.506 to 1.461 (-0.045, -3.0 %) | -864.63 to -864.50 (+0.13, +16 meV/atom) | r24: +0.041 eV, +2.8 % |
+| r28 to r32 | 1.461 to 1.465 (+0.004, +0.26 %) | -864.50 to -864.73 (-0.23, -29 meV/atom) | r28: -0.004 eV, -0.3 % |
+| r12 to r20 (k4, official grid) | 2.411 to 1.276 (-1.135, -47 %) | not given | not applicable |
+
+The eV differences, the +10.7 % and the ground-state differences in meV/atom (divided by 8
+atoms, from the rounded energies) are derived; the percentages to r32 and -3.0 % and +0.26 %
+are the printed values. The sequence r20, r24, r28, r32 is **not monotone**: r24 sits 3 %
+above r28 and r32, so only "r28 and r32 agree to 0.26 %" is shown, not a converging
+sequence. The ground-state total energy at t = 0 is also not monotone in r, so the
+irregularity is already in the ground state and not introduced by the dynamics.
+
+The current along the field is nearly the same on all four grids (peak 0.06557 at r20
+against 0.06665 at r32, -1.6 %); the difference shows in the absorbed energy, which
+accumulates it over the pulse. r36 was not run.
+
+The official grid, r12 at k4, gives 2.41 eV, 1.9 times the r20 k4 value (same k, 1.276
+eV). R + T at r12 k4 is 0.839 at 16 fs against 0.985 at r20 k4. **The official sample grid
+(r12, k4) is a functional test, not a converged setting** (the maintainer, row 5). The r
+and k ladders here were run at the base values of the other (r at k8, k at r20); they were
+assumed independent and the intersection (for example r28 with k12) was not run.
+
+**Judgment (from the time series of the absorbed energy; the maintainer,
+[Judgment record](#judgment-record) row 4): r20 is acceptable when cost requires it, r24
+is preferred, and r28 is fully safe.** The maintainer did not name a pair at which the
+change became small; r28 to r32 is the smallest one (+0.26 %).
+
+### Ladder: time step
 
 ![Eall - Eall0 for each dt pair and the difference between the two members](figures/dt-pairs.png)
 
-Figure: for each pair the two curves nearly coincide. The maximum difference over time is 0.081% of the peak at r12 k4 and 0.027% at r24 k8 (lower panels); the change of the final value is the separate quantity tabulated above (0.05% and 3e-5 relative).
+| pair | absorbed energy | R | T | maximum difference of the time trace (% of its peak) |
+|---|---|---|---|---|
+| r12 k4, `dt` 0.002 to 0.001 fs | film mean 0.16230 to 0.16237 eV (+0.05 %) | 0.6993 to 0.6994 (1e-4) | 0.1395 to 0.1396 (1e-4) | 0.081 |
+| r20 k4, `dt` 0.001 to 0.0005 fs | film mean 0.01490 to 0.01491 eV (+0.05 %) | 0.7809 to 0.7810 (1e-4) | 0.2042 (1e-4) | not printed |
+| r24 k8, single cell, `dt` 0.001 to 0.0005 fs | 1.50623 to 1.50618 eV (-3e-5 relative) | not applicable | not applicable | 0.027 |
+
+For each pair the two curves nearly coincide (lower panels of the figure); the change of
+the final value is the separate quantity in the second column. The percentages in the
+second column are the values printed by the figure script from the unrounded outputs.
+There is no densest-rung column: each pair has two members only.
 
 `dt` is not a factor at this level. The r20 test was made at k4 (the anomalous run) and
 r24, not at the base point k8, and it was not repeated at r28 and r32. The explicit
 time stepping has a stability limit that falls with the grid spacing, about as 1/r^2
 (estimate from the finite-difference stencil, as in a separate linear-response tutorial
 (in review): about 0.0018 fs at r20, 0.0012 fs at r24 and 0.0009 fs at r28, an estimate
-and not a measurement). **Maintainer judgment: take the looser member of each pair:
-`dt` = 0.002 fs at r12, and 0.001 fs at r20 and r24; r28 and r32 use 0.0005 fs because
-0.001 fs exceeds the estimated stability limit there.** The maintainer's caveat: the
-time resolution a calculation needs depends on the laser intensity (stronger fields
-drive faster dynamics), so these values hold for the pulse used here (1e12 W/cm^2).
+and not a measurement).
 
-### 5. Propagation window
+**Judgment (the maintainer, [Judgment record](#judgment-record) row 6): take the looser
+member of each pair: `dt` = 0.002 fs at r12, and 0.001 fs at r20 and r24; r28 and r32 use
+0.0005 fs because 0.001 fs exceeds the estimated stability limit there.** The maintainer's
+caveat: the time resolution a calculation needs depends on the laser intensity (stronger
+fields drive faster dynamics), so these values hold for the pulse used here (1e12 W/cm^2).
 
-| run | window | R | T |
-|---|---|---:|---:|
-| r20 k8 | 16 fs | 0.71969 | 0.22730 |
-| r20 k8 | 32 fs | 0.71971 | 0.22746 |
-| r12 k4 (official grid) | 16 fs | 0.6993 | 0.1395 |
-| r12 k4 (official grid) | 32 fs | 0.7220 | 0.1508 |
+### Ladder: propagation window
 
 ![Reflected and transmitted waves over 32 fs with the 16 fs cut](figures/propagation-window.png)
 
-Figure: at r20 k8 the waves are negligible after 16 fs, at r12 k4 they are not (section 5).
+| run | R, 16 fs to 32 fs | T, 16 fs to 32 fs |
+|---|---|---|
+| r20 k8 | 0.71969 to 0.71971 (+2e-5) | 0.22730 to 0.22746 (+1.6e-4) |
+| r12 k4 (official grid) | 0.6993 to 0.7220 (+0.0227, +3.2 %) | 0.1395 to 0.1508 (+0.0113, +8.1 %) |
 
-At r20 k8 the 32 fs window changes R by 2e-5 and T by 1.6e-4: **16 fs is enough at the
-base point** (maintainer judgment, confirmed). At the official grid the reflected and transmitted
-waves are still 3 to 6% of the incident peak at 32 fs (so R and T at 32 fs are not final
-either) and R, T change by 3% and 8% between 16 and 32 fs. The needed window is a property
-of the setting: check it for each grid; coarse grids need a check (r12 k4 changes R and T
-by 3 and 8%).
+At r20 k8 the waves are negligible after 16 fs, at r12 k4 they are not (the figure). At the
+official grid the reflected and transmitted waves are still 3 to 6 % of the incident peak
+at 32 fs (so R and T at 32 fs are not final either). The needed window is a property of the
+setting: check it for each grid. The absolute and percentage differences at r12 k4 are
+derived; the percentages were printed as 3 % and 8 %.
 
-### 6. Macro grid
+**Judgment (the maintainer, row 7, confirmed as proposed by the AI assistant): 16 fs is
+enough at r20 k8** (2e-5 in R and 1.6e-4 in T). It is not enough at the official grid;
+coarse grids need a check.
 
-Film of 400 Angstrom at r12 k4, `dt` 0.002 fs:
+### Ladder: macro grid (r12 k4, `dt` 0.002 fs)
 
-| macro grid | spacing | film-mean absorbed energy (eV) | R | T |
-|---|---:|---:|---:|---:|
-| 8 points | 50 Angstrom | 0.16230 | 0.6993 | 0.1395 |
-| 16 points | 25 Angstrom | 0.16237 | 0.6984 | 0.1404 |
-| 32 points | 12.5 Angstrom | 0.16239 | 0.6981 | 0.1406 |
-
-The film mean is flat from 16 points on (0.04% from 8 to 16, 0.01% from 16 to 32), and
-the per-point absorbed energies differ by at most 1.2% after block-averaging the fine
-grids onto the 8 points. The reflected and transmitted **waveforms** differ by 3 to 5% of
-their peaks between the macro grids (a phase shift of the front surface was suspected;
-not explained), while their time-integrated energies agree within 0.1% (R) and 0.6% (T).
-The macro-grid test was made at the official setting (r12 k4) and not at the base point.
 ![Absorbed energy per macro point and waveform differences for 8, 16 and 32 macro points](figures/macro-grid.png)
 
-Figure: the per-point absorbed energies of the three macro grids agree, and the waveform
-differences from the 8-point run stay near 3 to 5% of their own peak (section 6).
+Film of 400 Angstrom.
 
-The waveform differences from the 8-point run are 3.1 to 3.2% (16 points) and 4.7 to 4.8%
-(32 points) of their own peak, and they do not decrease with more points. **Maintainer
-judgment: 8 macro points of 50 Angstrom are enough for the integrated quantities
-(absorbed energy and its depth profile, R, T); the waveform shape is not established.**
+| pair | spacing | film-mean absorbed energy (eV) | R | T | waveform difference from the 8-point run (% of its own peak) |
+|---|---|---|---|---|---|
+| 8 to 16 points | 50 to 25 Angstrom | 0.16230 to 0.16237 (+0.04 %) | 0.6993 to 0.6984 (-0.0009, -0.13 %) | 0.1395 to 0.1404 (+0.0009, +0.65 %) | 3.1 to 3.2 |
+| 16 to 32 points | 25 to 12.5 Angstrom | 0.16237 to 0.16239 (+0.01 %) | 0.6984 to 0.6981 (-0.0003, -0.04 %) | 0.1404 to 0.1406 (+0.0002, +0.14 %) | not printed |
+| 8 to 32 points (densest, derived) | 50 to 12.5 Angstrom | 0.16230 to 0.16239 (+0.06 %) | 0.6993 to 0.6981 (-0.0012, -0.17 %) | 0.1395 to 0.1406 (+0.0011, +0.79 %) | 4.7 to 4.8 |
 
-### 7. Setting used here
+The film mean is flat from 16 points on, and the per-point absorbed energies differ by at
+most 1.2 % after block-averaging the fine grids onto the 8 points. The reflected and
+transmitted **waveforms** differ by 3 to 5 % of their peaks between the macro grids (a
+phase shift of the front surface was suspected; not explained) and this does not decrease
+with more points, while their time-integrated energies agree within 0.1 % (R) and 0.6 %
+(T) between 8 and 16 points (0.2 % and 0.8 % between 8 and 32 points, derived). The
+waveform differences are relative to the 8-point run, not to the densest rung. The
+macro-grid test was made at the official setting (r12 k4) and not at the base point. The
+absolute differences and percentages in the R and T columns are derived from the printed
+values.
 
-| parameter | value | deciding observation | judged by |
+**Judgment (the maintainer, [Judgment record](#judgment-record) row 8): 8 macro points of
+50 Angstrom are enough for the integrated quantities (absorbed energy and its depth
+profile, R, T); the waveform shape is not established.** The film mean was already flat
+at 8 to 16 points.
+
+### Recommended settings by use
+
+| use | setting | measure | evidence |
 |---|---|---|---|
 | structure, pseudopotential, `xc` | Si 8-atom cubic, 5.43 Angstrom; FHI98PP LDA; PZ | not varied | assumed by the AI assistant |
 | pulse | `Acos2`, 1.55 eV, 1e12 W/cm^2, `tw1` 10.672 fs, z | not varied | assumed by the AI assistant |
-| `num_kgrid` | k >= 8 safe zone; k4 to k6 caution zone; absorbed energy converged at k8 | R/T k8 against k12 within 1%; spurious field at k4; time trace of Eall - Eall0 at k8 and k12 nearly coincides (final value +10% relative) | **maintainer judgment** |
-| `num_rgrid` | r20 acceptable when cost requires; r24 preferred; r28 fully safe | single-cell absorbed energy against r32: r20 -7.1%, r24 +2.8%, r28 -0.3% (k8) | **maintainer judgment** |
-| `dt` | 0.002 fs at r12; 0.001 fs at r20 and r24; 0.0005 fs at r28 and r32 (for this pulse) | changes of 0.05%; estimated stability limit about 0.0018 fs at r20, 0.0012 at r24, 0.0009 at r28 | **maintainer judgment** |
-| window | 16 fs at r20 k8; check at every grid | 16 against 32 fs: 1.6e-4 | **maintainer judgment** |
-| macro grid | 8 points of 50 Angstrom, for integrated quantities only | flat from 16 points (r12 k4); waveform shape not established | **maintainer judgment** |
-| `nstate` | 32 for the ground state, as in the official sample (16 occupied and 16 empty states); not varied | [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md) | **maintainer judgment** (setting used, not a convergence claim) |
+| `num_kgrid`, R and T | k >= 8 safe zone; k4 to k6 caution zone | k8 against k12 within 1 % (R -0.7 %, T -0.2 %); spurious field at k4 | maintainer, rows 1 and 2 |
+| `num_kgrid`, absorbed energy | k8 | time trace of Eall - Eall0 at k8 and k12 nearly coincides; final value +10.4 % in the film mean (+10 % relative) | maintainer, row 3 |
+| `num_rgrid` | r20 acceptable when cost requires; r24 preferred; r28 fully safe | single-cell absorbed energy against r32 (k8): r20 -7.1 %, r24 +2.8 %, r28 -0.3 % | maintainer, row 4 |
+| `dt` | 0.002 fs at r12; 0.001 fs at r20 and r24; 0.0005 fs at r28 and r32 (for this pulse) | changes of 0.05 %; estimated stability limit about 0.0018 fs at r20, 0.0012 at r24, 0.0009 at r28 | maintainer, row 6 |
+| window | 16 fs at r20 k8; check at every grid | 16 against 32 fs: 1.6e-4 | maintainer, row 7 |
+| macro grid | 8 points of 50 Angstrom, for integrated quantities only | flat from 16 points (r12 k4); waveform shape not established | maintainer, row 8 |
+| `nstate` | 32 for the ground state, as in the official sample (16 occupied and 16 empty states); not varied | [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md) | maintainer, row 10 (setting used, not a convergence claim) |
+
+The representative inputs are listed in the Procedure; they are a base point, not a
+converged production setting.
 
 ## Judgment record
 
@@ -389,10 +432,10 @@ judgment: 8 macro points of 50 Angstrom are enough for the integrated quantities
 |---|---|---|---|---|---|
 | 1 | k zones for R and T | safe zone k >= 8; caution zone k = 4 to 6 | **maintainer** (review comment, 2026-10-06) | R and T at k4, k8, k12 at r20; time series at k4 | The maintainer wrote that k >= 8 is preferable, that smaller k looks much less accurate, and that since it is a cost trade-off a "safe zone / caution zone" wording is acceptable. Numbers behind it: k8 to k12 R -0.7%, T -0.2%; k4 to k8 R -8%, T +11%, and a spurious static field at k4. A single recommended k was rejected because the cost of k12 (about three times k8) matters for the user. |
 | 2 | R and T converged at k8 | yes at r20 | **maintainer (2026-10-22)**: confirmed as proposed by the AI assistant | R, T at k4, k8, k12; 16 fs against 32 fs | The assistant took "within 1% of k12" as the working meaning. Not tested: k16, other r (the k ladder is at r20 only). |
-| 3 | absorbed energy | converged at k8 (maintainer's reading of the time trace); the final value still differs by +10% relative between k8 and k12 | **maintainer (2026-10-22)**: converged at k8, overriding the AI assistant's "not converged at k12" | time trace of Eall - Eall0 at the first macro point (figure in section 3), k8 against k12; per-point final values | The k8 and k12 curves nearly coincide; the final value differs by about 1 meV per cell at macro point 1 (+18%) and +10.4% in the film mean, small against the transient peak of about 30 meV. The assistant had called it not converged because the final value moves by 10% and equals the change of 1 - R - T (5.3% to 5.85%); the maintainer weighed the whole trace instead. No k16 run, so it is not known where it settles. |
+| 3 | absorbed energy | converged at k8 (maintainer's reading of the time trace); the final value still differs by +10% relative between k8 and k12 | **maintainer (2026-10-22)**: converged at k8, overriding the AI assistant's "not converged at k12" | time trace of Eall - Eall0 at the first macro point (figure in [the anomaly subsection](#the-r20-k4-anomaly-summary-mechanism-in-salmon-ts-009)), k8 against k12; per-point final values | The k8 and k12 curves nearly coincide; the final value differs by about 1 meV per cell at macro point 1 (+18%) and +10.4% in the film mean, small against the transient peak of about 30 meV. The assistant had called it not converged because the final value moves by 10% and equals the change of 1 - R - T (5.3% to 5.85%); the maintainer weighed the whole trace instead. No k16 run, so it is not known where it settles. |
 | 4 | real-space grid | r20 acceptable when cost requires; r24 preferred; r28 fully safe | **maintainer** (2026-10-21) | time series of Eall - Eall0 and of the current for r20, r24, r28, r32 at k8 (single cell), each with its difference from r32 | The maintainer judged from the time series of the absorbed energy; the currents look the same for all four grids (peak within 1.6%). Numbers behind it: absorbed energy at 16 fs against r32: r20 -7.1%, r24 +2.8%, r28 -0.3%. The sequence is not monotone, and r36 was not run. For comparison, the absorbed energy changes by about 10% from k8 to k12 (row 3). |
 | 5 | official sample grid (r12, k4) | functional test, not converged | **maintainer (2026-10-22)**: confirmed as proposed by the AI assistant | single-cell energy 2.41 against 1.28 eV (r12 against r20, k4); R + T 0.839 against 0.985; window sensitivity | The size of the differences (a factor of 1.9 in the absorbed energy, 3 to 8% in R and T with the window) is far from the other rungs' changes. |
-| 6 | time step | the looser member of each pair: r12 0.002 fs; r20 and r24 0.001 fs; r28 and r32 0.0005 fs, because 0.001 fs exceeds the estimated stability limit there (about 0.0018 fs at r20, 0.0012 at r24, 0.0009 at r28, falling about as 1/r^2) | **maintainer (2026-10-22)**: the looser member of each pair, with the stability limit setting r28 and r32 | `dt` pairs in section 4 (figure [dt-pairs.png](figures/dt-pairs.png)) | Changes of 0.05% in absorbed energy and 1e-4 in R and T. Tested at r12 k4, r20 k4 and r24 k8 (single cell) and not at the base point. Caveat from the maintainer: the time resolution a calculation needs depends on the laser intensity (stronger fields drive faster dynamics), so these values hold for the pulse used here. |
+| 6 | time step | the looser member of each pair: r12 0.002 fs; r20 and r24 0.001 fs; r28 and r32 0.0005 fs, because 0.001 fs exceeds the estimated stability limit there (about 0.0018 fs at r20, 0.0012 at r24, 0.0009 at r28, falling about as 1/r^2) | **maintainer (2026-10-22)**: the looser member of each pair, with the stability limit setting r28 and r32 | `dt` pairs in [Ladder: time step](#ladder-time-step) (figure [dt-pairs.png](figures/dt-pairs.png)) | Changes of 0.05% in absorbed energy and 1e-4 in R and T. Tested at r12 k4, r20 k4 and r24 k8 (single cell) and not at the base point. Caveat from the maintainer: the time resolution a calculation needs depends on the laser intensity (stronger fields drive faster dynamics), so these values hold for the pulse used here. |
 | 7 | window | 16 fs at r20 k8 | **maintainer (2026-10-22)**: confirmed as proposed by the AI assistant | R, T at 16 and 32 fs | 1.6e-4 at r20 k8, but 3% and 8% at r12 k4. A fixed 16 fs was rejected as a general rule; coarse grids need a check (r12 k4 changes R and T by 3 and 8%). See figure [propagation-window.png](figures/propagation-window.png). |
 | 8 | macro grid | 8 points of 50 Angstrom, limited to integrated quantities (absorbed energy and its depth profile, R, T); the waveform shape is not established | **maintainer (2026-10-22)**: confirmed for integrated quantities, with the waveform limit added | film mean and R, T for 8, 16, 32 points at r12 k4; waveform differences (figure [macro-grid.png](figures/macro-grid.png)) | Flat from 16 points. The reflected and transmitted waveforms differ from the 8-point run by 3.1 to 3.2% (16 points) and 4.7 to 4.8% (32 points) of their own peak, and this does not decrease with more points; it was not explained and the test was at the official setting. |
 | 9 | origin of the r20 k4 anomaly | not `dt`, not the microscopic cell alone, gone at k8; mechanism left as a hypothesis | **maintainer (2026-10-22)**: confirmed as proposed by the AI assistant | `dt` pair, single-cell run, k ladder | Alternatives that depend on `dt` were rejected by the `dt` pair; the Brillouin-zone sum hypothesis is not proven. See [SALMON-TS-009](../../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md). |
