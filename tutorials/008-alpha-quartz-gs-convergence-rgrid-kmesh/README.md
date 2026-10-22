@@ -190,19 +190,53 @@ finished with `end SALMON`, and printed a DOS whose energy axis equals the
 requested window (no clamping). The DOS integral up to the valence-band
 maximum was 48.000 electrons in the k10 run.
 
-### 1. r ladder (k2)
+Energies are in meV/atom (the primitive cell has 9 atoms; the 0.29 meV per
+cell between k6 and k12 is 0.032 meV/atom, derived as 0.29 / 9). The DOS
+difference is the maximum difference in % of the peak. Because the O 2s peak
+is tall and sharp, a shift of a few meV along the energy axis produces a
+pointwise difference of several percent of the peak although the shape has
+not changed. The maintainer therefore judged each rung against the finest rung
+(r64 for the r ladder at k2, k12 for the k ladder at r48) by a rigid shift
+plus the shape difference that remains after the shift (in % of the peak), in
+two windows: with the O 2s band (-22 to +12 eV) and without it (-12 to +12
+eV). The pointwise maximum against the same finest rung is given in brackets.
+
+### Convergence by observable
+
+| observable | r (k2) | k (r48) |
+|---|---|---|
+| DOS shape, shift plus remaining shape against the densest rung | r44 if the O 2s band is used downstream, r36 if not (the maintainer, row 1a): r44 vs r64 is a 2.5 meV shift plus 0.6%; r36 vs r64 without O 2s is a 0.5 meV shift plus 1.8% | k10 (the maintainer, row 2a): k10 vs k12 is a 3 meV shift plus 0.7% (with O 2s) and plus 1.8% (without); k8 is the caution zone |
+| DOS shape, pointwise maximum between neighbors (% of peak) | 5.35 at r36 to r44, 1.01 at r44 to r48, 0.66 at r48 to r56; the pointwise readings (rows 1 and 1b) are superseded by row 1a | conduction 3.31, 2.00, 0.87 and valence 2.68, 2.11, 2.01 for k6 to k8, k8 to k10, k10 to k12; row 2 is kept by row 2a |
+| O 2s peak height (states/eV/cell) | 22.87 to 23.09 at r28, then 23.06 to 23.10; the peak position stops moving from r44; not judged | 22.76, 22.84, 22.88, 22.87, 22.84 for k4 to k12 (at most 0.2% of the height); not judged |
+| total energy (meV/atom) | -4.8, -3.6, -1.0 at r44 to r48, r48 to r56, r56 to r64; not converged to 1 meV/atom at r48; not used as a criterion | -0.053 at k4 to k6; 0.03 between k6 and k12 (derived: 0.29 meV/cell / 9); not judged |
+| printed gap (meV) | +0.83, +0.62, +0.17 at r44 to r48, r48 to r56, r56 to r64; r48 within 0.6 meV of r56; not judged | stays within 5.7526 to 5.7571 eV for k6 to k12 (4 meV spread, cause not tracked); not judged |
+
+In r the total energy is the slowest quantity: it keeps falling at r64, after
+the DOS differences have fallen below 1% (the DOS after the shift is within
+0.6% of r64 at r44).
+In k, the energy is flat from k6 and the conduction DOS converges steadily,
+but the valence DOS keeps a pointwise plateau of about 2% of the peak from k8
+to k12. Only the cells that cite a row are judgments.
+
+![Height of the O 2s peak against r and against k](figures/o2s-peak-height.png)
+
+### Ladder: real-space grid (k2)
 
 ![r ladder: DOS overlay and neighbor differences](figures/dos-rgrid-ladder-k2.png)
 
-| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 valence / conduction | ΔE_total (meV/atom) | Δgap (meV) |
-|---|---:|---|---|---|---:|---:|
-| r24 to r28 | 18.9 | -16.85 eV | 18.9 / 5.5 | 13.7% / 8.2% | -93.5 | +21.1 |
-| r28 to r32 | 15.6 | -16.81 eV | 15.6 / 2.9 | 7.8% / 3.4% | -72.9 | +16.3 |
-| r32 to r36 | 10.1 | -16.79 eV | 10.1 / 1.9 | 4.3% / 2.1% | -40.0 | +9.7 |
-| r36 to r44 | 5.35 | -16.77 eV | 5.35 / 0.90 | 2.4% / 1.3% | -27.6 | +5.2 |
-| r44 to r48 | 1.01 | -16.77 eV | 1.01 / 0.62 | 0.38% / 0.31% | -4.8 | +0.83 |
-| r48 to r56 | 0.66 | -16.77 eV | 0.66 / 0.44 | 0.30% / 0.35% | -3.6 | +0.62 |
-| r56 to r64 | 0.86 | +13.1 eV | 0.16 / 0.86 | 0.08% / 0.48% | -1.0 | +0.17 |
+| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 valence / conduction | change in E_total (meV/atom) | change in gap (meV) | first member vs r64, with O 2s band: shift / shape after shift [pointwise] | first member vs r64, without O 2s band: shift / shape after shift [pointwise] |
+|---|---:|---|---|---|---:|---:|---|---|
+| r24 to r28 | 18.9 | -16.85 eV | 18.9 / 5.5 | 13.7% / 8.2% | -93.5 | +21.1 | not recorded | not recorded |
+| r28 to r32 | 15.6 | -16.81 eV | 15.6 / 2.9 | 7.8% / 3.4% | -72.9 | +16.3 | not recorded | not recorded |
+| r32 to r36 | 10.1 | -16.79 eV | 10.1 / 1.9 | 4.3% / 2.1% | -40.0 | +9.7 | not recorded | not recorded |
+| r36 to r44 | 5.35 | -16.77 eV | 5.35 / 0.90 | 2.4% / 1.3% | -27.6 | +5.2 | 9 meV / 2.3% [7.2%] | 0.5 meV / 1.8% [1.9%] |
+| r44 to r48 | 1.01 | -16.77 eV | 1.01 / 0.62 | 0.38% / 0.31% | -4.8 | +0.83 | 2.5 meV / 0.6% [1.8%] | 0 / 0.45% [not recorded] |
+| r48 to r56 | 0.66 | -16.77 eV | 0.66 / 0.44 | 0.30% / 0.35% | -3.6 | +0.62 | 1 meV / 0.3% [0.8%] | 0 / 0.27% [not recorded] |
+| r56 to r64 | 0.86 | +13.1 eV | 0.16 / 0.86 | 0.08% / 0.48% | -1.0 | +0.17 | not recorded | not recorded |
+
+For r44 and r48 without the O 2s band no shift was found and the pointwise
+value was not recorded separately. The densest-rung columns compare the first
+member of the pair with r64.
 
 - In every pair, the largest valence difference is at the O 2s peak (about
   -16.8 eV). The peak moves toward the valence-band maximum as the grid is
@@ -217,18 +251,31 @@ maximum was 48.000 electrons in the k10 run.
   r44 to r48, r48 to r56, and r56 to r64. It is not converged to 1 meV/atom at
   r48, and it was not used as a criterion.
 - The number of SCF iterations grows with r (66 at r24 to 280 at r64).
+- With the O 2s band in the window, r36 differs from r64 by 7.2% pointwise
+  but only by a 9 meV shift plus 2.3% of shape; r44 is a 2.5 meV shift plus
+  0.6%. Without the O 2s band, r36 is already within 1.8% of r64 with a
+  negligible shift, and r44 within 0.45%.
 
-### 2. k ladder (r48)
+**Judgment: r44 if the O 2s band is used downstream, r36 if not** (the
+maintainer, [Judgment record](#judgment-record) row 1a; the safe zone is r44
+and finer, or r36 and finer). The maintainer judged by the shift and shape
+against r64, not by one neighbor pair; the pointwise change at r44 to r48 is
+1.01%. The assistant's r48 (row 1) and the maintainer's earlier r44 or r48
+(row 1b), both read from the pointwise numbers, are superseded.
+
+### Ladder: k mesh (r48)
 
 ![k ladder: DOS overlay and neighbor differences](figures/dos-kgrid-ladder-r48.png)
 
-| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 valence / conduction | ΔE_total (meV/atom) | printed gap (eV) at the denser rung |
-|---|---:|---|---|---|---:|---:|
-| k2 to k4 | 36.1 | +9.5 eV | 18.9 / 36.1 | 22.8% / 52.7% | -0.887 | 5.7775 |
-| k4 to k6 | 14.5 | -17.0 eV | 14.5 / 9.4 | 13.0% / 19.7% | -0.053 | 5.7526 |
-| k6 to k8 | 3.31 | +10.5 eV | 2.68 / 3.31 | 2.7% / 7.1% | -0.019 | 5.7571 |
-| k8 to k10 | 2.11 | -7.3 eV | 2.11 / 2.00 | 1.1% / 3.5% | -0.009 | 5.7561 |
-| k10 to k12 | 2.01 | -16.8 eV | 2.01 / 0.87 | 1.2% / 1.6% | -0.005 | 5.7526 |
+| pair | max_dev (% of peak) | where | max_dev valence / conduction | rel-L1 valence / conduction | change in E_total (meV/atom) | printed gap (eV) at the denser rung | first member vs k12, with O 2s band: shift / shape after shift [pointwise] | first member vs k12, without O 2s band: shift / shape after shift [pointwise] |
+|---|---:|---|---|---|---:|---:|---|---|
+| k2 to k4 | 36.1 | +9.5 eV | 18.9 / 36.1 | 22.8% / 52.7% | -0.887 | 5.7775 | not recorded | not recorded |
+| k4 to k6 | 14.5 | -17.0 eV | 14.5 / 9.4 | 13.0% / 19.7% | -0.053 | 5.7526 | not recorded | not recorded |
+| k6 to k8 | 3.31 | +10.5 eV | 2.68 / 3.31 | 2.7% / 7.1% | -0.019 | 5.7571 | not recorded | not recorded |
+| k8 to k10 | 2.11 | -7.3 eV | 2.11 / 2.00 | 1.1% / 3.5% | -0.009 | 5.7561 | 7 meV / 1.6% [2.6%] | 12 meV / 3.8% [3.9%] |
+| k10 to k12 | 2.01 | -16.8 eV | 2.01 / 0.87 | 1.2% / 1.6% | -0.005 | 5.7526 | 3 meV / 0.7% [2.0%] | 3 meV / 1.8% [2.1%] |
+
+The densest-rung columns compare the first member of the pair with k12.
 
 - **Conduction band.** The maximum deviation falls from 3.31% to 2.00% to
   0.87%, and the rel-L1 from 7.1% to 3.5% to 1.6%.
@@ -247,65 +294,19 @@ maximum was 48.000 electrons in the k10 run.
 - **Printed gap.** The printed gap is a minimum over the mesh points. For k6 to
   k12 it stays within 5.7526-5.7571 eV; a mesh that includes Gamma was used
   throughout. We did not track the 4 meV spread to its cause.
+- **Shift and shape.** k10 is within 0.7% (with O 2s) and 1.8% (without) of
+  k12 after a 3 meV shift. k8 is a 7 meV or 12 meV shift plus 1.6% or 3.8%.
 - **Cost.** k8 needs 16 nodes (21 GiB per node, 693 s), k10 needs 50 nodes (14 GiB,
   408 s), and k12 needs 54 nodes (21 GiB, 698 s).
 
-![Height of the O 2s peak against r and against k](figures/o2s-peak-height.png)
+**Judgment: k10 (10 x 10 x 10, Gamma-centered, 1000 k-points) for both sets;
+k8 is the caution zone** (the maintainer, [Judgment record](#judgment-record)
+row 2a; safe zone k10 and denser). The valence pointwise plateau of about 2%
+does not shrink from k8 to k12, which the shift and shape split of k10 vs
+k12 explains as a 3 meV shift plus 0.7%. The assistant's first reading (k10
+from the pointwise numbers, row 2) is kept by row 2a.
 
-### 3. Rigid shift and remaining shape difference
-
-The pointwise numbers above are dominated by the O 2s peak: it is tall and
-sharp, so a shift of a few meV along the energy axis produces a pointwise
-difference of several percent of the peak although the shape of the DOS has
-not changed. The maintainer therefore judged each rung against the finest
-rung (r64 for the r ladder at k2, k12 for the k ladder at r48) by a rigid
-shift plus the shape difference that remains after the shift, in two windows.
-The pointwise maximum difference against the same finest rung is given in
-brackets for comparison.
-
-| comparison | with the O 2s band (-22 to +12 eV): shift / shape after shift [pointwise] | without the O 2s band (-12 to +12 eV): shift / shape after shift [pointwise] |
-|---|---|---|
-| k8 vs k12 (r48) | 7 meV / 1.6% [2.6%] | 12 meV / 3.8% [3.9%] |
-| k10 vs k12 (r48) | 3 meV / 0.7% [2.0%] | 3 meV / 1.8% [2.1%] |
-| r36 vs r64 (k2) | 9 meV / 2.3% [7.2%] | 0.5 meV / 1.8% [1.9%] |
-| r44 vs r64 (k2) | 2.5 meV / 0.6% [1.8%] | 0 / 0.45% |
-| r48 vs r64 (k2) | 1 meV / 0.3% [0.8%] | 0 / 0.27% |
-
-(For r44 and r48 without the O 2s band no shift was found and the pointwise
-value was not recorded separately.)
-
-- **r.** With the O 2s band in the window, r36 differs from r64 by 7.2%
-  pointwise but only by a 9 meV shift plus 2.3% of shape; r44 is a 2.5 meV
-  shift plus 0.6%. Without the O 2s band, r36 is already within 1.8% of r64
-  with a negligible shift, and r44 within 0.45%.
-- **k.** k10 is within 0.7% (with O 2s) and 1.8% (without) of k12 after a
-  3 meV shift. k8 is a 7 meV or 12 meV shift plus 1.6% or 3.8%.
-
-### 4. Adopted sets
-
-Two sets were adopted by the maintainer, depending on the later use of the
-ground state.
-
-| later use | `num_rgrid` | `num_kgrid` | safe zone | caution zone | deciding observation | judged by |
-|---|---|---|---|---|---|---|
-| the O 2s band is used downstream (a later response or real-time run excites it) | 44,44,50 (r44) | 10,10,10, Gamma-centered (1000 k-points) | r44 and finer; k10 and denser | k8 | r44 vs r64: 2.5 meV shift plus 0.6% (with O 2s); k10 vs k12: 3 meV plus 0.7% | maintainer |
-| only the upper valence and the conduction bands are used | 36,36,41 (r36) | 10,10,10, Gamma-centered (1000 k-points) | r36 and finer; k10 and denser | k8 | r36 vs r64: 0.5 meV shift plus 1.8% (without O 2s); k10 vs k12: 3 meV plus 1.8% | maintainer |
-
-| parameter | value | deciding observation | judged by |
-|---|---|---|---|
-| structure | alpha-quartz, 9-atom primitive cell, published lattice and internal parameters | not varied | assumed by the AI assistant |
-| pseudopotentials / `xc` | FHI LDA Si (4e), O (6e) / `'PZ'` | not varied | assumed by the AI assistant |
-| `nstate` | 48 | DOS window checked to be complete up to its end (+14 eV) | not varied |
-| DOS | Gaussian, 0.1 eV, window -22 to +14 eV | convention carried over from tutorials 005 and 006 | not varied |
-
-Neither adopted set was run at its own intersection: r44 and r36 were run at
-k2 (the r ladder), and k10 at r48 (the k ladder). The (r48, k10) run, the
-assistant's first adopted point, converged in 150 iterations
-(residual 2.8e-10) with `E_total = -2949.178496` eV and a printed gap of
-5.7561 eV, and took 408 s on 50 nodes with 14.1 GiB per node. On the 2-node k2
-rungs, r44 took 58 s and r36 31 s against 97 s for r48.
-
-### 5. All runs
+### All runs
 
 | run | nodes | k-points | iterations | E_total (eV) | printed gap (eV) | calc. time (s) | memory (GiB/node) |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -324,6 +325,27 @@ rungs, r44 took 58 s and r36 31 s against 97 s for r48.
 | r48 k12 | 54 | 1728 | 161 | -2949.178539 | 5.752626 | 698 | 20.8 |
 
 The iteration column is the number printed after `#GS converged at`.
+
+### Recommended settings by use
+
+Two sets were adopted by the maintainer, depending on the later use of the
+ground state.
+
+| use | setting | measure | evidence |
+|---|---|---|---|
+| the O 2s band is used downstream (a later response or real-time run excites it) | `num_rgrid` 44,44,50 (r44); `num_kgrid` 10,10,10, Gamma-centered (1000 k-points); safe zone r44 and finer, k10 and denser; caution zone k8; input [inputs/sio2-gs-adopted-with-o2s.inp](inputs/sio2-gs-adopted-with-o2s.inp) | r44 vs r64: 2.5 meV shift plus 0.6% (with O 2s); k10 vs k12: 3 meV plus 0.7% | the maintainer, rows 1a and 2a |
+| only the upper valence and the conduction bands are used | `num_rgrid` 36,36,41 (r36); `num_kgrid` 10,10,10, Gamma-centered (1000 k-points); safe zone r36 and finer, k10 and denser; caution zone k8; input [inputs/sio2-gs-adopted-valence.inp](inputs/sio2-gs-adopted-valence.inp) | r36 vs r64: 0.5 meV shift plus 1.8% (without O 2s); k10 vs k12: 3 meV plus 1.8% | the maintainer, rows 1a and 2a |
+| structure | alpha-quartz, 9-atom primitive cell, published lattice and internal parameters | not varied | assumed by the AI assistant |
+| pseudopotentials / `xc` | FHI LDA Si (4e), O (6e) / `'PZ'` | not varied | assumed by the AI assistant |
+| `nstate` | 48 | DOS window checked to be complete up to its end (+14 eV) | not varied |
+| DOS | Gaussian, 0.1 eV, window -22 to +14 eV | convention carried over from tutorials 005 and 006 | not varied |
+
+Neither adopted set was run at its own intersection: r44 and r36 were run at
+k2 (the r ladder), and k10 at r48 (the k ladder). The (r48, k10) run, the
+assistant's first adopted point, converged in 150 iterations
+(residual 2.8e-10) with `E_total = -2949.178496` eV and a printed gap of
+5.7561 eV, and took 408 s on 50 nodes with 14.1 GiB per node. On the 2-node k2
+rungs, r44 took 58 s and r36 31 s against 97 s for r48.
 
 ## Judgment record
 
@@ -368,8 +390,8 @@ convergence results.
 - Controlled comparisons: every deck was checked before submission against
   one plan manifest that pins all keys except the ladder variables and
   `nproc_k`.
-- The maintainer judged both ladders from the shift and shape split of
-  section 3 and adopted the two sets of section 4.
+- The maintainer judged both ladders from the shift and shape comparison
+  in the ladder tables and adopted the two sets of the recommended settings.
 - **Not validated:** neither adopted set was run at its own intersection
   (r44 or r36 with k10). The r ladder was run at k2 only, so the r judgment
   has not been repeated at the adopted k mesh, and the k ladder was run at
