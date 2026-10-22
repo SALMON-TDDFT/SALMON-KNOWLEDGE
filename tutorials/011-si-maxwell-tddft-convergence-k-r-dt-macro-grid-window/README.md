@@ -220,23 +220,16 @@ monotone and still moves by 3 % from r24 to r28. The waveform shape is not estab
 
 ![R and T versus k](figures/rt-vs-k.png)
 
-| pair | R | T | R + T | film-mean absorbed energy (eV) | macro point 1 (eV) |
-|---|---|---|---|---|---|
-| k4 to k8 | 0.781 to 0.720 (-0.061, -7.8 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.947 (-0.038) | 0.0149 to 0.0538 (+0.0389; derived +4.8625 meV/atom) | -0.0147 to 0.0051 (+0.0198; derived +2.475 meV/atom) |
-| k8 to k12 | 0.720 to 0.715 (-0.005, -0.7 %) | 0.227 to 0.227 (-0.0004, -0.2 %) | 0.947 to 0.942 (-0.005) | 0.0538 to 0.0594 (+0.0056, +10.4 %; derived +0.7 meV/atom) | 0.0051 to 0.0061 (+0.0010, +18 % as reported; derived +19.6 %, 0.0010 / 0.0051; +0.125 meV/atom) |
-| k4 to k12 (densest rung, derived) | 0.781 to 0.715 (-0.066, -8.5 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.942 (-0.043) | 0.0149 to 0.0594 (+0.0445; derived +5.5625 meV/atom) | -0.0147 to 0.0061 (+0.0208; derived +2.6 meV/atom) |
+| pair | R | T | R + T | film-mean absorbed energy (eV) | macro point 1 (eV) | earlier rung against k12 (densest, derived): R | T | R + T | film-mean absorbed energy (eV) | macro point 1 (eV) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| k4 to k8 | 0.781 to 0.720 (-0.061, -7.8 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.947 (-0.038) | 0.0149 to 0.0538 (+0.0389; derived +4.8625 meV/atom) | -0.0147 to 0.0051 (+0.0198; derived +2.475 meV/atom) | 0.781 to 0.715 (-0.066, -8.5 %) | 0.204 to 0.227 (+0.023, +11.3 %) | 0.985 to 0.942 (-0.043) | 0.0149 to 0.0594 (+0.0445; derived +5.5625 meV/atom) | -0.0147 to 0.0061 (+0.0208; derived +2.6 meV/atom) |
+| k8 to k12 | 0.720 to 0.715 (-0.005, -0.7 %) | 0.227 to 0.227 (-0.0004, -0.2 %) | 0.947 to 0.942 (-0.005) | 0.0538 to 0.0594 (+0.0056, +10.4 %; derived +0.7 meV/atom) | 0.0051 to 0.0061 (+0.0010, +18 % as reported; derived +19.6 %, 0.0010 / 0.0051; +0.125 meV/atom) | same as the pair | same as the pair | same as the pair | same as the pair | same as the pair |
 
 The differences of R + T, the percentages (except +18 %, which was reported; the
 recomputation +19.6 % is next to it), the meV/atom values, the k4 to k8 rows of the absorbed energy and
-the k4 to k12 row are derived. The absolute values per macro point behind the film mean
-(absorbed energy per unit cell at 16 fs, eV):
+the last five columns (the earlier rung against the densest rung k12) are derived. The absolute values per
+macro point behind the film mean are in the [Validation](#supporting-tables) section.
 
-| macro point (front to back) | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | film mean |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| k4 | -0.0147 | -0.0133 | -0.0087 | 0.0011 | 0.0159 | 0.0331 | 0.0484 | 0.0574 | 0.0149 |
-| k8 | 0.0051 | 0.0105 | 0.0215 | 0.0385 | 0.0600 | 0.0823 | 0.1009 | 0.1115 | 0.0538 |
-| k12 | 0.0061 | 0.0124 | 0.0246 | 0.0432 | 0.0664 | 0.0904 | 0.1103 | 0.1216 | 0.0594 |
-| k8 to k12 | +18% | +18% | +15% | +12% | +11% | +10% | +9% | +9% | +10% |
 
 The cost of safety is real (k12 took about three times as long as k8 on the same 128
 nodes), which is why the zones are given as a trade-off and not as a single value.
@@ -391,11 +384,10 @@ coarse grids need a check.
 
 Film of 400 Angstrom.
 
-| pair | spacing | film-mean absorbed energy (eV) | R | T | waveform difference from the 8-point run (% of its own peak) |
-|---|---|---|---|---|---|
-| 8 to 16 points | 50 to 25 Angstrom | 0.16230 to 0.16237 (+0.04 %; derived +0.00875 meV/atom) | 0.6993 to 0.6984 (-0.0009, -0.13 %) | 0.1395 to 0.1404 (+0.0009, +0.65 %) | 3.1 to 3.2 |
-| 16 to 32 points | 25 to 12.5 Angstrom | 0.16237 to 0.16239 (+0.01 %; derived +0.0025 meV/atom) | 0.6984 to 0.6981 (-0.0003, -0.04 %) | 0.1404 to 0.1406 (+0.0002, +0.14 %) | not printed |
-| 8 to 32 points (densest, derived) | 50 to 12.5 Angstrom | 0.16230 to 0.16239 (+0.06 %; derived +0.01125 meV/atom) | 0.6993 to 0.6981 (-0.0012, -0.17 %) | 0.1395 to 0.1406 (+0.0011, +0.79 %) | 4.7 to 4.8 |
+| pair | spacing | film-mean absorbed energy (eV) | R | T | waveform difference from the 8-point run (% of its own peak) | earlier rung against 32 points (densest, derived): film-mean absorbed energy (eV) | R | T | waveform difference (% of its own peak) |
+|---|---|---|---|---|---|---|---|---|---|
+| 8 to 16 points | 50 to 25 Angstrom | 0.16230 to 0.16237 (+0.04 %; derived +0.00875 meV/atom) | 0.6993 to 0.6984 (-0.0009, -0.13 %) | 0.1395 to 0.1404 (+0.0009, +0.65 %) | 3.1 to 3.2 | 0.16230 to 0.16239 (+0.06 %; derived +0.01125 meV/atom) | 0.6993 to 0.6981 (-0.0012, -0.17 %) | 0.1395 to 0.1406 (+0.0011, +0.79 %) | 4.7 to 4.8 |
+| 16 to 32 points | 25 to 12.5 Angstrom | 0.16237 to 0.16239 (+0.01 %; derived +0.0025 meV/atom) | 0.6984 to 0.6981 (-0.0003, -0.04 %) | 0.1404 to 0.1406 (+0.0002, +0.14 %) | not printed | same as the pair | same as the pair | same as the pair | same as the pair |
 
 The film mean is flat from 16 points on, and the per-point absorbed energies differ by at
 most 1.2 % after block-averaging the fine grids onto the 8 points. The reflected and
@@ -488,6 +480,17 @@ Fixed by the drafting assistant, not varied, and not convergence results.
   mechanism of the r20 k4 anomaly is a hypothesis. Other pulses (intensity, frequency,
   polarization), film thickness, vacuum size and boundary condition were not examined;
   the time steps hold for this pulse only.
+
+### Supporting tables
+
+Absolute values per macro point behind the film mean of the k ladder (absorbed energy per unit cell at 16 fs, eV; r20, `dt` 0.001 fs):
+
+| macro point (front to back) | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | film mean |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| k4 | -0.0147 | -0.0133 | -0.0087 | 0.0011 | 0.0159 | 0.0331 | 0.0484 | 0.0574 | 0.0149 |
+| k8 | 0.0051 | 0.0105 | 0.0215 | 0.0385 | 0.0600 | 0.0823 | 0.1009 | 0.1115 | 0.0538 |
+| k12 | 0.0061 | 0.0124 | 0.0246 | 0.0432 | 0.0664 | 0.0904 | 0.1103 | 0.1216 | 0.0594 |
+| k8 to k12 | +18% | +18% | +15% | +12% | +11% | +10% | +9% | +9% | +10% |
 
 ## Surprises and failures recorded
 
