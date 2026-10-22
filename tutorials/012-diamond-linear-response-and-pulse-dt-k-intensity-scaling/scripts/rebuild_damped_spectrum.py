@@ -2,6 +2,7 @@
 """Damped dielectric function eps_z(omega) from the current of a SALMON v2.3.0 impulse response run.
 
 usage: rebuild_damped_spectrum.py <run dir> [--tau 10] [--out <file.npz>] [--wmax 30] [--calib <factor>]
+                                  [--subtract-baseline]
 
 <run dir> holds <sysname>_rt.data and, if the run finished, <sysname>_response.data.
 
@@ -15,6 +16,10 @@ undamped rebuild and SALMON's file over 2-25 eV as the check of the rebuild. It 
 transform with w(t) exp(-t / tau) (width hbar / tau; tau = 10 fs gives 0.066 eV).
 For a run without <sysname>_response.data (killed before the end), pass --calib with the real part of C
 from a finished run with the same cell and the same impulse; C depends on those only.
+
+Option --subtract-baseline removes the constant baseline d of the late current (baseline(); the same
+weighted mean SALMON subtracts with yn_lr_w0_correction = 'y') from Jm_z before both transforms; the
+fit of C still uses the unmodified current against SALMON's file. Default behavior is unchanged.
 
 Output (npz): w_eV, eps (damped, complex), eps_undamped_rebuilt, eps_salmon (NaN without a file), calib,
 resid, tau, T.
@@ -73,6 +78,19 @@ def transform(t, j, w_eV, tau=None):
     return out
 
 
+def baseline(j):
+    """Constant baseline d = sum_n J_n w_n / sum_n w_n, w_n = 1 - 3 x^2 + 2 x^3, x = n / N (n = 1..N)."""
+    x = np.arange(1, len(j) + 1) / len(j)
+    win = 1 - 3 * x ** 2 + 2 * x ** 3
+    return (j * win).sum() / win.sum()
+
+
+def subtract_baseline(j):
+    """(d, j - d): the current with its constant baseline removed."""
+    d = baseline(j)
+    return d, j - d
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("run_dir")
@@ -80,6 +98,8 @@ def main():
     ap.add_argument("--out", default=None)
     ap.add_argument("--wmax", type=float, default=30.0, help="highest photon energy [eV]")
     ap.add_argument("--calib", type=float, default=None, help="real factor C from a finished run (no fit)")
+    ap.add_argument("--subtract-baseline", action="store_true",
+                    help="remove the constant baseline of Jm_z before the transform (see baseline())")
     ap.add_argument("--tmax", type=float, default=None,
                     help="cut the current at this time [fs] to compare runs at a common length (needs --calib)")
     a = ap.parse_args()
@@ -108,6 +128,10 @@ def main():
         if not fit.any() or not norm > 0:
             raise SystemExit("cannot fit C: no data or zero current in 2-25 eV (check --wmax and Jm_z)")
         C = np.vdot(A, (eps_ref - 1)[fit]) / norm  # least squares for eps - 1 = C i S / omega
+    if a.subtract_baseline:
+        d, j = subtract_baseline(j)
+        print("baseline d = %.6e (%.2e of max|Jm_z|) subtracted" % (d, abs(d) / np.max(np.abs(j + d))))
+        S0 = transform(t, j, w)
     eps_u = 1 + C * 1j * S0 / w
     if np.all(np.isnan(eps_ref)) or not fit.any():
         resid = np.nan

@@ -1,49 +1,49 @@
 
 r ladder at k 6^3, reference r32 (tau = 10 fs, 5-25 eV)
-rung      pointwise %  shift meV  shape %  Re eps 1 eV %
-r16              5.60       -8.5     4.60         -13.59
-r20              1.47       -2.5     0.99          -3.05
-r24              0.21        0.0     0.21          -0.74
-r28              0.05        0.0     0.05          -0.17
+rung      pointwise %  shift meV  shape %  Re eps 1 eV % Re eps 1 eV % (w0)
+r16              5.60       -8.5     4.60         -13.59               0.10
+r20              1.47       -2.5     0.99          -3.05              -0.02
+r24              0.21        0.0     0.21          -0.74              -0.01
+r28              0.05        0.0     0.05          -0.17              -0.00
 
 k ladder at r 20, reference k24 (tau = 10 fs, 5-25 eV)
-rung      pointwise %  shift meV  shape %  Re eps 1 eV %
-k6              42.96      -24.0    42.46          -0.75
-k8              29.92      -26.0    28.60           0.31
-k10             21.16      -40.5    19.06          -0.19
-k12             16.94      -32.0    14.91          -0.22
-k16             12.14       22.0    10.69          -0.11
-k20              5.48       13.5     3.51           0.04
+rung      pointwise %  shift meV  shape %  Re eps 1 eV % Re eps 1 eV % (w0)
+k6              42.96      -24.0    42.46          -0.75               1.29
+k8              29.92      -26.0    28.60           0.31               0.84
+k10             21.16      -40.5    19.06          -0.19               0.08
+k12             16.94      -32.0    14.91          -0.22              -0.04
+k16             12.14       22.0    10.69          -0.11              -0.10
+k20              5.48       13.5     3.51           0.04               0.04
 
 k ladder at r 20, reference k24 (tau = 5 fs, 5-25 eV)
-rung      pointwise %  shift meV  shape %  Re eps 1 eV %
-k6              33.64      -42.5    32.90          -0.95
-k8              20.96      -13.5    20.33           0.14
-k10             13.15      -28.5    11.22          -0.08
-k12             11.46      -12.0    10.35          -0.14
-k16              6.05       12.5     5.20          -0.07
-k20              1.57        4.0     1.32           0.01
+rung      pointwise %  shift meV  shape %  Re eps 1 eV % Re eps 1 eV % (w0)
+k6              33.64      -42.5    32.90          -0.95               1.07
+k8              20.96      -13.5    20.33           0.14               0.67
+k10             13.15      -28.5    11.22          -0.08               0.18
+k12             11.46      -12.0    10.35          -0.14               0.03
+k16              6.05       12.5     5.20          -0.07              -0.06
+k20              1.57        4.0     1.32           0.01               0.01
 
 k ladder at r 20, reference k24 (tau = 20 fs, 5-25 eV)
-rung      pointwise %  shift meV  shape %  Re eps 1 eV %
-k6              50.34      -18.0    49.90          -0.28
-k8              38.28      -42.0    35.94           0.55
-k10             30.70      -65.0    27.92          -0.25
-k12             21.11        6.5    20.86          -0.21
-k16             17.75       29.5    15.69          -0.12
-k20             11.64       16.5     8.54           0.12
+rung      pointwise %  shift meV  shape %  Re eps 1 eV % Re eps 1 eV % (w0)
+k6              50.34      -18.0    49.90          -0.28               1.74
+k8              38.28      -42.0    35.94           0.55               1.08
+k10             30.70      -65.0    27.92          -0.25               0.02
+k12             21.11        6.5    20.86          -0.21              -0.03
+k16             17.75       29.5    15.69          -0.12              -0.11
+k20             11.64       16.5     8.54           0.12               0.11
 
 k ladder at r 20, reference k20 (tau = 10 fs, 5-25 eV)
-rung      pointwise %  shift meV  shape %  Re eps 1 eV %
-k6              44.38      -35.0    43.71          -0.79
-k8              31.13      -21.0    29.54           0.27
-k10             18.67      -11.5    17.83          -0.23
-k12             20.78      -41.5    15.51          -0.26
-k16             13.12        4.0    12.73          -0.14
+rung      pointwise %  shift meV  shape %  Re eps 1 eV % Re eps 1 eV % (w0)
+k6              44.38      -35.0    43.71          -0.79               1.25
+k8              31.13      -21.0    29.54           0.27               0.80
+k10             18.67      -11.5    17.83          -0.23               0.04
+k12             20.78      -41.5    15.51          -0.26              -0.08
+k16             13.12        4.0    12.73          -0.14              -0.13
 
 k6 against k8 at r 20 (tau = 10 fs, 5-25 eV)
-rung      pointwise %  shift meV  shape %  Re eps 1 eV %
-k6              48.19      -21.0    47.80          -1.05
+rung      pointwise %  shift meV  shape %  Re eps 1 eV % Re eps 1 eV % (w0)
+k6              48.19      -21.0    47.80          -1.05               0.45
 
 Re eps_z at 1 eV and the Im eps_z peak (5-25 eV), tau = 10 fs
 kcd_lr_r16k06_f075     Re eps(1 eV) = 4.932   peak = 32.64 at 10.99 eV
@@ -57,3 +57,54 @@ kcd_lr_r20k12_f075     Re eps(1 eV) = 5.563   peak = 25.97 at 11.26 eV
 kcd_lr_r20k16_f075     Re eps(1 eV) = 5.569   peak = 27.29 at 11.15 eV
 kcd_lr_r20k20_f075     Re eps(1 eV) = 5.577   peak = 27.04 at 11.06 eV
 kcd_lr_r20k24_f075     Re eps(1 eV) = 5.575   peak = 26.82 at 11.07 eV
+
+Baseline d of Jm_z (weighted mean of the whole current), Re eps_z at 1 eV as is and with d subtracted
+run                      d/max|J|        as is   subtracted  as-is check
+kcd_lr_r16k06_f075       9.87e-04        4.932        5.890        4.932
+kcd_lr_r20k06_f075       3.60e-04        5.533        5.883        5.533
+kcd_lr_r24k06_f075       2.25e-04        5.666        5.884        5.666
+kcd_lr_r28k06_f075       1.91e-04        5.698        5.884        5.698
+kcd_lr_r32k06_f075       1.82e-04        5.708        5.884        5.708
+kcd_lr_r20k06_f075       3.60e-04        5.533        5.883        5.533
+kcd_lr_r20k08_f075       2.73e-04        5.592        5.857        5.592
+kcd_lr_r20k10_f075       2.56e-04        5.565        5.813        5.565
+kcd_lr_r20k12_f075       2.50e-04        5.563        5.806        5.563
+kcd_lr_r20k16_f075       2.40e-04        5.569        5.803        5.569
+kcd_lr_r20k20_f075       2.40e-04        5.577        5.810        5.577
+kcd_lr_r20k24_f075       2.40e-04        5.575        5.808        5.575
+
+Re eps_z at 1 eV, baseline subtracted, relative to the reference (%)
+r ladder, reference r32: 16 0.10  20 -0.02  24 -0.01  28 -0.00
+k ladder, reference k24: 6 1.29  8 0.84  10 0.08  12 -0.04  16 -0.10  20 0.04
+k ladder, reference k20: 6 1.25  8 0.80  10 0.04  12 -0.08  16 -0.13
+
+Re eps_z at 2 eV and 5 eV, tau = 10 fs: as is / subtracted (r ladder, k ladder)
+kcd_lr_r16k06_f075     2 eV 5.716 / 5.956 (4.20 %)   5 eV 7.414 / 7.453 (0.52 %)
+kcd_lr_r20k06_f075     2 eV 5.865 / 5.952 (1.49 %)   5 eV 7.437 / 7.451 (0.19 %)
+kcd_lr_r24k06_f075     2 eV 5.899 / 5.954 (0.93 %)   5 eV 7.446 / 7.454 (0.12 %)
+kcd_lr_r28k06_f075     2 eV 5.907 / 5.954 (0.79 %)   5 eV 7.447 / 7.454 (0.10 %)
+kcd_lr_r32k06_f075     2 eV 5.910 / 5.954 (0.75 %)   5 eV 7.447 / 7.454 (0.10 %)
+kcd_lr_r20k08_f075     2 eV 5.882 / 5.948 (1.13 %)   5 eV 7.492 / 7.503 (0.14 %)
+kcd_lr_r20k10_f075     2 eV 5.881 / 5.943 (1.06 %)   5 eV 7.507 / 7.517 (0.13 %)
+kcd_lr_r20k12_f075     2 eV 5.887 / 5.948 (1.03 %)   5 eV 7.509 / 7.519 (0.13 %)
+kcd_lr_r20k16_f075     2 eV 5.885 / 5.944 (0.99 %)   5 eV 7.511 / 7.520 (0.12 %)
+kcd_lr_r20k20_f075     2 eV 5.887 / 5.945 (0.99 %)   5 eV 7.512 / 7.521 (0.12 %)
+kcd_lr_r20k24_f075     2 eV 5.890 / 5.948 (0.99 %)   5 eV 7.511 / 7.520 (0.12 %)
+
+Undamped Re eps_z of r32 k6 (SALMON's window only): 1-2 eV mean, and 0.01 eV, 0.1 eV, 0.5 eV, as is / subtracted
+1-2 eV mean 5.808 / 5.897 (1.53 %); min-max 5.475 to 5.963 / 5.630 to 6.097
+0.01 eV -150.53 / -0.66  0.1 eV -14.03 / 5.52  0.5 eV 5.11 / 5.83
+
+Hann 8 fs running mean of Jm_z / max|Jm_z| over 30-46 fs (min, max over the centres)
+kcd_lr_r16k06_f075     9.564e-04 to 1.032e-03
+kcd_lr_r20k06_f075     3.305e-04 to 3.894e-04
+kcd_lr_r24k06_f075     1.986e-04 to 2.489e-04
+kcd_lr_r28k06_f075     1.655e-04 to 2.142e-04
+kcd_lr_r32k06_f075     1.557e-04 to 2.041e-04
+kcd_lr_r20k06_f075     3.305e-04 to 3.894e-04
+kcd_lr_r20k08_f075     2.713e-04 to 2.865e-04
+kcd_lr_r20k10_f075     2.537e-04 to 2.694e-04
+kcd_lr_r20k12_f075     2.528e-04 to 2.626e-04
+kcd_lr_r20k16_f075     2.428e-04 to 2.488e-04
+kcd_lr_r20k20_f075     2.453e-04 to 2.472e-04
+kcd_lr_r20k24_f075     2.420e-04 to 2.471e-04
