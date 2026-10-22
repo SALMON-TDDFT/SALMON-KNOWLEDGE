@@ -158,14 +158,15 @@ atoms in the cell, so the k ladder values in meV/cell are divided by 2.
 
 | observable | r (k6) | k (r32) |
 |---|---|---|
-| DOS shape (max_dev, % of peak) | r24 (0.27 % at r24 to r28; 2.20 % at r20 to r24) | not converged at k24 (17 % at k20 to k24) |
-| total energy | r28 (0.66 meV/atom at r28 to r32); it keeps falling, by 0.06 meV/atom per pair from r36 | k8 (within 0.01 meV/atom of the k24 value) |
-| printed gap | r24 (changes by less than 0.3 meV from r24 on) | not converged at k24 (24 meV at k20 to k24) |
+| DOS shape (max_dev, % of peak) | about r20 to r24 is enough (the maintainer, row 1a); 2.20 % at r20 to r24, 0.27 % at r24 to r28 | not converged at k24 (17 % at k20 to k24; not judged, row 2) |
+| total energy | still falling: -2.20 meV/atom at r24 to r28, -0.66 at r28 to r32, 0.06 per pair from r36; convergence not judged | within 0.01 meV/atom of the k24 value for every mesh from k8 (measured); not judged |
+| printed gap | changes by less than 0.3 meV from r24 on (measured); not judged | not converged at k24 (24 meV at k20 to k24); a sampling effect of each rung's mesh (row 3, maintainer) |
 
-The total energy converges early in k, while the DOS and the printed gap do not converge
-by k24. In r, the DOS and the printed gap settle at r24 and the energy a little later. The
-printed gap is the minimum over the mesh points of each rung, so its fall with k is a
-sampling effect, not an estimate of the diamond gap
+The total energy is within 0.01 meV/atom of its k24 value from k8, while the DOS and the
+printed gap are still changing at k24. In r, the DOS differences are below 0.35 % beyond
+r28, the energy keeps falling, and the printed gap changes by less than 0.3 meV from r24.
+Only the entries that cite a row are judgments. The printed gap is the minimum over the
+mesh points of each rung, so its fall with k is not an estimate of the diamond gap
 ([SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)).
 
 ![Printed gap and total energy against the k mesh](figures/k-gap-and-energy.png)
@@ -246,7 +247,7 @@ maintainer). The energy is flat from k8, which says nothing about the DOS.
 |---|---|---|---|
 | ground-state DOS, real-space grid | `num_rgrid` about 20 to 24; finer only if the later real-time run needs it | max_dev 2.20 % at r20 to r24 and 0.27 % at r24 to r28 | maintainer, row 1a; r16 to r32 are indistinguishable by eye in the overlay |
 | ground-state DOS, k mesh | none: not converged at 24^3 | max_dev 17 % at k20 to k24 | not judged, row 2 |
-| total energy | k8 or denser at r32 | within 0.01 meV/atom of the k24 value | k ladder; the energy was not used as the DOS criterion |
+| total energy | none chosen | within 0.01 meV/atom of the k24 value for every mesh from k8, at r32 (measured) | k ladder; not judged, and the energy was not used as the DOS criterion |
 | gap | none: the printed gap is the minimum over mesh points | 24 meV at k20 to k24, still falling | maintainer, row 3 |
 | structure | diamond, a = 3.567 Angstrom, 2-atom primitive cell | not varied | assumed by the AI assistant |
 | pseudopotential / `xc` | FHI98PP LDA C (4e) / `'PZ'` | not varied | assumed by the AI assistant |
