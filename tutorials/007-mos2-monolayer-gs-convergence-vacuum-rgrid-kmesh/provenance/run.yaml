@@ -73,7 +73,7 @@ confirmation_run:
   node_seconds: 2338
   comparison_script:
     path: "scripts/compare_confirmation.py"
-    sha256: "c4b5af2e7ba064f624ad65f17660889dd11d1f74f623946417f0a8ea0ebd35f0"
+    sha256: "889a03bd8dee71d53ee8c8a67244c966e1315ae050af53cead34ebf5450cbfa5"
   figure:
     path: "figures/confirmation-L15-r24-k30.png"
     sha256: "a5d8916a894e7275b8cedc758d40d94e1fb59893b92b0506311232c8e59c43f7"

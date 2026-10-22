@@ -42,8 +42,9 @@ def cmp(a,b,lo,hi):  # b = denser/larger-vacuum reference
 for a,b in [("L15k30","L20k30"),("L15k30","L20k36"),("L20k30","L20k36"),("L15k12","L20k36")]:
     for lo,hi in [(-6,4),(-18,5)]:
         r=cmp(a,b,lo,hi); print(a,"vs",b,(lo,hi),"maxdev %.4f%% relL1 %.4f%% at %.3f eV"%(r[0],r[1],r[2]))
-for a,b in [("L15k30","L20k30"),("L15k30","L20k36"),("L15k12","L20k30"),("L15k12","L20k36")]:
-    print(a,b,"dE cell meV %.4f"%((res[a]["E"]-res[b]["E"])*1e3),"per atom %.4f"%((res[a]["Epa"]-res[b]["Epa"])*1e3),"dgapK meV %.5f"%((res[a]["gapK"]-res[b]["gapK"])*1e3))
+# left minus right
+for a,b in [("L15k30","L20k30"),("L15k30","L20k36"),("L20k30","L20k36"),("L15k12","L20k30"),("L15k12","L20k36")]:
+    print(a,b,"dE cell meV %.7f"%((res[a]["E"]-res[b]["E"])*1e3),"per atom %.7f"%((res[a]["Epa"]-res[b]["Epa"])*1e3),"dgapK meV %.7f"%((res[a]["gapK"]-res[b]["gapK"])*1e3))
 # figure
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 fig,ax=plt.subplots(2,1,figsize=(8,7),sharex=True,gridspec_kw=dict(height_ratios=[3,2]))
