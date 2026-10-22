@@ -157,19 +157,19 @@ cell are given in meV/atom: a value in meV/cell is divided by 8.
 
 | observable | `num_rgrid` (r) | `num_kgrid` (k) | `nstate` |
 |---|---|---|---|
-| total energy | not converged at r32 (not monotonic; 0.1 eV/cell, about 12 meV/atom, not reached) | k8 (each later step below 0.005 meV/atom) | not examined |
-| bands 1 to 20 relative to the VBM | r24 (r24 to r28 21 meV) | SCF k6 (bands 1 to 17 agree to 0.03 meV between k6, k8, k12) | 32 (48 changes bands by 0.11 meV) |
-| path-resolved gap | r24 (r24 to r28 9 meV) | SCF k6 (k6 to k8 0.03 meV) | 32 (48 changes it by 1.5e-5 meV) |
-| printed `Fundamental gap` | not examined | not converged at k24 (15 meV from k20 to k24, still falling) | not examined |
-| DOS shape, sigma = 0.15 eV | not converged: r20 to r24 at k24 is 2.95 % (valence) and 2.51 % (conduction), r24 to r28 not measured | k16 (1.2 % valence, 1.5 % conduction against k24) | not examined |
-| DOS shape, sigma = 0.1 eV | not examined | not converged at k24 (k20 to k24 1.4 % and 1.1 %) | not examined |
+| total energy | not converged to 0.1 eV/cell (about 12 meV/atom) even at r32; not monotonic; no r convergence claimed | k8 (each later step below 0.005 meV/atom, derived from 0.04 meV/cell) | 48 changes it by 1.5e-5 meV/atom (derived from 1.2e-7 eV/cell) |
+| bands 1 to 20 relative to the VBM | r24 as judged in this README (r24 to r28 21 meV) | SCF k6 as judged in this README (bands 1 to 17 agree to 0.03 meV between k6, k8, k12) | 32 adopted (48 changes bands by 0.11 meV) |
+| path-resolved gap | not monotonic in r (r24 to r28 9 meV, derived); not judged on its own | k6 to k8 0.03 meV (0.52218, 0.52221, 0.52221 eV at k6, k8, k12) | 48 changes it by 1.5e-5 meV |
+| printed `Fundamental gap` | not examined | still decreasing at k24 (15 meV from k20 to k24); a sampling artifact of the shifted mesh, not judged | not examined |
+| DOS shape, sigma = 0.15 eV | not established: r20 to r24 at k24 is 2.95 % (valence) and 2.51 % (conduction); r24 to r28 not measured | k16 taken (a 1 % DOS criterion was not required); k16 against k24 is 1.2 % / 1.5 % | not examined |
+| DOS shape, sigma = 0.1 eV | not examined | not judged; k20 to k24 is 1.4 % / 1.1 %, and the k16 and k20 differences are sampling ripple | not examined |
 
 The DOS numbers are relative L1 differences, not the maximum difference in %
 of the peak; the maximum-difference values were not recorded for this
-tutorial. The total energy and the band-path observables converge early in k
-(k8 and SCF k6). The printed gap and the DOS converge late in k, and the DOS
+tutorial. The total energy and the band-path observables change little with k from k8
+and SCF k6. The printed gap and the DOS are still changing at k24, and the DOS
 also moves with r (r20 to r24). Bands need the finer real-space grid (r24)
-even though the SCF k mesh is already sufficient.
+even though the SCF k mesh is already sufficient for them.
 
 ![Total energy and gap versus num_kgrid](figures/kgrid-energy-and-gap.png)
 
@@ -181,21 +181,22 @@ The figure overlays the bands of all four rungs at SCF k8 (left) and the band
 edges on Gamma-X (right). The difference panel is not drawn: the band data
 are not in the repository and this tutorial has no regeneration script.
 
-| pair | max band change, bands 1 to 20 (meV) | path-resolved gap change (meV) | total energy change (meV/atom) |
-|---|---:|---:|---:|
-| r16 to r20 | 276 | +103 | not examined |
-| r20 to r24 | 75 | -34 | -25 |
-| r24 to r28 | 21 | +9 | +16 |
-| r28 to r32 | not examined | not examined | -29 |
+| pair | max band change, bands 1 to 20 (meV) | path-resolved gap (eV) | gap change (meV, derived) | total energy change (meV/atom, derived) |
+|---|---:|---:|---:|---:|
+| r16 to r20 | 276 | 0.419 to 0.522 | +103 | not examined |
+| r20 to r24 | 75 | 0.522 to 0.488 | -34 | -25 |
+| r24 to r28 | 21 | 0.488 to 0.497 | +9 | +16 |
+| r28 to r32 | not examined | not examined | not examined | -29 |
 
-The band and gap columns are at SCF k8 (r16 to r28). The total-energy column
-is the absolute `E_total` at k6 (-864.431, -864.631, -864.501, and -864.731
-eV for r20, 24, 28, and 32), differenced and divided by 8. Differences of each
-rung to the densest rung are not in the source data and are left out.
+The band and gap columns are at SCF k8 (r16 to r28). The gap changes are
+differences of the printed path-resolved gaps. The total-energy column is the
+absolute `E_total` at k6 (-864.431, -864.631, -864.501, and -864.731 eV for
+r20, 24, 28, and 32), differenced and divided by 8. Differences of each rung
+to the densest rung are not in the source data and are left out.
 
-**Judgment:** the band change became small at r24 to r28 (21 meV); r24, the
-looser member of that pair, was taken. The judge is not recorded in this
-tutorial (it has no Judgment record).
+**Judgment:** bands were judged at r24 (r24 to r28 is 21 meV), as stated in
+this README. The judge is not recorded in this tutorial (it has no Judgment
+record).
 
 - The gap is not monotonic in r. The deep valence bands (1 to 8) and the
   conduction bands (17 to 20) shift with r, while the upper valence bands (9
@@ -235,20 +236,20 @@ give valence / conduction.
 | k14 to k16 | -24 | below 0.005 | 4.7 % / 3.4 % | 1.6 % / 1.3 % | 0.6 % / 0.6 % |
 | k16 to k20 | -22 | below 0.005 | 3.2 % / 3.5 % | 1.0 % / 1.3 % | 0.6 % / 0.6 % |
 | k20 to k24 | -15 | below 0.005 | 1.4 % / 1.1 % | 0.4 % / 0.5 % | 0.3 % / 0.3 % |
-| k16 vs k24 (direct) | -37 | below 0.005 | 3.2 % / 3.3 % | 1.2 % / 1.5 % | 0.9 % / 0.9 % |
+| k16 vs k24 (direct) | -37 | below 0.010 (two steps, derived) | 3.2 % / 3.3 % | 1.2 % / 1.5 % | 0.9 % / 0.9 % |
 
 The printed gap values are 0.867, 0.766, 0.687, 0.645, 0.616, 0.592, 0.570,
 and 0.555 eV for k6/8/10/12/14/16/20/24. The total-energy column is the bound
 quoted in the source (each step from k8 below 0.04 meV/cell, divided by 8);
 the entire spread of 0.26 meV/cell (0.03 meV/atom) is in the k6 to k8 step, which gives the 0.03 entry.
+The "below 0.005" entries are derived bounds, and the direct row is the sum of two such bounds.
 The direct k16-versus-k24 row was computed for this tutorial from the same
 data and is the only densest-rung difference available.
 
-**Judgment:** the DOS change became small at k20 to k24 (0.4 % / 0.5 % at
-sigma = 0.15 eV); k16, the looser member of the k16 to k20 pair, was taken for
-the DOS (k16 versus k24 is 1.2 % / 1.5 %), because a 1 % DOS criterion was
-not required. The judge is not recorded in this tutorial (it has no Judgment
-record).
+**Judgment:** k16 was taken for the DOS because a 1 % DOS criterion was not
+required (k16 against k24 is 1.2 % / 1.5 % at sigma = 0.15 eV; the k20 to k24
+step is 0.4 % / 0.5 %). The judge is not recorded in this tutorial (it has no
+Judgment record).
 
 - The same percentage can come from different kinds of change, so read it
   together with the overlays. At sigma = 0.1 eV, the k16 and k20 differences
@@ -310,9 +311,9 @@ the unrefined top of the `nstate=32` window and were not used.
 
 | use | setting | measure | evidence |
 |---|---|---|---|
-| total energy | k8, any r (absolute value not r-converged) | each k step below 0.005 meV/atom from k8 | k ladder at r20 |
+| total energy | k8 at r20 (the absolute value is not r-converged) | each k step below 0.005 meV/atom from k8 (derived) | k ladder at r20 |
 | band structure | `num_rgrid=24,24,24`, SCF `num_kgrid=6`, `nstate=32` | r24 to r28 21 meV; k6 to k12 0.03 meV; `nstate=48` 0.11 meV | r ladder at SCF k8; path runs |
-| DOS at sigma = 0.15 eV | `num_kgrid=16,16,16`, `out_dos_width=0.15` eV | k16 versus k24 1.2 % / 1.5 % (estimated at r24) | k ladder at r20 |
+| DOS at sigma = 0.15 eV | `num_kgrid=16,16,16`, `out_dos_width=0.15` eV (DOS resolution versus k cost) | k16 versus k24 1.2 % / 1.5 % at r20; at r24 this is an estimate, since k16 at r24 was not run | k ladder at r20; r24 not established for the DOS |
 | adopted set (total energy, bands, DOS) | `num_rgrid=24,24,24`, `num_kgrid=16,16,16`, `nstate=32`, `out_dos_width=0.15` eV | as in the three rows above | [inputs/si-gs-adopted.inp](inputs/si-gs-adopted.inp) |
 
 The k16 mesh was chosen over k24 because a 1 % DOS criterion was not required.
