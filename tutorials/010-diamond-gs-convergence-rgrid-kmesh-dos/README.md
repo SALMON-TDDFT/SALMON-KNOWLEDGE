@@ -151,53 +151,82 @@ and printed a DOS whose energy axis equals the requested window; the integral of
 up to the maximum of the valence band equals 8.0000 electrons in the runs where it was
 printed.
 
-### 1. r ladder (k6)
+Energies are in meV/atom. The r ladder values were already per atom. Diamond has two
+atoms in the cell, so the k ladder values in meV/cell are divided by 2.
 
-![r ladder: DOS overlay and neighbor differences](figures/dos-rgrid-ladder.png)
+### Convergence by observable
 
-| pair | max_dev (% of peak) | where (eV) | max_dev valence / conduction | rel-L1 | ΔE_total (meV/atom) |
-|---|---:|---:|---|---:|---:|
-| r16 to r20 | 6.14 | +8.97 | 5.50 / 6.14 | 3.47% | -41.2 |
-| r20 to r24 | 2.20 | +8.96 | 1.44 / 2.20 | 1.68% | -8.64 |
-| r24 to r28 | 0.27 | -2.99 | 0.27 / 0.26 | 0.17% | -2.20 |
-| r28 to r32 | 0.08 | -10.64 | 0.08 / 0.06 | 0.07% | -0.66 |
-| r32 to r36 | 0.07 | +9.39 | 0.04 / 0.07 | 0.04% | -0.24 |
-| r36 to r40 | 0.15 | +9.34 | 0.02 / 0.15 | 0.04% | -0.06 |
-| r40 to r48 | 0.32 | +9.64 | 0.01 / 0.32 | 0.04% | -0.06 |
+| observable | r (k6) | k (r32) |
+|---|---|---|
+| DOS shape (max_dev, % of peak) | r24 (0.27 % at r24 to r28; 2.20 % at r20 to r24) | not converged at k24 (17 % at k20 to k24) |
+| total energy | r28 (0.66 meV/atom at r28 to r32); it keeps falling, by 0.06 meV/atom per pair from r36 | k8 (within 0.01 meV/atom of the k24 value) |
+| printed gap | r24 (changes by less than 0.3 meV from r24 on) | not converged at k24 (24 meV at k20 to k24) |
 
-The differences beyond r28 are all below 0.35% and sit at the upper end of the window
-(+9 eV to +10 eV, in the conduction band near the limit where `nstate = 8` is still
-complete), not in the valence band. The printed gap is 4.9418, 4.9417, 4.9389, 4.9388, 4.9390, 4.9390,
-4.9389, 4.9389 eV for r16 to r48: it changes by less than 0.3 meV from r24 on. The
-total energy keeps falling with the grid (-0.73 meV per cell from r32 to r48); it was not
-used as a criterion. The number of SCF iterations
-grows with the grid (97, 136, 165, 208, 276, 338, 440, 543 for r16 to r48) and the
-wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
-
-### 2. k ladder (r32): the energy is flat, the DOS is not
-
-![k ladder: DOS overlay and neighbor differences](figures/dos-kgrid-ladder.png)
-
-| pair | max_dev (% of peak) | where (eV) | max_dev valence / conduction | rel-L1 | ΔE_total (meV/cell) |
-|---|---:|---:|---|---:|---:|
-| k6 to k8 | 82.3 | +9.44 | 64.7 / 82.3 | 53.7% | +0.033 |
-| k8 to k10 | 58.0 | +7.95 | 45.1 / 58.0 | 33.9% | +0.004 |
-| k10 to k12 | 51.9 | +7.95 | 22.5 / 51.9 | 24.2% | +0.002 |
-| k12 to k16 | 58.0 | +8.38 | 27.8 / 58.0 | 17.2% | +0.020 |
-| k16 to k20 | 25.9 | +9.00 | 16.6 / 25.9 | 10.2% | -0.019 |
-| k20 to k24 | 16.8 | +7.96 | 12.9 / 16.8 | 6.77% | -0.0003 |
+The total energy converges early in k, while the DOS and the printed gap do not converge
+by k24. In r, the DOS and the printed gap settle at r24 and the energy a little later. The
+printed gap is the minimum over the mesh points of each rung, so its fall with k is a
+sampling effect, not an estimate of the diamond gap
+([SALMON-TS-002](../../troubleshooting/SALMON-TS-002-printed-gap-depends-on-k-mesh.md)).
 
 ![Printed gap and total energy against the k mesh](figures/k-gap-and-energy.png)
 
-- **Total energy.** Within 0.02 meV per cell of the k24 value for every mesh from k8 on
-  (the k6 value is 0.04 meV away). The values are not monotonic: k16 lies above k20 and
-  k24 by 0.02 meV, comparable with the iteration-to-iteration scatter of an SCF converged
-  to 1e-9.
-- **Printed gap.** 4.9390, 4.6365, 4.4644, 4.3724, 4.2761, 4.2310, 4.2066 eV for k6, k8, k10,
-  k12, k16, k20, k24: successive drops of 0.30, 0.17, 0.09, 0.10, 0.045 and 0.024 eV. Each rung
-  prints the minimum over its own mesh points; a coarser mesh misses the points near
-  the true band edges, so the value falls as the mesh gets denser. It is not
-  converged at k24 and is not an estimate of the diamond gap.
+### Ladder: real-space grid (k6)
+
+![r ladder: DOS overlay and neighbor differences](figures/dos-rgrid-ladder.png)
+
+| pair | max_dev (% of peak) | where (eV) | max_dev valence / conduction | rel-L1 | change in printed gap (meV) | change in E_total (meV/atom) |
+|---|---:|---:|---|---:|---:|---:|
+| r16 to r20 | 6.14 | +8.97 | 5.50 / 6.14 | 3.47% | -0.1 | -41.2 |
+| r20 to r24 | 2.20 | +8.96 | 1.44 / 2.20 | 1.68% | -2.8 | -8.64 |
+| r24 to r28 | 0.27 | -2.99 | 0.27 / 0.26 | 0.17% | -0.1 | -2.20 |
+| r28 to r32 | 0.08 | -10.64 | 0.08 / 0.06 | 0.07% | +0.2 | -0.66 |
+| r32 to r36 | 0.07 | +9.39 | 0.04 / 0.07 | 0.04% | 0.0 | -0.24 |
+| r36 to r40 | 0.15 | +9.34 | 0.02 / 0.15 | 0.04% | -0.1 | -0.06 |
+| r40 to r48 | 0.32 | +9.64 | 0.01 / 0.32 | 0.04% | 0.0 | -0.06 |
+
+The gap changes are the differences of the printed gaps (4.9418, 4.9417, 4.9389, 4.9388,
+4.9390, 4.9390, 4.9389, 4.9389 eV for r16 to r48), so they carry a resolution of 0.1 meV.
+Differences of each rung to the densest rung are not in the source numbers and are left
+out.
+
+The differences beyond r28 are all below 0.35% and sit at the upper end of the window
+(+9 eV to +10 eV, in the conduction band near the limit where `nstate = 8` is still
+complete), not in the valence band. The total energy keeps falling with the grid
+(-0.37 meV/atom from r32 to r48); it was not used as a criterion. The number of SCF
+iterations grows with the grid (97, 136, 165, 208, 276, 338, 440, 543 for r16 to r48) and
+the wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
+
+**Judgment: about r20 to r24 is enough for the ground state** (the maintainer;
+[Judgment record](#judgment-record) row 1a). The change became small at r20 to r24
+(2.20 %); r32 is too strict, and the final r is set by the later real-time conditions.
+The assistant's earlier, stricter reading (r32, row 1) is superseded.
+
+### Ladder: k mesh (r32)
+
+![k ladder: DOS overlay and neighbor differences](figures/dos-kgrid-ladder.png)
+
+| pair | max_dev (% of peak) | where (eV) | max_dev valence / conduction | rel-L1 | change in printed gap (meV) | change in E_total (meV/atom) |
+|---|---:|---:|---|---:|---:|---:|
+| k6 to k8 | 82.3 | +9.44 | 64.7 / 82.3 | 53.7% | -302.5 | +0.017 |
+| k8 to k10 | 58.0 | +7.95 | 45.1 / 58.0 | 33.9% | -172.1 | +0.002 |
+| k10 to k12 | 51.9 | +7.95 | 22.5 / 51.9 | 24.2% | -92.0 | +0.001 |
+| k12 to k16 | 58.0 | +8.38 | 27.8 / 58.0 | 17.2% | -96.3 | +0.010 |
+| k16 to k20 | 25.9 | +9.00 | 16.6 / 25.9 | 10.2% | -45.1 | -0.010 |
+| k20 to k24 | 16.8 | +7.96 | 12.9 / 16.8 | 6.77% | -24.4 | -0.0002 |
+
+The gap changes are the differences of the printed gaps (4.9390, 4.6365, 4.4644, 4.3724,
+4.2761, 4.2310, 4.2066 eV for k6 to k24). The E_total changes are the meV/cell values
+(+0.033, +0.004, +0.002, +0.020, -0.019, -0.0003) divided by 2. Differences of each rung
+to the densest rung (k24) are not in the source numbers, apart from the energy
+statements below, and are left out of the table.
+
+- **Total energy.** Within 0.01 meV/atom of the k24 value for every mesh from k8 on
+  (the k6 value is 0.02 meV/atom away). The values are not monotonic: k16 lies above k20 and
+  k24 by 0.01 meV/atom, comparable with the iteration-to-iteration scatter of an SCF
+  converged to 1e-9.
+- **Printed gap.** Each rung prints the minimum over its own mesh points; a coarser mesh
+  misses the points near the true band edges, so the value falls as the mesh gets
+  denser. It is not converged at k24 and is not an estimate of the diamond gap.
 - **DOS.** The overlay shows spiky van Hove structure at k6 to k10 that becomes a
   ripple, not a shift, at k16 to k24. The pairwise max_dev has fallen to 17% at k20 to k24;
   it is larger in the conduction band than in the valence band for every pair and is largest
@@ -207,16 +236,24 @@ wall time with it (12 s at r16, 78 s at r32, 16.5 minutes at r48, on 6 nodes).
 - **Cost.** The k24 run took 8.6 minutes on 24 nodes; the SCF iterations (222 to 286)
   were roughly constant across k.
 
-### 3. Adopted set
+**Judgment: no k mesh is chosen; the DOS is not converged at k24** (not judged;
+[Judgment record](#judgment-record) row 2, and row 3 for the printed gap, confirmed by the
+maintainer). The energy is flat from k8, which says nothing about the DOS.
 
-| parameter | value | deciding observation | judged by |
+### Recommended settings by use
+
+| use | setting | measure | evidence |
 |---|---|---|---|
+| ground-state DOS, real-space grid | `num_rgrid` about 20 to 24; finer only if the later real-time run needs it | max_dev 2.20 % at r20 to r24 and 0.27 % at r24 to r28 | maintainer, row 1a; r16 to r32 are indistinguishable by eye in the overlay |
+| ground-state DOS, k mesh | none: not converged at 24^3 | max_dev 17 % at k20 to k24 | not judged, row 2 |
+| total energy | k8 or denser at r32 | within 0.01 meV/atom of the k24 value | k ladder; the energy was not used as the DOS criterion |
+| gap | none: the printed gap is the minimum over mesh points | 24 meV at k20 to k24, still falling | maintainer, row 3 |
 | structure | diamond, a = 3.567 Angstrom, 2-atom primitive cell | not varied | assumed by the AI assistant |
 | pseudopotential / `xc` | FHI98PP LDA C (4e) / `'PZ'` | not varied | assumed by the AI assistant |
-| `num_rgrid` | about 20-24 for the ground-state DOS; finer only if the later real-time run needs it | overlays r16 to r32 are indistinguishable by eye; r16 to r20 5-6% and r20 to r24 1.4-2.2% appear only in the difference plot; r24 to r28 0.27% | maintainer: r32 is too strict for the ground state; the final r depends on the later laser conditions |
-| k mesh | **none: not converged at 24^3** | DOS max_dev 17% at k20 to k24 | not judged |
-| `nstate` | 8 | DOS complete to 11.1-12.2 eV above the valence-band maximum | not varied |
+| `nstate` | 8 | DOS complete to 11.1 to 12.2 eV above the valence-band maximum | not varied |
 | DOS | Gaussian, 0.1 eV, window -24 to +10 eV | convention | not varied |
+
+The representative input is [inputs/diamond-gs-r32k24.inp](inputs/diamond-gs-r32k24.inp).
 
 ## Judgment record
 
