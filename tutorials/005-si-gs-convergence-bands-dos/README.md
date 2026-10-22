@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-005
 title: Converging bulk-Si ground state for total energy, band structure, and DOS
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-001]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-04
 updated_at: 2026-10-04
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective

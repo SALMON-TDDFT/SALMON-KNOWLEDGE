@@ -1,7 +1,7 @@
 ---
 id: SALMON-TS-005
 title: 'With `temperature_k`, the printed "Total energy" rises with temperature because it is not a free energy'
-status: draft
+status: reviewed
 verification_level: tested
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
@@ -10,7 +10,7 @@ related_tutorials: [SALMON-TUTORIAL-006]
 created_at: 2026-10-05
 updated_at: 2026-10-05
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # With `temperature_k`, the printed "Total energy" rises with temperature because it is not a free energy

@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-009
 title: "Converging a bulk-Si linear-response spectrum: k mesh, real-space grid, time step and propagation time"
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
 updated_at: 2026-10-22
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective
@@ -29,7 +29,7 @@ it matters for the ground state, and how to read an overlay of `Im eps` to judge
 convergence, separating a rigid shift of the spectrum from a change of its
 shape.
 
-> **Draft.** The k mesh and the real-space grid are the maintainer's judgment:
+> The k mesh and the real-space grid are the maintainer's judgment:
 > **k16 and r20 are adopted**; r24 and finer are the safe zone and r16 is the
 > caution zone. The maintainer judged the grid by splitting the difference
 > against r32 into a rigid shift and the shape difference that remains, not by

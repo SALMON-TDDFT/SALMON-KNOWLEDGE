@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-008
 title: "Converging an alpha-quartz SiO2 ground state: real-space grid and k mesh for the DOS"
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
 updated_at: 2026-10-06
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective
@@ -27,7 +27,7 @@ convergence trouble when a tall, sharp peak shifts by a few meV, and that
 splitting the difference into a rigid shift and a shape difference gives a
 usable judgment.
 
-> **Draft.** Both convergence judgments are the maintainer's. The maintainer
+> Both convergence judgments are the maintainer's. The maintainer
 > adopted **two parameter sets**, depending on whether the O 2s level (about
 > -17 eV below the valence-band maximum) matters downstream: **r44, k10** when
 > it does and **r36, k10** when it does not; k8 is the caution zone in both

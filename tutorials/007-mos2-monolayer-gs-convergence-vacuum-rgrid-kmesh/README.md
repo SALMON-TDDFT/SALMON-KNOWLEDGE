@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-007
 title: "Converging a MoS2 monolayer ground state: vacuum, real-space grid and k mesh for the DOS"
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
 updated_at: 2026-10-22
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective
@@ -25,7 +25,7 @@ direct gap at K will be reported. Learn that the total energy and the gap
 converge on a far coarser k mesh than the DOS does, and how to get the total
 energy, the DOS, and the gap at K from one SCF run.
 
-> **Draft; the three convergence judgments are the maintainer's (2026-10-22).**
+> **The three convergence judgments are the maintainer's (2026-10-22).**
 > Vacuum `Lz` = 15 Angstrom, `num_rgrid` = 24,24,108 (r24 in plane), and a
 > 30 x 30 x 1 k mesh were judged by the maintainer from the overlays and
 > numbers shown below; see the [Judgment record](#judgment-record). **No row is

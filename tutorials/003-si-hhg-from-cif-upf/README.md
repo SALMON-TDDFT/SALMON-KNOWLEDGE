@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-003
 title: Preparing a silicon HHG calculation from COD CIF and PseudoDojo UPF data
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-001]
@@ -14,7 +14,7 @@ platforms: [Wisteria/BDEC-01 (A64FX)]
 created_at: 2026-09-04
 updated_at: 2026-09-04
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective

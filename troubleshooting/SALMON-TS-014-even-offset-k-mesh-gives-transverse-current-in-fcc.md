@@ -1,7 +1,7 @@
 ---
 id: SALMON-TS-014
 title: On an fcc primitive cell the default even k mesh gives a spurious transverse response; the response along the kick is unaffected
-status: draft
+status: reviewed
 verification_level: tested
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
@@ -10,7 +10,7 @@ related_tutorials: []
 created_at: 2026-10-14
 updated_at: 2026-10-21
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # On an fcc primitive cell the default even k mesh gives a spurious transverse response; the response along the kick is unaffected
