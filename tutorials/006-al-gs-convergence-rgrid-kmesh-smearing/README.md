@@ -172,20 +172,20 @@ unchanged, and four-atom-cell values in meV/cell are divided by 4.
 
 | observable | r (primitive cell, k6) | k (primitive cell, r12) | temperature (four-atom cell, 100 to 3000 K) |
 |---|---|---|---|
-| total energy | r16 (0.7 meV/atom at r14 to r16; the sign changes at r16 to r20) | k24 (below 0.3 meV/atom from k24) | not a convergence quantity: rises by 5.0, 19.8, and 44.5 meV/atom at 1000, 2000, and 3000 K against 100 K |
-| `E_F` | r14 (2.3 meV at r12 to r14) | k24 (below 0.6 meV from k24) | at most 4 meV |
-| occupied bandwidth | r14 (0.9 meV at r12 to r14) | not converged at k64 (1.5 meV at k48 to k64) | not examined |
-| DOS shape, whole window | r12 (1.10 % of the peak at r12 to r14) | k48 (1.44 % of the peak at k48 to k64) | unchanged (relative L1 at most 0.07 %) |
-| DOS mean over `E_F` +/- 1 eV | r12 (at most 0.03 % from r12 onward) | k48 (0.09 % at k48 to k64) | not examined |
-| DOS at the single point `E_F` | not examined | k32 (0.001 states/eV/atom at k32 to k48); not usable alone | not examined |
+| total energy | -5.0, -0.7, and +0.8 meV/atom at r12 to r14, r14 to r16, and r16 to r20; not judged | below 0.3 meV/atom from k24 (measured, not a judgment) | not a convergence quantity: the printed energy rises by 5.0, 19.8, and 44.5 meV/atom at 1000, 2000, and 3000 K against 100 K |
+| `E_F` | 2.3 meV at r12 to r14 and 0.3 meV at r14 to r16; not judged | below 0.6 meV from k24; 0.23 meV at k48 to k64 (window means and `E_F` flat) | at most 4 meV |
+| occupied bandwidth | 0.9 meV at r12 to r14 and 0.1 meV at r14 to r16; not judged | still increasing: 1.5 meV at k48 to k64; not judged | not examined |
+| DOS shape, whole window | r12 (the maintainer, row 6; 1.10 % at r12 to r14) | k48 (proposed by the AI assistant, confirmed by the maintainer, row 7; 1.44 % at k48 to k64) | unchanged (relative L1 at most 0.07 %); the maintainer kept 300 K (row 3) |
+| DOS mean over `E_F` +/- 1 eV | at most 0.03 % from r12 onward; not judged | each pair difference at most 0.09 % at k48 and k64 (means over +/- 0.25 to +/- 2 eV between 0.405 and 0.409 states/eV); not judged | not examined |
+| DOS at the single point `E_F` | not examined | 0.415, 0.428, 0.412, 0.411, and 0.411 states/eV/atom for k16 to k64; not judged | not examined |
 
-The DOS at the single point `E_F` varied by 24 % over the isotropic
-four-atom k12 to k24 ladder, so it is not a convergence measure
+The point value of the DOS at `E_F` was unusable on the four-atom cell (row 5): it varied by
+24 % over the isotropic k12 to k24 ladder
 ([SALMON-TS-004](../../troubleshooting/SALMON-TS-004-metal-dos-near-ef-converges-slowly-in-k.md)).
-The total energy, `E_F`, and the window means converge early in k (about k24);
-the DOS shape converges late (k48), and the bandwidth was still drifting at
-k64. In r, the scalars and the DOS converge together (r12 to r16). The DOS
-does not depend on the smearing temperature.
+The scalars and the window means change little from about k24, while the DOS shape
+differs by 9.5 % of the peak at k24 to k32 and the bandwidth was still increasing at k64.
+In r, the scalars and the DOS change together at r12 to r16. The DOS does not depend
+on the smearing temperature. Only the cells that cite a row are judgments.
 
 ![DOS at E_F versus window mean for all three k ladders](figures/dos-ef-point-vs-window.png)
 
@@ -214,8 +214,7 @@ by at most 0.03% from r12 onward. Differences of each rung to the densest rung
 (r20) are not in the source numbers and are left out.
 
 **Judgment: r12** (the maintainer; [Judgment record](#judgment-record) row 6).
-The change became small at r12 to r14 (1.10 %), and r12, the looser member of
-that pair, was taken: "it overlaps r16 and above". For reference, a rule
+The change at r12 to r14 is 1.10 %, and r12 was taken: "it overlaps r16 and above". For reference, a rule
 requiring two consecutive pairs below a tolerance gives r10 at 5% and r12 at
 3%. The maintainer's choice agrees with the 3% result and with the
 maintainer's earlier Al work.
@@ -236,9 +235,8 @@ Differences of each rung to the densest rung (k64) are not in the source
 numbers and are left out.
 
 **Judgment: k48** (proposed by the AI assistant, confirmed by the maintainer;
-[Judgment record](#judgment-record) row 7). The change became small at k48 to
-k64 (1.44 %, ripple without a shift), and k48, the looser member of that pair,
-was taken. The two-consecutive-pairs rule gives k48 at a 5% tolerance and no
+[Judgment record](#judgment-record) row 7). The change at k48 to k64 is 1.44 %
+(ripple without a shift), and k48 was taken. The two-consecutive-pairs rule gives k48 at a 5% tolerance and no
 lock at 3%. The maintainer had earlier asked for the ladder to reach "k48 and
 beyond". The k64 run exists, so k64 is the alternative if a finer DOS is
 needed.
@@ -274,10 +272,12 @@ regeneration script.
 
 | pair | change in printed `Total energy` (meV/atom) | change in DOS | change in `E_F` |
 |---|---:|---|---|
-| 100 K to 1000 K | +5.0 | not given per pair | not given per pair |
-| 1000 K to 2000 K | +14.8 | not given per pair | not given per pair |
-| 2000 K to 3000 K | +24.8 | not given per pair | not given per pair |
-| each rung to 300 K | not given | at most 0.07% (relative L1) | at most 4 meV |
+| 100 K to 300 K | not reported | not reported | not reported |
+| 300 K to 1000 K | not reported | not reported | not reported |
+| 100 K to 1000 K (not a neighbor pair: it skips 300 K) | +5.0 | not reported per pair | not reported per pair |
+| 1000 K to 2000 K | +14.8 | not reported per pair | not reported per pair |
+| 2000 K to 3000 K | +24.8 | not reported per pair | not reported per pair |
+| each rung to 300 K | not reported | at most 0.07% (relative L1) | at most 4 meV |
 
 The energy changes are the printed `Total energy` at 1000, 2000, and 3000 K
 (+0.020, +0.079, and +0.178 eV/cell against 100 K), differenced and divided
@@ -285,8 +285,8 @@ by 4. The printed energy is not a free energy
 ([SALMON-TS-005](../../troubleshooting/SALMON-TS-005-total-energy-with-temperature-is-not-free-energy.md)).
 
 **Judgment: 300 K** (the maintainer; [Judgment record](#judgment-record) row
-3). The DOS did not change between 100 and 3000 K, so the change was small
-from the first pair, and the maintainer kept 300 K.
+3). The DOS did not change between 100 and 3000 K (relative L1 at most 0.07 %
+against 300 K), and the maintainer kept 300 K.
 
 ### Ladder: real-space grid (four-atom cell, k 16,16,44)
 
@@ -342,10 +342,16 @@ maintainer; [Judgment record](#judgment-record) row 5).
 
 | use | setting | measure | evidence |
 |---|---|---|---|
-| ground-state DOS, adopted point | primitive fcc cell (a = 4.0494 Angstrom, 1 atom), `13-Al.LDA.fhi` with `lloc_ps=2` and `xc='PZ'`, `num_rgrid=12,12,12` (0.239 Angstrom), `num_kgrid=48,48,48` with `yn_symmetry='n'`, `temperature_k=300`, `nstate=20`, Gaussian DOS with sigma = 0.1 eV | DOS max_dev 1.10 % at r12 to r14 and 1.44 % at k48 to k64; window means and `E_F` flat | r12 judged by the maintainer, k48 proposed by the AI assistant and confirmed by the maintainer, 300 K by the maintainer; cell, pseudopotential, `nstate`, and DOS broadening were not varied; [inputs/al-gs-adopted.inp](inputs/al-gs-adopted.inp) |
-| ground-state DOS, finer | the same with `num_kgrid=64,64,64` | k48 to k64 1.44 % of the peak | the k64 run exists |
-| total energy and `E_F` | k24 in k (r was not set from `E_total`) | `E_total` below 0.3 meV/atom and `E_F` below 0.6 meV from k24 | k ladder at r12 |
-| smearing | `temperature_k=300` | DOS relative L1 at most 0.07 % and `E_F` at most 4 meV for 100 to 3000 K | temperature ladder; maintainer |
+| ground-state DOS, cell | primitive fcc, a = 4.0494 Angstrom, 1 atom | not varied | the maintainer's established procedure; maintainer |
+| ground-state DOS, pseudopotential and `xc` | `13-Al.LDA.fhi`, `lloc_ps=2` / `xc='PZ'` | not varied | matching functional; consistent with Si; maintainer |
+| ground-state DOS, `num_rgrid` | 12,12,12 (0.239 Angstrom) | DOS overlay against r14 to r20; 1.10 % at r12 to r14 | maintainer, row 6 |
+| ground-state DOS, `num_kgrid` | 48,48,48 with `yn_symmetry='n'` | DOS overlay against k64; window means; 1.44 % at k48 to k64 | proposed by the AI assistant, confirmed by the maintainer, row 7 |
+| ground-state DOS, finer | `num_kgrid=64,64,64` (the alternative) | k48 to k64 1.44 % of the peak | the k64 run exists |
+| smearing | `temperature_k=300` | DOS unchanged from 100 to 3000 K; relative L1 at most 0.07 %, `E_F` at most 4 meV | maintainer, row 3 |
+| ground-state DOS, `nstate` | 20 | DOS complete to more than +41 eV above `E_F` | not varied |
+| ground-state DOS, broadening | Gaussian, sigma = 0.1 eV | unchanged from the maintainer's procedure | not varied |
+
+The adopted input is [inputs/al-gs-adopted.inp](inputs/al-gs-adopted.inp).
 
 The (r12, k48) run converged at iteration 36 (residual 8.9e-10), with
 `E_total = -57.16372` eV and E_F = 7.6385 eV on the absolute eigenvalue
