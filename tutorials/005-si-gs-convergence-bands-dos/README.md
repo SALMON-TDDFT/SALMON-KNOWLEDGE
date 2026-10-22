@@ -157,9 +157,9 @@ cell are given in meV/atom: a value in meV/cell is divided by 8.
 
 | observable | `num_rgrid` (r) | `num_kgrid` (k) | `nstate` |
 |---|---|---|---|
-| total energy | not converged to 0.1 eV/cell (about 12 meV/atom) even at r32; not monotonic; no r convergence claimed | k8 (each later step below 0.005 meV/atom, derived from 0.04 meV/cell) | 48 changes it by 1.5e-5 meV/atom (derived from 1.2e-7 eV/cell) |
+| total energy | not converged to 0.1 eV/cell (about 12 meV/atom) even at r32; not monotonic; no r convergence claimed | from k8 each later step is below 0.005 meV/atom (derived from 0.04 meV/cell); not judged | 48 changes it by 1.5e-5 meV/atom (derived from 1.2e-7 eV/cell); not judged |
 | bands 1 to 20 relative to the VBM | r24 as judged in this README (r24 to r28 21 meV) | SCF k6 as judged in this README (bands 1 to 17 agree to 0.03 meV between k6, k8, k12) | 32 adopted (48 changes bands by 0.11 meV) |
-| path-resolved gap | not monotonic in r (r24 to r28 9 meV, derived); not judged on its own | k6 to k8 0.03 meV (0.52218, 0.52221, 0.52221 eV at k6, k8, k12) | 48 changes it by 1.5e-5 meV |
+| path-resolved gap | not monotonic in r (r24 to r28 9 meV, derived); not judged on its own | k6 to k8 0.03 meV (0.52218, 0.52221, 0.52221 eV at k6, k8, k12); not judged | 48 changes it by 1.5e-5 meV; not judged |
 | printed `Fundamental gap` | not examined | still decreasing at k24 (15 meV from k20 to k24); a sampling artifact of the shifted mesh, not judged | not examined |
 | DOS shape, sigma = 0.15 eV | not established: r20 to r24 at k24 is 2.95 % (valence) and 2.51 % (conduction); r24 to r28 not measured | k16 taken (a 1 % DOS criterion was not required); k16 against k24 is 1.2 % / 1.5 % | not examined |
 | DOS shape, sigma = 0.1 eV | not examined | not judged; k20 to k24 is 1.4 % / 1.1 %, and the k16 and k20 differences are sampling ripple | not examined |
