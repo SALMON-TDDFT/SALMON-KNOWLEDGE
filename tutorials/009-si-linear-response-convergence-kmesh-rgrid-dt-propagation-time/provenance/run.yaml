@@ -49,8 +49,8 @@ runs:
       points: "16, 32, 64"
   judgment:
     method: "k: pointwise difference of each rung against k24 at r20 (k16 0.92%, k20 1.17%). r: each rung against r32 at k8, split into a rigid energy shift (meV) and the remaining shape difference (% of peak), plus Re eps_z at 1 eV"
-    adopted: "k16, r20; r24 and finer are the safe zone, r16 the caution zone; yn_lr_w0_correction at its default 'n' (maintainer); dt and nstate remain provisional (AI assistant)"
-    judged_by: "maintainer, 2026-10-06"
+    adopted: "k16, r20; r24 and finer are the safe zone, r16 the caution zone; yn_lr_w0_correction at its default 'n' (maintainer); dt 0.0015 fs recommended (maintainer, 2026-10-22; the adopted point ran at 0.0005 fs, the dt ladder ran 0.00025 to 0.0015 fs at r20, k8) and nstate 32 for the ground state (maintainer, 2026-10-22)"
+    judged_by: "maintainer, 2026-10-06 (k, r, yn_lr_w0_correction); 2026-10-22 (dt, nstate)"
   check_run_r28_k20:
     description: "(r28, k20, nstate 32, dt 0.0005 fs, T 12 fs): the AI assistant's first adopted point, superseded; kept as the check that r and k act independently"
     status: "finished; ground state converged in 97 iterations on 40 nodes (a first attempt on 20 nodes ran out of memory); response ran all 24000 steps in 1 h 50 min on 80 nodes (0.275 s per step)"
