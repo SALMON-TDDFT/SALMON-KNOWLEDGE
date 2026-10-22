@@ -90,9 +90,9 @@ def metrics(w, e, wr, er):
     return 100 * pw / peak, 1000 * shift, 100 * best / peak, 100 * re1
 
 
-def re1_sub(key, ref):
+def re1_sub(key, ref, tau=10):
     """Re eps_z(1 eV) of a rung against the reference, both with the baseline subtracted (%)."""
-    return 100 * (re_eps(key, [1.0], True)[0] / re_eps(ref, [1.0], True)[0] - 1)
+    return 100 * (re_eps(key, [1.0], True, tau)[0] / re_eps(ref, [1.0], True, tau)[0] - 1)
 
 
 def table(title, rungs, ref, tau=10):
@@ -102,7 +102,7 @@ def table(title, rungs, ref, tau=10):
     wr, er = load(ref, tau)
     for name, key in rungs:
         pw, sh, shp, re1 = metrics(*load(key, tau), wr, er)
-        print("%-8s %12.2f %10.1f %8.2f %14.2f %18.2f" % (name, pw, sh, shp, re1, re1_sub(key, ref)))
+        print("%-8s %12.2f %10.1f %8.2f %14.2f %18.2f" % (name, pw, sh, shp, re1, re1_sub(key, ref, tau)))
 
 
 def overlay(rungs, ref_name, label, fname, title):

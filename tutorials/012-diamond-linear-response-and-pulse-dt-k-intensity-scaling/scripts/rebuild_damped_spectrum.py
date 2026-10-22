@@ -19,7 +19,7 @@ from a finished run with the same cell and the same impulse; C depends on those 
 
 Option --subtract-baseline removes the constant baseline d of the late current (baseline(); the same
 weighted mean SALMON subtracts with yn_lr_w0_correction = 'y') from Jm_z before both transforms; the
-fit of C still uses the unmodified current against SALMON's file. Default behaviour is unchanged.
+fit of C still uses the unmodified current against SALMON's file. Default behavior is unchanged.
 
 Output (npz): w_eV, eps (damped, complex), eps_undamped_rebuilt, eps_salmon (NaN without a file), calib,
 resid, tau, T.

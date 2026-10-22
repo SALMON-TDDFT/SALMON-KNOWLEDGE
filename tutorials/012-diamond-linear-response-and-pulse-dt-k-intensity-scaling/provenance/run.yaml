@@ -47,12 +47,12 @@ figure_script:
 ladder_scripts:
   rebuild:
     path: "scripts/rebuild_damped_spectrum.py"
-    sha256: "5b52d61558c3cf6f68460faeef4d23b5caaa3ffdca790cc64477bbb9331d1bda"
+    sha256: "ce971079f2e5736c9c328831a3a7d695aef0acb5a6d794f719ce5e2f9ccd3449"
     note: "Damped rebuild from Jm_z of *_rt.data with SALMON's window times exp(-t/tau); the complex factor is fitted once per run against SALMON's own *_response.data over 2-25 eV. The npz files of the tutorial were made with the same transform and fit (an earlier, functionally equal version of this script); this version, rerun on the full r16 k6 rt.data, reproduces that npz to 1e-14. The option --subtract-baseline (default off) removes the constant baseline of Jm_z that yn_lr_w0_correction subtracts in SALMON; plot_ladders.py applies it offline."
     check: "undamped rebuild vs *_response.data, max relative difference 2-25 eV: 3.1e-6 to 5.5e-6 on all eleven ladder runs; fitted factor 9575.53 (imaginary part below 0.03) for all"
   plot:
     path: "scripts/plot_ladders.py"
-    sha256: "6a7093fee180203b3b770b55507f5567449c7092f567dd7166692978a81fc9a3"
+    sha256: "b0ad0c96c377185e46ad3ddd5f1f00df8c2696578b86d2599607d71f7325773e"
     output: "provenance/ladder-script-output.txt"
     figures: ["figures/r-ladder-im-eps-z-tau10.png", "figures/k-ladder-im-eps-z-tau10.png", "figures/low-energy-baseline.png"]
 runs:
