@@ -12,7 +12,7 @@ salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
-updated_at: 2026-10-06
+updated_at: 2026-10-22
 contributors: []
 reviewed_by: []
 ---
@@ -38,9 +38,14 @@ shape.
 > pointwise differences) is kept as a superseded entry in the
 > [Judgment record](#judgment-record); the run at that point finished and now
 > serves as the check that r and k act independently. The time step and the
-> propagation time are *not* chosen from a convergence test but fixed (see the
-> Judgment record), and the `dt` and `nstate` entries remain provisional (AI
-> assistant). Everything that was not varied was an
+> propagation time is *not* chosen from a convergence test but fixed (see the
+> Judgment record); the time step is judged from the dt ladder. The maintainer judged the time step on 2026-10-22: the
+> recommended value is `dt` = 0.0015 fs (the looser member of the pair where the
+> change became small), whereas the executed baseline is 0.0005 fs, the
+> value of the official sample: the k, r and propagation-time ladders and the
+> adopted point (r20, k16) ran at 0.0005 fs, the dt ladder ran 0.00025 to
+> 0.0015 fs at r20, k8, and 0.0015 fs was not run at the adopted point. The maintainer also judged
+> `nstate` = 32 for the ground state. Everything that was not varied was an
 > assumption of the assistant; it is listed in
 > [Assumptions](#assumptions-made-by-the-assistant).
 
@@ -74,7 +79,10 @@ were as follows.
   but matters when a laser is tuned to a feature of the spectrum; then use the
   safe zone.
 - **Time step.** `dt` = 0.00025, 0.0005, 0.001, 0.0015 fs agree within 0.23%
-  of the peak at r20, the adopted grid. **`dt` = 0.0005 fs** was kept.
+  of the peak at r20, the adopted grid. The maintainer recommends **`dt` = 0.0015 fs** (row 3). The k, r and
+  propagation-time ladders and the adopted point (r20, k16) ran at 0.0005 fs, the
+  value of the official sample; the dt ladder ran 0.00025 to 0.0015 fs at r20, k8;
+  0.0015 fs was not run at the adopted point.
 - **Propagation time.** T = 12 fs against 48 fs differs by 38% (the peak rises
   from 43.9 to 69.2 and narrows). With the SALMON default analysis (a window
   stretched to T, no damping) the spectrum **does not converge in T**; it must be
@@ -200,7 +208,7 @@ longer rung. Peak positions are in eV; peak values are `Im eps_z` at the peak.
 
 | observable | k (r20, dt 0.0005 fs, T 12 fs) | r (k8, dt 0.0005 fs, T 12 fs) | dt (r20, k8, T 12 fs) | T (r20, k8, dt 0.0005 fs) | nstate (r20, k4) |
 |---|---|---|---|---|---|
-| `Im eps_z` shape, maximum difference (% of peak) | k16 (the maintainer, row 1a): k16 vs k24 0.92%, k20 vs k24 1.17%; neighbor pairs 4.36% at k12 to k16 and 1.48% at k16 to k20 | r20 (the maintainer, row 2a): after a rigid shift r20 is within 1.2% of r32 (5.8% pointwise); r24 and finer are the safe zone, r16 the caution zone | 0.0005 fs, provisional (AI assistant, row 3); all pairs within 0.23% | not a convergence quantity (row 4): 37.5% at 12 fs to 48 fs | identical to within 0.005%; use 32 for the GS, provisional (AI assistant, row 5) |
+| `Im eps_z` shape, maximum difference (% of peak) | k16 (the maintainer, row 1a): k16 vs k24 0.92%, k20 vs k24 1.17%; neighbor pairs 4.36% at k12 to k16 and 1.48% at k16 to k20 | r20 (the maintainer, row 2a): after a rigid shift r20 is within 1.2% of r32 (5.8% pointwise); r24 and finer are the safe zone, r16 the caution zone | 0.0015 fs recommended (the maintainer, row 3); runs made at 0.0005 fs; all pairs within 0.23% | not a convergence quantity (row 4): 37.5% at 12 fs to 48 fs | identical to within 0.005%; use 32 for the GS (the maintainer, row 5) |
 | rigid energy shift against the densest rung | not examined | -130, +30, -12, 0 meV for r16, r20, r24, r28 against r32 (row 2a) | not examined | not examined | not examined |
 | peak position (eV) and value | fixed from k16: 3.72 to 3.73 eV, 48.1 to 48.2 (row 1a); not judged separately | 3.65, 3.61, 3.62, 3.62 eV and 43.92, 44.08, 44.06, 43.98 for r20, r24, r28, r32; not judged | 3.65 eV unchanged; 43.92, 43.89, 43.86 for dt 0.0005, 0.001, 0.0015 fs; not judged | 43.9 (12 fs) becomes 69.2 (48 fs), narrower with satellites | not examined |
 | `Re eps_z` at 1 eV | not examined | 15.13, 13.93, 14.32, 14.24 for r16, r20, r24, r32; r20 is -2% against r32 (row 2a) | not examined | not examined | not examined |
@@ -291,10 +299,13 @@ at r20, which is the adopted grid; if a grid in the safe zone (r24 or finer) is
 used, the limit is lower and the chosen 0.0005 fs is about half of the
 estimated limit at r28. The dt ladder was not repeated at r24 or finer.
 
-**Judgment: 0.0005 fs, provisional (AI assistant)** ([Judgment record](#judgment-record)
-row 3; the maintainer has not judged it). No pair changes by more than 0.23%;
-the value is that of the official sample, and 0.001 fs and 0.0015 fs also ran
-at r20 and would be cheaper.
+**Judgment: 0.0015 fs** (the maintainer, 2026-10-22, [Judgment record](#judgment-record)
+row 3). No pair changes by more than 0.23%, and the maintainer takes the looser
+member of the pair where the change became small. This is the recommended value
+from the dt ladder; the k, r and propagation-time ladders and the adopted point
+(r20, k16) ran at 0.0005 fs, the value of the official sample; the dt ladder ran
+0.00025 to 0.0015 fs at r20, k8; 0.0015 fs was not run at the adopted point. No
+run number changes.
 
 ### Ladder: propagation time (r20, k8, dt 0.0005 fs)
 
@@ -329,7 +340,8 @@ current are weighted by the occupation, and empty orbitals have occupation zero,
 so they are propagated but contribute nothing. The empty orbitals do cost time
 (`nstate` = 32 is twice and 64 four times the cost of 16), so there is no benefit
 from a larger `nstate` in the response run. **But** the ground state has to be
-solved with empty bands, see below. Provisional (AI assistant), row 5.
+solved with empty bands, see below. Judgment: `nstate` = 32 for the ground
+state (the maintainer, 2026-10-22, row 5).
 
 ### Low-frequency artifact and `yn_lr_w0_correction`
 
@@ -379,13 +391,13 @@ needed; it was not run.
 
 | use | setting | measure | evidence |
 |---|---|---|---|
-| complete adopted setting | r20^3, k16^3, `nstate` 32 for the GS; `dt` 0.0005 fs, T 12 fs (`nt` 24000); `yn_lr_w0_correction='n'` | the (r20, k16) point is the k16 rung of the k ladder and has been run | the rows below; mixed provenance (maintainer rows 1a, 2a, 6a; provisional AI assistant rows 3, 5; assumed row 4) |
+| complete adopted setting | r20^3, k16^3, `nstate` 32 for the GS; `dt` 0.0005 fs as run (recommended 0.0015 fs, row 3), T 12 fs (`nt` 24000); `yn_lr_w0_correction='n'` | the (r20, k16) point is the k16 rung of the k ladder and has been run at dt 0.0005 fs | the rows below; mixed provenance (maintainer rows 1a, 2a, 3, 5, 6a; assumed row 4) |
 | structure, pseudopotential, `xc` | Si 8-atom cubic, a = 5.43 Angstrom; FHI98PP LDA; PZ | not varied | assumed by the AI assistant |
 | k mesh of the GS and the response | `num_kgrid` 16^3; safe zone k16 and denser | k16 vs k24 0.92%, k20 vs k24 1.17% (pointwise); peak fixed from k16 | the maintainer, row 1a |
 | real-space grid | `num_rgrid` 20^3; safe zone r24 and finer; caution zone r16 | r20 vs r32: +30 meV shift plus 1.2% of shape (5.8% pointwise), `Re eps_z`(1 eV) -2%; r24: -12 meV plus 0.4%; r16: -130 meV plus about 5%, `Re eps_z` +6% | the maintainer, row 2a |
-| time step | `dt` 0.0005 fs | 0.00025 to 0.0015 fs within 0.23% at r20 (the adopted grid) | provisional (AI assistant), row 3 |
+| time step | `dt` 0.0015 fs recommended; the adopted point was run at 0.0005 fs | 0.00025 to 0.0015 fs within 0.23% at r20 (the adopted grid) | the maintainer (2026-10-22), row 3 |
 | propagation time | T = `nt` * `dt` = 12 fs (`nt` = 24000) | not a convergence choice; broadening set by T | assumed by the AI assistant, row 4 |
-| `nstate` | 32 for the GS; any value in the response | 16/32/64 identical; GS needs empty bands | provisional (AI assistant), row 5 |
+| `nstate` | 32 for the GS; any value in the response | 16/32/64 identical; GS needs empty bands | the maintainer (2026-10-22), row 5 |
 | `yn_lr_w0_correction` | `'n'` (default); `'y'` when the region below `2 pi hbar / T` matters | `'y'` checked offline only | the maintainer (default kept), row 6a |
 
 The (r20, k16) ground state and response are the k16 rung of the k ladder,
@@ -399,9 +411,9 @@ so the adopted set has been run.
 | 1 | k mesh | 20^3 (16^3 also possible) | AI assistant's first reading (neighbor pointwise), superseded by 1a | Im eps_z overlays and max diff of k4 to k24 at r20 | k12 to k16 is 4.4%, k16 to k20 1.5%, k20 to k24 1.2%. The peak height and position are fixed from k16, and the remaining differences are a shoulder at 4-5 eV. A rule "two consecutive pairs below 5%" gives k12 and was rejected because k12 to k16 still moves the shoulder; "below 2%" gives k16. k20 was taken because the last steps fall slowly (1.5%, 1.2%) and the decision should be re-examined after r is fixed; k24 has 1.7 times as many k-points as k20 (13824 against 8000) and gains only 0.3 percentage points between the last two pairs. |
 | 2a | real-space grid | 20^3 adopted; r24 and finer are the safe zone; r16 is the caution zone | maintainer (2026-10-06) | each rung against r32 at k8, split into a rigid shift and the remaining shape difference; Re eps_z at 1 eV; the (r28, k20) check run | r16: -130 meV shift plus about 5% of the peak (18.9% pointwise), Re eps_z(1 eV) 15.13 against 14.24 at r32 (+6%). r20: +30 meV plus 1.2% (5.8% pointwise), Re eps_z 13.93 (-2%). r24: -12 meV plus 0.4% (2.4% pointwise), Re eps_z 14.32. r28: no shift, 0.25%. "r20 is already fairly strict": after the shift it is within 1.2% of r32. The 30 meV shift is small against the LDA gap error (about 0.5 eV for Si) but matters when a laser is tuned to a feature of the spectrum, which is why r24 and finer are kept as the safe zone. The pointwise difference that drove the earlier reading overstates the shift of the steep edge ([SALMON-TS-013](../../troubleshooting/SALMON-TS-013-pointwise-difference-overstates-a-small-shift.md)). The (r28, k20) run confirmed that r acts independently of k (r20 to r28: 5.2% pointwise at k20, 6.0% at k8). |
 | 2 | real-space grid | 28^3 (24^3 possible) | AI assistant's first reading (neighbor pointwise), superseded by 2a | Im eps_z overlays and max diff of r16 to r32 at k8 | r20 to r24 8.2%, r24 to r28 2.2%, r28 to r32 0.25%. The "two consecutive pairs below 5%" rule gives r24 and "below 1%" gives r28. r24 is also the value that tutorial 005 needed for the bands, so r24 was named as the alternative if 2% is acceptable. r28 was taken as the conservative side (the spectrum stops moving at r28 to r32). r32 has 1.5 times as many grid points as r28 and was not needed. |
-| 3 | time step | 0.0005 fs | provisional (AI assistant) | dt 0.00025 to 0.0015 fs at r20, k8 | All within 0.23% at r20, the adopted grid. 0.0005 fs is the value of the official sample and lies well below the stencil-based stability estimate at r20 (0.0018 fs); 0.001 fs and 0.0015 fs also ran at r20 and would be cheaper. For a grid in the safe zone the limit falls as the square of the spacing (about 0.0009 fs at r28, where 0.0005 fs is a factor of 2 below it); the ladder was not repeated at r24 or finer. |
+| 3 | time step | 0.0015 fs recommended (the adopted point was run at 0.0005 fs) | maintainer (2026-10-22): the looser member, 0.0015 fs | dt 0.00025 to 0.0015 fs at r20, k8 | All within 0.23% at r20, the adopted grid. 0.0005 fs is the value of the official sample and lies well below the stencil-based stability estimate at r20 (0.0018 fs); 0.0015 fs, about 83% of that estimate, also ran at r20 and is cheaper by a factor of 3 in steps. The maintainer takes the looser member of the pair where the change became small. The k, r and propagation-time ladders and the adopted point (r20, k16) ran at 0.0005 fs; the dt ladder ran 0.00025 to 0.0015 fs at r20, k8; 0.0015 fs was not run at the adopted point. For a grid in the safe zone the limit falls as the square of the spacing (about 0.0009 fs at r28, where 0.0005 fs is a factor of 2 below it); the ladder was not repeated at r24 or finer. |
 | 4 | propagation time | 12 fs, fixed | assumed by the AI assistant | T = 12 fs against 48 fs at r20, k8 | Not a convergence judgment: the spectrum changes by 38% and keeps changing with T under the SALMON default analysis. 12 fs is the window of the official sample. Spectra must be compared at the same T. |
-| 5 | nstate | 16, 32, 64 give identical spectra; use 32 for the GS | provisional (AI assistant) | r20, k4 triplet; the slow SCF of the ground state at `nstate` = 16 | See the observation above and [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md). The response run could use the cheapest `nstate` its ground state offers. |
+| 5 | nstate | 32, the setting of the official sample, for the ground state; 16, 32 and 64 give identical response spectra | maintainer (2026-10-22): 32, the setting of the official sample, for the ground state; 16, 32 and 64 give identical response spectra; the ground state needs empty bands ([SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md)) | r20, k4 triplet; the slow SCF of the ground state at `nstate` = 16 | See the observation above and [SALMON-TS-007](../../troubleshooting/SALMON-TS-007-gs-with-only-occupied-states-converges-slowly.md). The response run could use the cheapest `nstate` its ground state offers. |
 | 6a | yn_lr_w0_correction | default `'n'` in the adopted deck; `'y'` only when the region below `2 pi hbar / T` is read | maintainer (2026-10-07) | the executed runs (all `'n'`); the offline check below | The maintainer does not normally use the option. Every ladder run used the default, so the adopted deck stays as run; the absorption above the gap is unchanged by the option. |
 | 6 | yn_lr_w0_correction | recommend `'y'` | AI assistant's first reading, superseded by 6a | offline re-transform of `*_rt.data` at k4 and k8 | Removes the low-frequency artifact without changing the peak. Not run inside SALMON. |
 
@@ -444,8 +456,7 @@ convergence results.
 - The maintainer judged the k and r ladders and adopted k16, r20; the (r20, k16)
   ground state and response exist as the k16 rung of the k ladder. The (r28, k20)
   run checked the two axes together.
-- **Not validated:** `dt` and `nstate` remain the assistant's provisional
-  judgments. The `dt` ladder was run at r20 only, not in
+- **Not validated:** the `dt` ladder was run at r20 only, not in
   the safe zone (r24 or finer). The k ladder at r20 and the r ladder at k8 were
   checked together only at the single (r28, k20) run; no (r32, k20) run.
   `yn_lr_w0_correction = 'y'` was not run in SALMON. The x and y polarizations,
@@ -510,7 +521,8 @@ Fugaku (A64FX).
 - The adopted r20 carries a +30 meV shift of the absorption edge against r32.
   That is small against the LDA gap error (about 0.5 eV for Si) but matters when
   a laser is tuned to a feature of the spectrum; use r24 or finer in that case.
-- `dt` and `nstate` are provisional (AI assistant).
+- The recommended `dt` = 0.0015 fs was not run at the adopted point (r20, k16), which ran
+  at 0.0005 fs; the dt ladder was made at r20, k8 only.
 - The adopted deck uses the default analysis, so `Im eps` below about
   `2 pi hbar / T` (0.35 eV at 12 fs) is an artifact; see the low-frequency
   observation above.
