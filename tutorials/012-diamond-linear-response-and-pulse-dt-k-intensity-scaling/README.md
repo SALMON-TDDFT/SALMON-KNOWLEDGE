@@ -349,14 +349,8 @@ steps (to 6 digits at 0.0208 fs), the electron number is constant to 1e-8 and no
 is non-finite. 400 steps (0.02 to 0.04 fs) are far too few to exclude a slow instability
 at 100 %; that was not tested.
 
-Pairwise comparison of the two 50 fs runs at k6, `Im eps_z`, undamped:
-
-| range (eV) | max diff (% of peak) | where (eV) |
-|---|---:|---:|
-| 1-5 (empty) | 0.043 | 1.04 |
-| 5-10 | 0.009 | 5.05 |
-| 10-15 | 0.006 | 10.83 |
-| 1-15 | 0.043 | 1.04 |
+Pairwise comparison of the two 50 fs runs at k6, `Im eps_z`, undamped (table by energy range in
+[Supporting tables](#supporting-tables); largest difference 0.043 % of the peak, at 1.04 eV):
 
 The largest difference is in the empty part of the spectrum (`Im eps_z` of about 0.2
 there, an absolute difference of 0.02). It is not the truncation of the killed run: with
@@ -406,7 +400,7 @@ Both spectra rebuilt from the printed current and from the series cut at the sho
 
 | range (eV) | max diff (% of the k8 peak) | where (eV) |
 |---|---:|---:|
-| 1-5 (empty) | 0.62 | 1.19 |
+| 1 to 5 (empty) | 0.62 | 1.19 |
 | 5-10 | 32.4 | 9.80 |
 | 10-15 | 48.2 | 11.65 |
 
@@ -548,13 +542,8 @@ the pair against the densest mesh k24 (tau = 10 fs, 5 to 25 eV); k24 itself is t
 (reference k24: peak 26.82 at 11.07 eV, `Re eps_z` at 1 eV = 5.575 as is, 5.808 with the baseline
 subtracted)
 
-Dependence on the damping, shape against k24 (%):
-
-| k | tau = 5 fs (0.13 eV) | tau = 10 fs (0.066 eV) | tau = 20 fs (0.033 eV) |
-|---|---:|---:|---:|
-| 12 | 10.4 | 14.9 | 20.9 |
-| 16 | 5.2 | 10.7 | 15.7 |
-| 20 | 1.3 | 3.5 | 8.5 |
+Dependence on the damping, shape against k24 (%): table in [Supporting tables](#supporting-tables)
+(k12: 10.4, 14.9, 20.9; k16: 5.2, 10.7, 15.7; k20: 1.3, 3.5, 8.5 at tau = 5, 10, 20 fs).
 
 Against k20 as the reference (tau = 10 fs; the reference before k24 was run), the shape is
 43.7 % (k6), 29.5 % (k8), 17.8 % (k10), 15.5 % (k12), 12.7 % (k16).
@@ -796,6 +785,25 @@ These were fixed by the drafting assistant, not varied, and are not convergence 
   was not run in SALMON (the baseline subtraction of section 4 is offline). The dependence on the length of the response run, the x and y
   polarizations, odd or Gamma-centered meshes, other pseudopotentials and other materials were
   not examined.
+
+### Supporting tables
+
+Section 1: pairwise comparison of the two 50 fs runs (50 % and 75 % of the limit) at r32 k6, `Im eps_z`, undamped, by energy range:
+
+| range (eV) | max diff (% of peak) | where (eV) |
+|---|---:|---:|
+| 1 to 5 (empty) | 0.043 | 1.04 |
+| 5 to 10 | 0.009 | 5.05 |
+| 10 to 15 | 0.006 | 10.83 |
+| 1 to 15 | 0.043 | 1.04 |
+
+Section 7: dependence of the shape difference on the damping, each k against k24 (%; r20):
+
+| k | tau = 5 fs (0.13 eV) | tau = 10 fs (0.066 eV) | tau = 20 fs (0.033 eV) |
+|---|---:|---:|---:|
+| 12 | 10.4 | 14.9 | 20.9 |
+| 16 | 5.2 | 10.7 | 15.7 |
+| 20 | 1.3 | 3.5 | 8.5 |
 
 ## Surprises and failures recorded
 
