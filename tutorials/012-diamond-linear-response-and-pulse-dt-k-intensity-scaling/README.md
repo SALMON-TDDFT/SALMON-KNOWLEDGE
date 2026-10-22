@@ -544,7 +544,7 @@ read with the baseline subtracted (section 4).
 ![Re eps_z at 1 eV along the r ladder (k6) and the k ladder (r20), as is and with the baseline subtracted](figures/re-eps-1ev-ladders.png)
 
 The figure is drawn by [scripts/plot_re_eps_ladders.py](scripts/plot_re_eps_ladders.py)
-(`plot_re_eps_ladders.py <figure dir>`) from the baseline table in
+(`plot_re_eps_ladders.py <figure dir> <path to ladder-script-output.txt>`) from the baseline table in
 [provenance/ladder-script-output.txt](provenance/ladder-script-output.txt).
 
 **Adopted (maintainer, 2026-10-14): r = 20, k = 20^3**, with 75 % of the estimated
@@ -568,7 +568,7 @@ The figure `intensity-scaling.png` is drawn by
 
 `Eall - Eall0` is column 3 of `*_rt_energy.data`; the number of excited electrons and holes
 (`N_e`, `N_h`) are columns 2 and 3 of `*_nex.data`, written 101 times. In the left panel
-the energy rises and falls with the field and then stays at a constant residual after the
+of `rt-energy-vs-time.png` the energy rises and falls with the field and then stays at a constant residual after the
 pulse (dotted line: `tw1`); in the right panel it is divided by the peak intensity, and
 during the pulse the three curves coincide, i.e. the energy is linear in intensity there.
 
