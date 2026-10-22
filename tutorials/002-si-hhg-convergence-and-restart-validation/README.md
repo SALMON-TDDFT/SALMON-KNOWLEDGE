@@ -113,27 +113,36 @@ convergence point, so no cell names one. Only the k ladder has numbers.
 
 | observable | real-space grid (`12^3`, `16^3`, `20^3`) | time step (`dt=0.001`, `0.00125`, `0.0025 fs`) | k-point grid (`16^3`, `24^3`, `32^3`) |
 |---|---|---|---|
-| final excitation energy (eV) | not reported; not judged | not reported; not judged | -0.00234 eV at `16^3` to `24^3`; +0.0000035 eV at `24^3` to `32^3`; not judged |
-| HHG spectrum, column 10 (`|Jm_z|^2`) | compared in the figure only; no number recorded; not judged | compared in the figure only; no number recorded; not judged | about 0.003% (relative L2 measure of the linear spectrum) at `24^3` to `32^3`; not judged |
+| final excitation energy (eV) | not reported; not judged | not reported; not judged | -0.00234 eV (-0.292 meV/atom, derived, 8 atoms) at `16^3` to `24^3`; +0.0000035 eV (+0.000435 meV/atom, derived) at `24^3` to `32^3`; not judged |
+| HHG spectrum, column 10 (`\|Jm_z\|^2`) | compared in the figure only; no number recorded; not judged | compared in the figure only; no number recorded; not judged | about 0.003% (relative L2 measure of the linear spectrum) at `24^3` to `32^3`; not judged |
 | electron count | not reported for this ladder | not reported for this ladder | 31.99999993 to 32.0 in all three runs |
 
-The excitation energy differs by 2.3 meV between `16^3` and `24^3` and by 3.5
-micro-eV between `24^3` and `32^3`; the spectrum measure is available only for
+The excitation energy differs by 2.3 meV (0.2923975 meV/atom, derived, 8 atoms)
+between `16^3` and `24^3` and by 3.5 micro-eV (0.000435 meV/atom, derived)
+between `24^3` and `32^3`; the spectrum measure is available only for
 the second pair.
 
 ### Ladder: real-space grid
 
 ![rgrid convergence](figures/rgrid-convergence.png)
 
-No per-pair numbers are recorded for this ladder, so there is no table. No
-judgment is recorded for it (the judge is not recorded either).
+| pair | change in final excitation energy | change in HHG spectrum, column 10 | rung to densest (`20^3`) |
+|---|---|---|---|
+| `12^3` to `16^3` | not recorded | compared in the figure only; not recorded | not recorded |
+| `16^3` to `20^3` | not recorded | compared in the figure only; not recorded | not recorded |
+
+No judgment is recorded for this ladder (the judge is not recorded either).
 
 ### Ladder: time step
 
 ![dt convergence](figures/dt-convergence.png)
 
-No per-pair numbers are recorded for this ladder, so there is no table. The
-short `nt=100` stability screen is described in the Procedure. No judgment is
+| pair | change in final excitation energy | change in HHG spectrum, column 10 | rung to densest (`dt=0.001 fs`) |
+|---|---|---|---|
+| `dt=0.0025` to `0.00125 fs` | not recorded | compared in the figure only; not recorded | not recorded |
+| `dt=0.00125` to `0.001 fs` | not recorded | compared in the figure only; not recorded | not recorded |
+
+The short `nt=100` stability screen is described in the Procedure. No judgment is
 recorded for the full 12-fs comparison.
 
 ### Ladder: k-point grid
@@ -142,17 +151,18 @@ recorded for the full 12-fs comparison.
 
 | pair | change in final excitation energy (eV) | change in HHG spectrum, column 10 | final excitation energy of the denser member (eV) | rung to densest (`32^3`) |
 |---|---:|---|---:|---:|
-| `16^3` to `24^3` | -0.00233918 (derived) | not reported | 1.57848230 | +0.00233570 eV (derived) |
-| `24^3` to `32^3` | +0.00000348 (derived; about 3.5 micro-eV as stated) | about 0.003% (relative L2, linear spectrum) | 1.57848578 | 0 (itself) |
+| `16^3` to `24^3` | -0.00233918 eV = -0.2923975 meV/atom (derived, 8 atoms) | not reported | 1.57848230 | +0.00233570 eV = +0.2919625 meV/atom (derived; `16^3` minus `32^3`) |
+| `24^3` to `32^3` | +0.00000348 eV = +0.000435 meV/atom (derived; about 3.5 micro-eV as stated) | about 0.003% (relative L2, linear spectrum) | 1.57848578 | -0.00000348 eV = -0.000435 meV/atom (derived; `24^3` minus `32^3`) |
 
 Absolute final excitation energies: 1.58082148 eV (`16^3`), 1.57848230 eV
 (`24^3`), 1.57848578 eV (`32^3`). Derived: 1.57848230 - 1.58082148 =
 -0.00233918; 1.57848578 - 1.57848230 = +0.00000348; 1.58082148 - 1.57848578 =
-+0.00233570.
++0.00233570; the last column is first member minus `32^3`, so the `24^3` row is
+1.57848230 - 1.57848578 = -0.00000348. Per-atom values divide by the 8 atoms of
+the cell (derived).
 
-**Judgment:** the change became small at `24^3` to `32^3` (3.5 micro-eV, about
-0.003% in the spectrum). No member of the pair is recorded as taken and the
-judge is not recorded; this tutorial does not state a judgment, and none is added.
+**Judgment:** no judgment recorded. The change at `24^3` to `32^3` is 3.5
+micro-eV (0.000435 meV/atom, derived) and about 0.003% in the spectrum.
 
 ### Recommended settings by use
 
