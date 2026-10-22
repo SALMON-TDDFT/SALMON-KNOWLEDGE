@@ -57,8 +57,9 @@ ladder_scripts:
     figures: ["figures/r-ladder-im-eps-z-tau10.png", "figures/k-ladder-im-eps-z-tau10.png", "figures/low-energy-baseline.png"]
   dt_rebuild_intensity:
     path: "scripts/plot_dt_rebuild_intensity.py"
-    sha256: "e6d6586c137ea65ad8bd305e11886580167b49234fd6f3136f3dd3b88155b70e"
+    sha256: "3ad7c64e515d2acb1562253568fa138c9480b0811bf15d9a9c1e06bb693b1a95"
     figures: ["figures/dt-50-vs-75.png", "figures/rebuild-vs-salmon.png", "figures/intensity-scaling.png"]
+    figure_sha256: {"figures/intensity-scaling.png": "82f70798e3905bbd230b4f129dfb990774abdb8f1b2c92ef49d2d31e17234932"}
     note: "Usage: plot_dt_rebuild_intensity.py <data dir> <figure dir>; reads the response, rt, rt_energy and nex files of the r32 k6 runs and eps_tau10.npz of the finished one; the 47.3 fs damped spectra are rebuilt inside with scripts/rebuild_damped_spectrum.py."
   re_eps_ladders:
     path: "scripts/plot_re_eps_ladders.py"
