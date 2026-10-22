@@ -55,6 +55,16 @@ ladder_scripts:
     sha256: "b0ad0c96c377185e46ad3ddd5f1f00df8c2696578b86d2599607d71f7325773e"
     output: "provenance/ladder-script-output.txt"
     figures: ["figures/r-ladder-im-eps-z-tau10.png", "figures/k-ladder-im-eps-z-tau10.png", "figures/low-energy-baseline.png"]
+  dt_rebuild_intensity:
+    path: "scripts/plot_dt_rebuild_intensity.py"
+    sha256: "e6d6586c137ea65ad8bd305e11886580167b49234fd6f3136f3dd3b88155b70e"
+    figures: ["figures/dt-50-vs-75.png", "figures/rebuild-vs-salmon.png", "figures/intensity-scaling.png"]
+    note: "Usage: plot_dt_rebuild_intensity.py <data dir> <figure dir>; reads the response, rt, rt_energy and nex files of the r32 k6 runs and eps_tau10.npz of the finished one; the 47.3 fs damped spectra are rebuilt inside with scripts/rebuild_damped_spectrum.py."
+  re_eps_ladders:
+    path: "scripts/plot_re_eps_ladders.py"
+    sha256: "e964675359d9feeb4d230512f58e39e1725221700419f2b1c3dd6496a9ae4df1"
+    figures: ["figures/re-eps-1ev-ladders.png"]
+    note: "Usage: plot_re_eps_ladders.py <figure dir> <ladder-script-output.txt>; plots the baseline table values of provenance/ladder-script-output.txt."
 runs:
   dates: ["2026-10-05", "2026-10-06", "2026-10-14 (ladder outputs collected)"]
   common: "primitive 2-atom fcc cell a = 3.567 A (vectors (0,h,h),(h,0,h),(h,h,0), h = 1.7835 A), atoms at reduced (0.05,0.05,0.05) and (0.30,0.30,0.30), xc PZ, nelec 8, nstate 8, fixed occupations (temperature_k not set), yn_symmetry n, shifted Monkhorst-Pack mesh without symmetry reduction (time-dependent k mesh = ground-state k mesh), polarization z, de 0.01 eV, nenergy 3000"
