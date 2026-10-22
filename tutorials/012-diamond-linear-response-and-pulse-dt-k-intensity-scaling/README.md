@@ -162,7 +162,7 @@ definitions are:
   range of |y(b) - y(a)| / (peak of `Im eps_z` of rung b over 1-15 eV), where b is the
   denser or finer rung of the pair and y is `Im eps_z` unless stated otherwise; "peak" =
   the largest `Im eps_z` over 1-15 eV;
-- second pass (damped, sections 5 to 8), against a reference rung (the densest one):
+- second pass (damped, sections 5 to 7), against a reference rung (the densest one):
   pointwise = 100 * max over 5-25 eV of |`Im eps_z` - reference| / (reference peak over
   5-25 eV); shift = the rigid energy shift of `Im eps_z` (scanned over +-0.4 eV in
   0.5 meV steps, linear interpolation) that minimizes that maximum; shape = the maximum
@@ -316,7 +316,7 @@ r20 (both at about 75 % of the step limit), and the pulse at r32 k6 with a 50 % 
 
 | observable | time step | real-space grid (k6) | k mesh (r20) | pulse intensity |
 |---|---|---|---|---|
-| `Im eps_z`, absorption shape (5-25 eV, tau = 10 fs, % of the reference peak after the shift) | 75 % of the limit (maintainer, 2026-10-22, row 1); 50 and 75 % differ by 0.01 % in shape (0.043 % of the peak undamped, 1-15 eV) | r20: "r16 can be enough depending on the use; r20 is already quite sufficient" (maintainer, 2026-10-14, row 4); against r32: 4.6 % (r16), 1.0 % (r20), 0.2 % (r24), 0.05 % (r28) | k20 adopted; "k16 is slightly loose, depending on the use" (maintainer, 2026-10-14, row 3); against k24: 10.7 % (k16), 3.5 % (k20), 8.5 % at k20 for tau = 20 fs; k24 is a reference, not converged | not examined |
+| `Im eps_z`, absorption shape (5 to 25 eV, tau = 10 fs, % of the reference peak after the shift) | 75 % of the limit (maintainer, 2026-10-22, row 1); 50 and 75 % differ by 0.01 % in shape (0.043 % of the peak undamped, 1 to 15 eV) | r20: "r16 can be enough depending on the use; r20 is already quite sufficient" (maintainer, 2026-10-14, row 4); against r32: 4.6 % (r16), 1.0 % (r20), 0.2 % (r24), 0.05 % (r28) | k20 adopted; "k16 is slightly loose, depending on the use" (maintainer, 2026-10-14, row 3); against k24: 10.7 % (k16), 3.5 % (k20), 8.5 % at k20 for tau = 20 fs; k24 is a reference, not converged | not examined |
 | `Re eps_z` at 1 eV, as is | not examined | -13.6 % (r16), -3.0 % (r20), -0.7 % (r24), -0.17 % (r28) against r32; the baseline of the current, not the grid (row 12); not judged as grid convergence | within 1 % of k24 from k6 up (row 3); not judged further | not examined |
 | `Re eps_z` at 1 eV, baseline subtracted | not examined | r16 to r32 within about 0.1 % of r32 (maintainer, 2026-10-22, row 12) | k12 to k20 within about 0.1 % of k24; k8 0.84 %, k6 1.29 % (maintainer, 2026-10-22, row 12); the statement stops at k20 | not examined |
 | excited electrons `N_e` and residual energy at 20 fs | not examined | not examined | not examined | I^3 from 1e11 to 1e13 W/cm^2, slopes 2.96 and 2.99 (maintainer, 2026-10-22, "for now", row 8); one condition |
@@ -495,29 +495,22 @@ The second pass compares spectra rebuilt with SALMON's window times `exp(-t/tau)
 
 ![Im eps_z, tau = 10 fs, 4-26 eV, r16 to r32 at k6, and the difference from r32](figures/r-ladder-im-eps-z-tau10.png)
 
-Against r32, tau = 10 fs, 5-25 eV:
+One table; each row is a neighbor pair. `Re eps_z` differences are absolute and derived
+(later rung minus earlier rung, from the absolute values printed in section 4). The neighbor-pair
+differences of the `Im eps_z` shape were not computed: the ladder script compares each rung with
+r32 only and the raw outputs are not committed. The last five columns are the measures of the
+earlier rung of the pair against the densest rung r32 (tau = 10 fs, 5 to 25 eV; shift, shape and
+pointwise in the units given; `Re eps_z` relative to r32); r32 itself is the reference.
 
-| r | dt (fs) | shift (meV) | shape (% of peak) | pointwise (% of peak) | `Re eps_z` at 1 eV (%) | `Re eps_z` at 1 eV, baseline subtracted (%) |
-|---|---:|---:|---:|---:|---:|---:|
-| 16 | 3.1e-4 | -8.5 | 4.6 | 5.6 | -13.6 | +0.10 |
-| 20 | 2.0e-4 | -2.5 | 1.0 | 1.5 | -3.0 | -0.02 |
-| 24 | 1.4e-4 | 0.0 | 0.2 | 0.2 | -0.7 | -0.01 |
-| 28 | 1.0e-4 | 0.0 | 0.05 | 0.05 | -0.17 | 0.00 |
+| pair | `dt` of the earlier rung (fs) | `Re eps_z` at 1 eV, as is | difference | `Re eps_z` at 1 eV, baseline subtracted | difference | `Im eps_z` shape, pair | earlier rung against r32: shift (meV) | shape (% of peak) | pointwise (% of peak) | `Re eps_z` as is (%) | `Re eps_z` subtracted (%) |
+|---|---:|---|---:|---|---:|---|---:|---:|---:|---:|---:|
+| r16 to r20 | 3.1e-4 | 4.932 to 5.533 | +0.601 | 5.890 to 5.883 | -0.007 | not computed | -8.5 | 4.6 | 5.6 | -13.6 | +0.10 |
+| r20 to r24 | 2.0e-4 | 5.533 to 5.666 | +0.133 | 5.883 to 5.884 | +0.001 | not computed | -2.5 | 1.0 | 1.5 | -3.0 | -0.02 |
+| r24 to r28 | 1.4e-4 | 5.666 to 5.698 | +0.032 | 5.884 to 5.884 | 0.000 | not computed | 0.0 | 0.2 | 0.2 | -0.7 | -0.01 |
+| r28 to r32 | 1.0e-4 | 5.698 to 5.708 | +0.010 | 5.884 to 5.884 | 0.000 | not computed | 0.0 | 0.05 | 0.05 | -0.17 | 0.00 |
 
-(reference r32: peak 31.98 at 10.99 eV, `Re eps_z` at 1 eV = 5.708 as is, 5.884 with the baseline
+(reference r32: `dt` 7.8e-5 fs, peak 31.98 at 10.99 eV, `Re eps_z` at 1 eV = 5.708 as is, 5.884 with the baseline
 subtracted; each rung is subtracted with its own baseline and compared with the subtracted r32)
-
-Neighbor pairs of `Re eps_z` at 1 eV (derived: later rung minus earlier rung, from the
-absolute values printed in section 4; dimensionless). The neighbor-pair differences of the
-`Im eps_z` shape were not computed: the ladder script compares each rung with r32 only, and
-the raw outputs are not committed.
-
-| pair | as is | difference | baseline subtracted | difference |
-|---|---|---:|---|---:|
-| r16 to r20 | 4.932 to 5.533 | +0.601 | 5.890 to 5.883 | -0.007 |
-| r20 to r24 | 5.533 to 5.666 | +0.133 | 5.883 to 5.884 | +0.001 |
-| r24 to r28 | 5.666 to 5.698 | +0.032 | 5.884 to 5.884 | 0.000 |
-| r28 to r32 | 5.698 to 5.708 | +0.010 | 5.884 to 5.884 | 0.000 |
 
 - The absorption shape converges fast in r: 1 % at r20, 0.2 % at r24. The shifts are at
   most 8.5 meV, so the r16 difference is mostly shape (4.6 of 5.6 %), around the 11 eV peak.
@@ -536,16 +529,21 @@ the raw outputs are not committed.
 
 ![Im eps_z, tau = 10 fs, 4-26 eV, k6 to k24 at r20, and the difference from k24](figures/k-ladder-im-eps-z-tau10.png)
 
-Against k24, tau = 10 fs, 5-25 eV:
+One table; each row is a neighbor pair. `Re eps_z` differences are absolute and derived
+(later mesh minus earlier mesh, from the absolute values printed in section 4 and in
+[provenance/ladder-script-output.txt](provenance/ladder-script-output.txt); k6 is the r20 k6 run of
+section 6). The neighbor-pair differences of the `Im eps_z` shape were not computed: the ladder script
+compares each mesh with k24 and k20 only. The last five columns are the measures of the earlier mesh of
+the pair against the densest mesh k24 (tau = 10 fs, 5 to 25 eV); k24 itself is the reference.
 
-| k | shift (meV) | shape (% of peak) | pointwise (% of peak) | `Re eps_z` at 1 eV (%) | `Re eps_z` at 1 eV, baseline subtracted (%) |
-|---|---:|---:|---:|---:|---:|
-| 6 | -24.0 | 42.5 | 43.0 | -0.75 | +1.29 |
-| 8 | -26.0 | 28.6 | 29.9 | +0.31 | +0.84 |
-| 10 | -40.5 | 19.1 | 21.2 | -0.19 | +0.08 |
-| 12 | -32.0 | 14.9 | 16.9 | -0.22 | -0.04 |
-| 16 | +22.0 | 10.7 | 12.1 | -0.11 | -0.10 |
-| 20 | +13.5 | 3.5 | 5.5 | +0.04 | +0.04 |
+| pair | `Re eps_z` at 1 eV, as is | difference | `Re eps_z` at 1 eV, baseline subtracted | difference | `Im eps_z` shape, pair | earlier mesh against k24: shift (meV) | shape (% of peak) | pointwise (% of peak) | `Re eps_z` as is (%) | `Re eps_z` subtracted (%) |
+|---|---|---:|---|---:|---|---:|---:|---:|---:|---:|
+| k6 to k8 | 5.533 to 5.592 | +0.059 | 5.883 to 5.857 | -0.026 | not computed | -24.0 | 42.5 | 43.0 | -0.75 | +1.29 |
+| k8 to k10 | 5.592 to 5.565 | -0.027 | 5.857 to 5.813 | -0.044 | not computed | -26.0 | 28.6 | 29.9 | +0.31 | +0.84 |
+| k10 to k12 | 5.565 to 5.563 | -0.002 | 5.813 to 5.806 | -0.007 | not computed | -40.5 | 19.1 | 21.2 | -0.19 | +0.08 |
+| k12 to k16 | 5.563 to 5.569 | +0.006 | 5.806 to 5.803 | -0.003 | not computed | -32.0 | 14.9 | 16.9 | -0.22 | -0.04 |
+| k16 to k20 | 5.569 to 5.577 | +0.008 | 5.803 to 5.810 | +0.007 | not computed | +22.0 | 10.7 | 12.1 | -0.11 | -0.10 |
+| k20 to k24 | 5.577 to 5.575 | -0.002 | 5.810 to 5.808 | -0.002 | not computed | +13.5 | 3.5 | 5.5 | +0.04 | +0.04 |
 
 (reference k24: peak 26.82 at 11.07 eV, `Re eps_z` at 1 eV = 5.575 as is, 5.808 with the baseline
 subtracted)
@@ -560,19 +558,6 @@ Dependence on the damping, shape against k24 (%):
 
 Against k20 as the reference (tau = 10 fs; the reference before k24 was run), the shape is
 43.7 % (k6), 29.5 % (k8), 17.8 % (k10), 15.5 % (k12), 12.7 % (k16).
-
-Neighbor pairs of `Re eps_z` at 1 eV (derived: later mesh minus earlier mesh, from the absolute
-values printed in section 4; dimensionless; k6 is the r20 k6 run of section 6). k10 is
-left out because its as-is absolute value is not printed. The neighbor-pair differences of the
-`Im eps_z` shape were not computed: the ladder script compares each mesh with k24 and k20 only.
-
-| pair | as is | difference | baseline subtracted | difference |
-|---|---|---:|---|---:|
-| k6 to k8 | 5.533 to 5.592 | +0.059 | 5.883 to 5.857 | -0.026 |
-| k8 to k12 | 5.592 to 5.563 | -0.029 | 5.857 to 5.806 | -0.051 |
-| k12 to k16 | 5.563 to 5.569 | +0.006 | 5.806 to 5.803 | -0.003 |
-| k16 to k20 | 5.569 to 5.577 | +0.008 | 5.803 to 5.810 | +0.007 |
-| k20 to k24 | 5.577 to 5.575 | -0.002 | 5.810 to 5.808 | -0.002 |
 
 - The shape converges slowly in k: from k12 to k16 the difference to k24 falls only from
   14.9 to 10.7 %, then to 3.5 % at k20. The coarse meshes are lumpy around the 11 eV peak and
@@ -715,8 +700,8 @@ read with the baseline subtracted (section 4).
 | use | setting | measure | evidence |
 |---|---|---|---|
 | refractive index below the gap | r20 k6 (chosen by the maintainer, 2026-10-22) | `Re eps_z` at 1 eV, baseline subtracted | -0.02 % from r32, +1.29 % from k24. Safe: every r from 16 (within about 0.1 % of r32) and every k from 8^3 (within 1 % of k24). Caution: k6 (1.3 % above k24). Not for this use: none established. |
-| absorption shape at 0.07 eV resolution (tau = 10 fs) | **r = 20, k = 20^3: the adopted point** (maintainer, 2026-10-14; zones confirmed 2026-10-22), with 75 % of the estimated time-step limit (2.0e-4 fs), 50 fs and the 10 fs damping; input [inputs/diamond-lr-impulse-r20k20-f075.inp](inputs/diamond-lr-impulse-r20k20-f075.inp) | shape after shift, 5-25 eV, against r32 and k24 | The run of the k ladder at these settings is the result; no separate confirmation run was made. Shape 3.5 % from k24 (tau = 10 fs) and about 1 % from r32; `Re eps_z` at 1 eV with the baseline subtracted is -0.02 % from r32 (as is it is 3 % below, which is the baseline, section 4). Safe: r >= 20 (1.0 %); k >= 20^3 (3.5 %). Caution: r16 (4.6 %); k16 (10.7 %). Not for this use: k <= 12^3 (14.9 % and more). [Row 11](#judgment-record). |
-| finer structure, 0.03 eV resolution (tau = 20 fs) | none | shape after shift, 5-25 eV | Safe: none established. Caution: k20 (8.5 %). Not for this use: k <= 16^3 (15.7 % and more); k32 not run. |
+| absorption shape at 0.07 eV resolution (tau = 10 fs) | **r = 20, k = 20^3: the adopted point** (maintainer, 2026-10-14; zones confirmed 2026-10-22), with 75 % of the estimated time-step limit (2.0e-4 fs), 50 fs and the 10 fs damping; input [inputs/diamond-lr-impulse-r20k20-f075.inp](inputs/diamond-lr-impulse-r20k20-f075.inp) | shape after shift, 5 to 25 eV, against r32 and k24 | The run of the k ladder at these settings is the result; no separate confirmation run was made. Shape 3.5 % from k24 (tau = 10 fs) and about 1 % from r32; `Re eps_z` at 1 eV with the baseline subtracted is -0.02 % from r32 (as is it is 3 % below, which is the baseline, section 4). Safe: r >= 20 (1.0 %); k >= 20^3 (3.5 %). Caution: r16 (4.6 %); k16 (10.7 %). Not for this use: k <= 12^3 (14.9 % and more). [Row 11](#judgment-record). |
+| finer structure, 0.03 eV resolution (tau = 20 fs) | none | shape after shift, 5 to 25 eV | Safe: none established. Caution: k20 (8.5 %). Not for this use: k <= 16^3 (15.7 % and more); k32 not run. |
 | time step of the response | 75 % of the estimated limit (7.8e-5 fs at r32, 2.0e-4 fs at r20), maintainer, 2026-10-22 | shape of the 50 and 75 % pair at r32 k6 | 0.01 % in shape, 0.043 % of the peak undamped; 100 % stable for 400 steps only, 25 % not run. [Row 1](#judgment-record). |
 | scaling the excitation with intensity | I^3 from 1e11 to 1e13 W/cm^2, for now (maintainer, 2026-10-22); the pulse condition run is r32, k6 and a 50 % time step | `N_e` and residual energy at 20 fs | Slopes 2.96 and 2.99; one condition only, no ladder; `N_h` at 1e11 not used. [Row 8](#judgment-record). |
 

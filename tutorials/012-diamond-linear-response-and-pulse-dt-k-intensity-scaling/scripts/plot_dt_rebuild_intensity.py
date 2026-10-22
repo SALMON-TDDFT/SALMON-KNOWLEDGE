@@ -85,7 +85,7 @@ x=np.array([1e11,1e13]); anch=Ne[1]
 ax[1].loglog(x,anch*(x/1e12)**n4,"k--",lw=1,label=f"reference slope {n4} (= ceil({gap}/{om}); 4 x 1.55 = {4*om:.2f} eV)")
 ax[1].loglog(x,anch*(x/1e12)**n3,color="#888",ls=":",lw=1,label=f"reference slope {n3} (= ceil(4 eV LDA gap / {om}))")
 ax[1].set_xlabel("peak intensity (W/cm2)"); ax[1].set_title("at 20 fs, fitted over 1e11 to 1e13",fontsize=9); ax[1].legend(fontsize=7,loc="upper left"); ax[1].set_ylim(1e-9,1e-1)
-fig.suptitle("012 section 9: pulse intensity scaling (r32 k6)",y=.995); fig.tight_layout(); fig.savefig(f"{OUT}/intensity-scaling.png",dpi=100); plt.close(fig)
+fig.suptitle("012 section 8: pulse intensity scaling (r32 k6)",y=.995); fig.tight_layout(); fig.savefig(f"{OUT}/intensity-scaling.png",dpi=100); plt.close(fig)
 print(fits,n3,n4,"E/Ne",Eres/Ne)
 # ---------- f012-rebuild
 z=np.load(f"{C}/{r75}/eps_tau10.npz")
