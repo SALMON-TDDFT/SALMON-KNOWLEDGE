@@ -206,9 +206,10 @@ longer rung. Peak positions are in eV; peak values are `Im eps_z` at the peak.
 | `Re eps_z` at 1 eV | not examined | 15.13, 13.93, 14.32, 14.24 for r16, r20, r24, r32; r20 is -2% against r32 (row 2a) | not examined | not examined | not examined |
 | `Re eps_z` at 0.5 eV (static) | not examined | not examined | not examined | 12.90 at 12 fs and 12.86 at 48 fs; not judged | not examined |
 
-The peak position and height settle early in k (from k16), while the shoulder
-at 4 to 5 eV and the rigid shift of the steep absorption edge converge later;
-in r the shift matters more than the shape. The time step changes nothing at
+In k the peak position and height settle early (from k16), while the shoulder
+at 4 to 5 eV converges later. In r, separately, the rigid shift of the steep
+absorption edge matters more than the shape; a rigid shift was examined only on
+the r ladder, not in k. The time step changes nothing at
 the 0.23% level at r20. Only the cells that cite a row are judgments.
 
 ### Ladder: k mesh (r20, dt 0.0005 fs, T 12 fs)
@@ -378,6 +379,7 @@ needed; it was not run.
 
 | use | setting | measure | evidence |
 |---|---|---|---|
+| complete adopted setting | r20^3, k16^3, `nstate` 32 for the GS; `dt` 0.0005 fs, T 12 fs (`nt` 24000); `yn_lr_w0_correction='n'` | the (r20, k16) point is the k16 rung of the k ladder and has been run | the rows below; mixed provenance (maintainer rows 1a, 2a, 6a; provisional AI assistant rows 3, 5; assumed row 4) |
 | structure, pseudopotential, `xc` | Si 8-atom cubic, a = 5.43 Angstrom; FHI98PP LDA; PZ | not varied | assumed by the AI assistant |
 | k mesh of the GS and the response | `num_kgrid` 16^3; safe zone k16 and denser | k16 vs k24 0.92%, k20 vs k24 1.17% (pointwise); peak fixed from k16 | the maintainer, row 1a |
 | real-space grid | `num_rgrid` 20^3; safe zone r24 and finer; caution zone r16 | r20 vs r32: +30 meV shift plus 1.2% of shape (5.8% pointwise), `Re eps_z`(1 eV) -2%; r24: -12 meV plus 0.4%; r16: -130 meV plus about 5%, `Re eps_z` +6% | the maintainer, row 2a |
