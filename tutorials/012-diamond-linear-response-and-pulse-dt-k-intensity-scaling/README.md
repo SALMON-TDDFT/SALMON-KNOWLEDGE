@@ -112,7 +112,7 @@ r = 20). Every linear-response run is 50 fs long with an impulse along z.
   5.813, within 0.1 % of k24 = 5.808), slightly above the low-frequency limit. Its grid
   independence was measured at k6, where the value is 5.88 (r16 to r32 within about 0.1 % of r32;
   k6 is 1.29 % above k24, k8 0.84 %). The first-pass plateau reading is 5.808 as is and 5.897
-  subtracted (1-2 eV, undamped, r32 k6).
+  subtracted (1 to 2 eV, undamped, r32 k6).
 - **Pulse, 1.55 eV, 20 fs, 1e11 / 1e12 / 1e13 W/cm^2** (k6, r32, 50 % time step). The peak
   excitation energy during the pulse scales linearly with intensity (exponent 1.03). From
   1e11 to 1e13 W/cm^2 the number of excited electrons and the absorbed energy left after the
@@ -494,8 +494,6 @@ Against k24, tau = 10 fs, 5-25 eV:
 | 8 | -26.0 | 28.6 | 29.9 | +0.31 | +0.84 |
 | 10 | -40.5 | 19.1 | 21.2 | -0.19 | +0.08 |
 | 12 | -32.0 | 14.9 | 16.9 | -0.22 | -0.04 |
-
-Row 7 (rebuilt spectra) is not a judgment; it moved to [Procedure](#procedure) and its number is not reused.
 | 16 | +22.0 | 10.7 | 12.1 | -0.11 | -0.10 |
 | 20 | +13.5 | 3.5 | 5.5 | +0.04 | +0.04 |
 
@@ -565,7 +563,7 @@ r20 k6 is enough.
 
 ![Left: excitation energy per unit intensity against time. Right: residual energy, N_e and N_h at 20 fs against intensity with fitted slopes and reference slopes 3 and 4](figures/intensity-scaling.png)
 
-The second figure is drawn by
+The figure `intensity-scaling.png` is drawn by
 [scripts/plot_dt_rebuild_intensity.py](scripts/plot_dt_rebuild_intensity.py).
 
 `Eall - Eall0` is column 3 of `*_rt_energy.data`; the number of excited electrons and holes
@@ -604,7 +602,7 @@ Exponents p in (ratio of the quantity) = (ratio of intensities)^p:
   during the pulse (1e-4) is as large as the numbers themselves. The projection (CG to
   1e-6) is at its resolution there. The ratio residual / `N_e` (7.3 eV) agrees with the
   other two intensities, residual / `N_h` (0.7 eV) does not, so `N_e` and the energy are more
-  credible than `N_h` at 1e11 (the dashed curve in the second figure).
+  credible than `N_h` at 1e11 (the dashed curve in `rt-residual-vs-intensity.png`).
 - Each run finished all 384700 steps. The electron number printed in the standard output
   is 8.00000000 in every row (resolution 1e-8), no value in `rt.data`, `rt_energy.data`
   or `nex.data` is non-finite, and the current and the energy are flat after the pulse
@@ -680,6 +678,8 @@ the 8 to 10 k-points per process of the timing probe.
 | 10 | zones by use | as in section 8; chosen r20 k6 for the refractive index below the gap (`Re eps_z` at 1 eV, baseline subtracted) and r20 k20 for the absorption shape (`Im eps_z`, tau = 10 fs; the adopted point) | maintainer (2026-10-22): zones confirmed; r20 k6 for the refractive index below the gap, r20 k20 for the absorption shape | the r and k ladders, sections 6 and 7 | The r zones come from k6 and the k zones from r20; a combination was not run. The caution zone is where the difference is a few % (r) or about 10 % (k) and may or may not matter for the use. The zones use the baseline-subtracted `Re eps_z` (row 12). |
 | 11 | adopted (r, k) | r = 20, k = 20^3 (75 % time step, 50 fs, tau = 10 fs); no separate confirmation run | maintainer (2026-10-14) | sections 6 to 8 | The existing k-ladder run at r20 k20 is the adopted result. Alternatives offered and not taken: a confirmation run at r24 k20 (about 8e2 node-hours) and stating no adopted value. Known errors are stated in section 8. |
 | 12 | low-energy `Re eps_z` and the baseline of the post-kick current | `Re eps_z` at 1 eV must be read with the baseline of `Jm_z` subtracted (or `yn_lr_w0_correction = 'y'`); then r16 to r32 are within about 0.1 % of r32 and k12 to k20 within about 0.1 % of k24 (k8 0.84 %, k6 1.29 %); the as-is r dependence of the 1 eV value is the baseline, and the as-is k dependence is mostly baseline too; a residual k dependence remains with it subtracted (k6 1.29 %, k8 0.84 % against k24) | maintainer (2026-10-22): confirmed as proposed by the AI assistant | baseline d of every ladder run (1.8e-4 to 9.9e-4 of the peak of `Jm_z`); 8 fs Hann running mean of `Jm_z` over 30 to 46 fs; `Re eps_z` at 1, 2 and 5 eV and 0.5 to 4 eV, as is and subtracted | The running mean is flat at the same value as d, so it is a baseline and not leakage of the oscillations. It is the constant that SALMON removes with `yn_lr_w0_correction = 'y'`; the subtraction here is offline, not a SALMON run. Supersedes the 1 eV reason of rows 3, 4, 6 and 10 and of section 8; the adopted point (row 11) is not changed. k32 was not part of the ladder script output, so the k statement stops at k20. |
+
+Row 7 (rebuilt spectra) is not a judgment; it moved to [Procedure](#procedure) and its number is not reused.
 
 ## Assumptions made by the assistant
 

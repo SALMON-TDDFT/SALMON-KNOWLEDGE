@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 C=sys.argv[1]
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+import rebuild_damped_spectrum as rds
 OUT=sys.argv[2]
 plt.rcParams.update({"font.size":9,"axes.grid":True,"grid.alpha":.25,"axes.spines.top":False,"axes.spines.right":False})
 FS_AU=41.341373336; HA_EV=27.211386245988; E_IMP=1e-2
@@ -35,8 +37,12 @@ _,im50=rebuild(s,j,DT["f050"],NT["f050"],E)
 pk=im50[(E>=1)&(E<=15)].max()
 d=im50-im75; dp=100*d/pk
 m=(E>=1)&(E<=15); k=np.argmax(np.abs(dp[m])); d_und=np.abs(dp[m]).max(); e_und=E[m][k]
-z75=np.load(f"{C}/{r75}/eps_tau10_T47.3.npz"); z50=np.load(f"{C}/{r50}/eps_tau10_T47.3.npz")
-w=z75["w_eV"]; i75=z75["eps"].imag; i50=z50["eps"].imag
+# damped (tau 10 fs) spectra of both runs cut at 47.3 fs, with the complex factor fitted on the finished run
+Cf=complex(np.load(f"{C}/{r75}/eps_tau10.npz")["calib"]); w=np.arange(0.01,30+1e-9,0.01)
+def damped_cut(run):
+    t,jj,_,_=rds.load(f"{C}/{run}",47.3)
+    return (1+Cf*1j*rds.transform(t,jj,w,tau=10.0)/w).imag
+i75=damped_cut(r75); i50=damped_cut(r50)
 pkd=i50[(w>=1)&(w<=15)].max(); dd=100*(i50-i75)/pkd
 md=(w>=5)&(w<=25); kd=np.argmax(np.abs(dd[md])); d_dmp=np.abs(dd[md]).max(); d_dmp1=np.abs(dd[(w>=1)&(w<=15)]).max()
 # shape: after best rigid shift
@@ -53,8 +59,8 @@ for col,(x,y75,y50,dd_,ttl,lo,hi) in enumerate(((E,im75,im50,dp,"undamped",1,16)
     ax[0,col].plot(x,y75,color="#1f6fb4",lw=1.6,label="75 % of limit (dt 7.8e-5 fs)"); ax[0,col].plot(x,y50,color="#c0392b",lw=1,ls="--",label="50 % of limit (dt 5.2e-5 fs)")
     ax[0,col].set_xlim(lo,hi); ax[0,col].set_ylim(-2,1.05*max(y75[(x>=lo)&(x<=hi)].max(),y50[(x>=lo)&(x<=hi)].max())); ax[0,col].set_title("Im eps_z, "+ttl,fontsize=9); ax[0,col].legend(fontsize=8,loc="upper left"); ax[0,col].set_ylabel("Im eps_z")
     ax[1,col].plot(x,dd_,color="k",lw=.8); ax[1,col].set_xlim(lo,hi); ax[1,col].set_ylim(-0.08,0.2); ax[1,col].set_xlabel("photon energy (eV)"); ax[1,col].set_ylabel("50 % - 75 %  (% of peak)")
-ax[1,0].text(.98,.95,f"max |diff| (1-15 eV) = {d_und:.3f} % of peak at {e_und:.2f} eV\nREADME: 0.043 % at 1.04 eV",transform=ax[1,0].transAxes,ha="right",va="top",fontsize=8,bbox=dict(fc="w",ec="#aaa"))
-ax[1,1].text(.98,.95,f"max pointwise (5-25 eV) = {d_dmp:.3f} % of peak (1-15 eV incl. sub-gap tail: {d_dmp1:.3f} %)\nshape after rigid shift ({best[1]*1e3:+.1f} meV, 5-25 eV) = {shape:.3f} %\nREADME: 0.01 % pointwise and in shape",transform=ax[1,1].transAxes,ha="right",va="top",fontsize=8,bbox=dict(fc="w",ec="#aaa"))
+ax[1,0].text(.98,.95,f"max |diff| (1 to 15 eV) = {d_und:.3f} % of peak at {e_und:.2f} eV",transform=ax[1,0].transAxes,ha="right",va="top",fontsize=8,bbox=dict(fc="w",ec="#aaa"))
+ax[1,1].text(.98,.95,f"max pointwise (5 to 25 eV) = {d_dmp:.3f} % of peak \n(1 to 15 eV incl. sub-gap tail: {d_dmp1:.3f} %)\nshape after rigid shift ({best[1]*1e3:+.1f} meV, 5 to 25 eV) = {shape:.3f} %",transform=ax[1,1].transAxes,ha="right",va="top",fontsize=8,bbox=dict(fc="w",ec="#aaa"))
 fig.suptitle("012 section 1: time step, r32 k6, 50 % vs 75 % of the stability estimate",y=.995); fig.tight_layout(); fig.savefig(f"{OUT}/dt-50-vs-75.png",dpi=100); plt.close(fig)
 # ---------- f012-intensity
 runs=[("1e11","kcd_rt_r32k06_I11_f050",1e11,"#1f6fb4"),("1e12","kcd_rt_r32k06_I12_f050",1e12,"#d08a1c"),("1e13","kcd_rt_r32k06_I13_f050",1e13,"#c0392b")]
@@ -74,11 +80,11 @@ fits={}
 for nm,y,c,mk in (("residual energy (eV)",Eres,"#222","o"),("N_e",Ne,"#1f6fb4","s"),("N_h",Nh,"#c0392b","^")):
     p=np.polyfit(np.log10(Is),np.log10(y),1)[0]; fits[nm]=p
     ax[1].loglog(Is,y,mk+"-",color=c,label=f"{nm}: fitted slope {p:.2f}")
-ax[1].loglog(Is[0],Nh[0],"o",ms=14,mfc="none",mec="#c0392b"); ax[1].annotate("1e11 N_h: projection floor\n(1e-4 e-h diff. > value)",(Is[0],Nh[0]),xytext=(1.3e11,3e-6),fontsize=8,arrowprops=dict(arrowstyle="->"))
+ax[1].loglog(Is[0],Nh[0],"o",ms=14,mfc="none",mec="#c0392b"); ax[1].annotate("1e11 N_h: projection floor\n(1e-4 e-h diff. > value)",(Is[0],Nh[0]),xytext=(1.3e11,3e-6),fontsize=8)
 x=np.array([1e11,1e13]); anch=Ne[1]
 ax[1].loglog(x,anch*(x/1e12)**n4,"k--",lw=1,label=f"reference slope {n4} (= ceil({gap}/{om}); 4 x 1.55 = {4*om:.2f} eV)")
 ax[1].loglog(x,anch*(x/1e12)**n3,color="#888",ls=":",lw=1,label=f"reference slope {n3} (= ceil(4 eV LDA gap / {om}))")
-ax[1].set_xlabel("peak intensity (W/cm2)"); ax[1].set_title("at 20 fs; README average exponents: 2.99 / 2.96 / 2.46",fontsize=9); ax[1].legend(fontsize=7,loc="upper left"); ax[1].set_ylim(1e-9,1e-1)
+ax[1].set_xlabel("peak intensity (W/cm2)"); ax[1].set_title("at 20 fs, fitted over 1e11 to 1e13",fontsize=9); ax[1].legend(fontsize=7,loc="upper left"); ax[1].set_ylim(1e-9,1e-1)
 fig.suptitle("012 section 9: pulse intensity scaling (r32 k6)",y=.995); fig.tight_layout(); fig.savefig(f"{OUT}/intensity-scaling.png",dpi=100); plt.close(fig)
 print(fits,n3,n4,"E/Ne",Eres/Ne)
 # ---------- f012-rebuild
@@ -89,7 +95,7 @@ rel=np.abs(eu-es)/np.abs(es); relmax=np.max(np.abs(eu-es)[mk])/np.max(np.abs(es[
 print("rebuild rel max (norm. to peak |eps|) %.2e; pointwise rel max %.2e"%(relmax,rel[mk].max()))
 fig,ax=plt.subplots(2,1,figsize=(11,5),sharex=True,gridspec_kw={"height_ratios":[2,1]})
 ax[0].plot(w[mk],es.imag[mk],color="#1f6fb4",lw=2.2,label="SALMON response.data"); ax[0].plot(w[mk],eu.imag[mk],color="#c0392b",lw=.9,ls="--",label="rebuilt from Jm_z (rt.data)")
-ax[0].set_ylabel("Im eps_z"); ax[0].legend(); ax[0].set_title("kcd_lr_r32k06_f075, undamped, 2-25 eV")
+ax[0].set_ylabel("Im eps_z"); ax[0].legend(); ax[0].set_title("kcd_lr_r32k06_f075, undamped, 2 to 25 eV")
 ax[1].semilogy(w[mk],np.abs(eu-es)[mk]/np.max(np.abs(es[mk])),color="k",lw=.8); ax[1].set_ylabel("|rebuilt - SALMON| / max|eps|"); ax[1].set_xlabel("photon energy (eV)")
-ax[1].text(.98,.9,f"max over 2-25 eV = {relmax:.1e}  (README 3e-6 to 6e-6; stored resid {float(z['resid']):.1e})",transform=ax[1].transAxes,ha="right",va="top",fontsize=8,bbox=dict(fc="w",ec="#aaa"))
+ax[1].text(.98,.9,f"max over 2 to 25 eV = {relmax:.1e}",transform=ax[1].transAxes,ha="right",va="top",fontsize=8,bbox=dict(fc="w",ec="#aaa"))
 fig.tight_layout(); fig.savefig(f"{OUT}/rebuild-vs-salmon.png",dpi=100); plt.close(fig)
