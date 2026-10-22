@@ -1,7 +1,7 @@
 ---
 id: SALMON-TS-010
 title: On Fugaku a ground-state run is killed in its first seconds when too many k-points sit on one node
-status: draft
+status: reviewed
 verification_level: tested
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
@@ -10,7 +10,7 @@ related_tutorials: [SALMON-TUTORIAL-009, SALMON-TUTORIAL-011]
 created_at: 2026-10-06
 updated_at: 2026-10-06
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # On Fugaku a ground-state run is killed in its first seconds when too many k-points sit on one node

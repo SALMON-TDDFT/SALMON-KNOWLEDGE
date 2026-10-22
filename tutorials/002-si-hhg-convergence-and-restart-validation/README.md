@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-002
 title: Convergence workflow and restart validation for silicon HHG
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: advanced
 prerequisites: [SALMON-TUTORIAL-001, SALMON-TUTORIAL-003]
@@ -14,7 +14,7 @@ platforms: [A64FX]
 created_at: 2026-09-03
 updated_at: 2026-09-03
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective

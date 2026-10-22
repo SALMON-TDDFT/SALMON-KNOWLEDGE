@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-012
 title: "Diamond linear response and a real-time pulse: time step, damped comparison, grid and k ladders, intensity scaling and cost"
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: advanced
 prerequisites: [SALMON-TUTORIAL-010]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
 updated_at: 2026-10-22
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective

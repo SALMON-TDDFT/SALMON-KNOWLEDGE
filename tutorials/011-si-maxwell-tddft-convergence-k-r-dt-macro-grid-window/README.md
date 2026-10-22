@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-011
 title: "Maxwell-TDDFT of a 400 Angstrom Si film: what the k mesh, grid, time step, window and macro grid change"
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: advanced
 prerequisites: [SALMON-TUTORIAL-005]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
 updated_at: 2026-10-22
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective
@@ -29,7 +29,7 @@ Maxwell solver. The central lesson: the official sample grid is a functional tes
 not a converged setting, and a convergence statement belongs to one observable (R, T,
 the absorbed energy, a waveform) at one setting.
 
-> **Draft; every judgment below is the maintainer's (2026-10-22).** The Judgment
+> **Every judgment below is the maintainer's (2026-10-22).** The Judgment
 > record holds ten rows and the maintainer judged all of them. Confirmed as proposed
 > by the AI assistant: R and T converge at k8 (r20); the official sample grid (r12 k4)
 > is a functional test, not converged; the propagation window of 16 fs at r20 k8;

@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-006
 title: "Converging the Al ground state: real-space grid, k mesh and smearing for the DOS"
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-05
 updated_at: 2026-10-05
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective
@@ -24,7 +24,7 @@ ground state whose density of states (DOS) near the Fermi level will be
 reported. Judge convergence from DOS overlays rather than from a single number,
 and record the reason for every judgment.
 
-> **Draft.** Both convergence judgments were made or confirmed by the maintainer:
+> Both convergence judgments were made or confirmed by the maintainer:
 > the real-space grid (`num_rgrid=12`) was the maintainer's judgment, and the
 > k mesh (`num_kgrid=48` in the primitive cell) was proposed by the AI
 > assistant that drafted this tutorial and confirmed by the maintainer.

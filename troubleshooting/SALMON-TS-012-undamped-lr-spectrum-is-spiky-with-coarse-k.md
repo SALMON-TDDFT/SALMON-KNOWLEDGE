@@ -1,7 +1,7 @@
 ---
 id: SALMON-TS-012
 title: An undamped long linear-response run on a coarse k mesh gives a spiky spectrum
-status: draft
+status: reviewed
 verification_level: tested
 salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
@@ -10,7 +10,7 @@ related_tutorials: []
 created_at: 2026-10-06
 updated_at: 2026-10-06
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # An undamped long linear-response run on a coarse k mesh gives a spiky spectrum

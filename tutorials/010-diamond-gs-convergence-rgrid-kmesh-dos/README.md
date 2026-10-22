@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-010
 title: "Converging a diamond ground state: real-space grid and k mesh for the DOS"
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
@@ -14,7 +14,7 @@ platforms: [Fugaku (A64FX)]
 created_at: 2026-10-06
 updated_at: 2026-10-22
 contributors: []
-reviewed_by: []
+reviewed_by: [MZKC]
 ---
 
 # Learning objective
@@ -26,7 +26,7 @@ the total energy is flat in k long before the DOS is, that a DOS of a small
 primitive cell may still not be converged on a 24^3 mesh, and that the
 gap SALMON prints is a minimum over mesh points and keeps falling with the mesh.
 
-> **Draft.** The real-space-grid judgment is the maintainer's: r32 is too
+> The real-space-grid judgment is the maintainer's: r32 is too
 > strict for the ground state, about r20 to r24 is enough, and the final r
 > depends on the later laser conditions (see the
 > [Judgment record](#judgment-record), which also keeps the AI assistant's
