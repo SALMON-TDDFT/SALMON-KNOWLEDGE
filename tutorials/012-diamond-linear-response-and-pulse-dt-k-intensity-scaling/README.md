@@ -40,8 +40,8 @@ SALMON writes its spectrum.
 > on the use, and **adopted r = 20, k = 20^3** (the existing ladder run; no
 > separate confirmation run). After the maintainer judgment, the post-kick current was
 > found to settle at a constant baseline (1.8e-4 to 9.9e-4 of the peak of `Jm_z`), which lowers
-> `Re eps_z` at 1 eV by 3 to 16 % as is; with it subtracted, `Re eps_z` at 1 eV is the same
-> within 0.1 % from r16 to r32 and from k12 to k20 ([section 4](#4-low-frequency-artifact-and-yn_lr_w0_correction)).
+> `Re eps_z` at 1 eV by 3 to 16 % as is; with it subtracted, `Re eps_z` at 1 eV is within
+> about 0.1 % of r32 from r16 to r32 and of k24 from k12 to k20 ([section 4](#4-low-frequency-artifact-and-yn_lr_w0_correction)).
 > The 1 eV reason given for the r zones (r20 -3 %, r16 -14 %) is therefore superseded:
 > **provisional (AI assistant) — awaiting maintainer confirmation**. The adopted point is
 > unchanged. The zones by use in
@@ -84,7 +84,7 @@ r = 20). Every linear-response run is 50 fs long with an impulse along z.
   (r16), -3.0 % (r20), -0.7 % (r24), -0.17 % (r28) as is. This is not grid convergence but a constant
   baseline of the post-kick current ([section 4](#4-low-frequency-artifact-and-yn_lr_w0_correction)):
   with it subtracted, r16 to r28 are within 0.1 % of r32 (+0.10, -0.02, -0.01, 0.00 %; absolute
-  5.890 at r16 and 5.884 at r20 to r32). The grid moves the shape about
+  5.890 at r16, 5.883 at r20 and 5.884 at r24 to r32). The grid moves the shape about
   50 times less than the k mesh does at the same mesh size (k 6^3 against 8^3 differ
   by 47.8 % in shape at r20).
 - **k mesh, 6^3 to 24^3 at r20.** Shape against k24 (tau = 10 fs): 42.5 % (k6), 28.6 %
@@ -380,7 +380,7 @@ mean changes from 5.808 to 5.897 (1.5 %). The static value therefore depends on 
 analysis choice at the 1 to 2 % level. The option was **not** used in any SALMON run of this
 tutorial.
 
-**The same baseline moves the 1-2 eV values of the ladders.** After the kick, `Jm_z` does not
+**The same baseline moves the 1 to 2 eV values of the ladders.** After the kick, `Jm_z` does not
 return to zero: averaged over its oscillations it settles at a constant baseline d, the
 window-weighted mean that `yn_lr_w0_correction = 'y'` subtracts, d = sum J_n w_n / sum w_n with
 w_n = 1 - 3 x^2 + 2 x^3 and x = n / N. d is 1.8e-4 to 9.9e-4 of the largest `|Jm_z|`
@@ -453,7 +453,7 @@ subtracted; each rung is subtracted with its own baseline and compared with the 
 - `Re eps_z` at 1 eV as is, 4.93 at r16, 5.53 at r20, 5.67 at r24, 5.70 at r28, 5.71 at r32, is
   dominated by the baseline of the post-kick current (section 4), which is 9.9e-4 of the peak
   at r16 and 1.8e-4 at r32. With the baseline subtracted the values are 5.890, 5.883, 5.884,
-  5.884 and 5.884, so r16 to r32 agree within 0.1 %: the apparent slow convergence in r is not
+  5.884 and 5.884, so r16 to r32 are within about 0.1 % of r32: the apparent slow convergence in r is not
   grid convergence.
 - The grid effect on the shape is about 50 times smaller than the k effect at this mesh
   size: r20 against r32 is 1.0 %, while k6 against k8 is 47.8 % at r20 and 41.5 % at r32
@@ -500,7 +500,7 @@ Against k20 as the reference (tau = 10 fs; the reference before k24 was run), th
   two densest meshes, and k32 was not run.
 - `Re eps_z` at 1 eV as is is within 1 % of k24 at every mesh from k6 up (5.53 to 5.59). With
   the baseline subtracted (5.803 to 5.883) it is within 1 % from k8 up (k8 0.84 %, k6 1.29 %)
-  and within 0.1 % from k10 to k20, and the absolute values are about 4 % higher. The
+  and within about 0.1 % of k24 from k10 to k20, and the absolute values are about 4 % higher. The
   refractive index below the gap does not need a dense k mesh.
 
 ### 8. Which r and k for which use
@@ -514,7 +514,7 @@ the baseline subtracted (section 4); the as-is row is kept only as the uncorrect
 
 | use | measure | safe | caution | not for this use |
 |---|---|---|---|---|
-| refractive index below the gap, baseline subtracted | `Re eps_z` at 1 eV | every r from 16 (within 0.1 %); every k from 8^3 (within 1 %) | k6 (1.3 %) | none established |
+| refractive index below the gap, baseline subtracted | `Re eps_z` at 1 eV | every r from 16 (within about 0.1 % of r32); every k from 8^3 (within 1 % of k24) | k6 (1.3 %) | none established |
 | refractive index below the gap, as is (uncorrected observation only) | `Re eps_z` at 1 eV | k >= 6^3 (within 1 %); r >= 24 (-0.7 %) | r20 (-3.0 %) | r16 (-13.6 %) |
 | absorption shape at 0.07 eV resolution (tau = 10 fs) | shape after shift, 5-25 eV | r >= 20 (1.0 %); k >= 20^3 (3.5 %) | r16 (4.6 %); k16 (10.7 %) | k <= 12^3 (14.9 % and more) |
 | finer structure, 0.03 eV resolution (tau = 20 fs) | shape after shift, 5-25 eV | none established | k20 (8.5 %) | k <= 16^3 (15.7 % and more); k32 not run |
@@ -638,13 +638,13 @@ the 8 to 10 k-points per process of the timing probe.
 | 3 | k mesh for the response | ladder k6 to k24 at r20: shape against k24 42.5, 28.6, 19.1, 14.9, 10.7, 3.5 % (k6, k8, k10, k12, k16, k20; tau = 10 fs); `Re eps_z` at 1 eV within 1 % from k6 up as is (from k8 up with the baseline subtracted, row 12). **Adopted k20 (row 11).** | maintainer (2026-10-14): "k16 is slightly loose, depending on the use"; k20 adopted; the zones of section 8 are provisional (AI assistant) | overlay and difference figure of the damped k ladder; shift, shape, pointwise and `Re eps_z` at 1 eV against k24 and k20; shape at tau = 5, 10, 20 fs | The first pass (k6 and k8 at r32, undamped, 48 % apart) could not show where the mesh converges. The damped ladder shows a slow decrease to k16 and 3.5 % at k20. k20 is safe for the absorption shape at 0.066 eV only if 3.5 % is acceptable; at 0.033 eV it is 8.5 % and no denser mesh than k24 was run (k32 not run), so k24 is a reference, not a converged value. The refractive index below the gap needs no dense mesh. The pulse runs were done at k6 for cost; their numbers are for that mesh. |
 | 4 | real-space grid for the response | ladder r16 to r32 at k6: shape against r32 4.6, 1.0, 0.2, 0.05 % (r16, r20, r24, r28); `Re eps_z` at 1 eV -13.6, -3.0, -0.7, -0.17 % as is (+0.10, -0.02, -0.01, 0.00 % with the baseline subtracted, row 12). **Adopted r20 (row 11).** | maintainer (2026-10-06): r = 32 is too strict for the ground state, and the final r depends on the laser conditions; maintainer (2026-10-14): "r16 can be enough depending on the use; r20 is already quite sufficient"; r20 adopted; the zones of section 8 are provisional (AI assistant) | overlay and difference figure of the damped r ladder; shift, shape, pointwise and `Re eps_z` at 1 eV against r32 | The shape is 1 % at r20, 50 times below the k effect at the same mesh, so r20 serves the absorption shape and was used for the k ladder. `Re eps_z` at 1 eV looked like the slower observable (-3 % at r20, -14 % at r16, as is), so a refractive index below the gap seemed to need r >= 24; that reason is superseded by the baseline finding (row 12), provisional (AI assistant), awaiting maintainer confirmation. The ladder was run at k6 only; that the r effect is the same at a dense k mesh is an assumption. The pulse was not run on another grid. |
 | 5 | propagation time and window | 50 fs; SALMON's default window, undamped in the first pass; the same window times `exp(-t/tau)` in the second pass | assumed by the AI assistant | none for the length | Not a convergence choice: with the default window the spectrum changes with the length ([SALMON-TS-008](../../troubleshooting/SALMON-TS-008-lr-spectrum-depends-on-propagation-time.md) for Si). 50 fs resolves lines about 0.08 eV apart (2 pi hbar over 50 fs); diamond's undamped current is still about 10 % of its start at the end. Spectra from different lengths or different tau are not compared. |
-| 6 | static dielectric constant | read from the 1-2 eV plateau of undamped `Re eps_z`: 5.8 to 5.9 (r32, k6 and k8); 5.808 as is and 5.897 with the baseline subtracted (r32, k6); not a converged value | provisional (AI assistant) — awaiting maintainer confirmation | `Re eps_z` at 0.5-2 eV, with and without the offline `yn_lr_w0_correction`; damped `Re eps_z` at 1 eV along both ladders | The value at 0.5 eV (5.11) is inside the low-frequency artifact; the correction moves the plateau mean by 1.5 %. The ladders show that this value depends on r (-3 % at r20, -14 % at r16 at 1 eV, damped) much more than on k (within 1 %); with the baseline subtracted the r dependence is within 0.1 % (r16 to r32) and the k dependence is 1.3 % at k6, 0.8 % at k8 and within 0.1 % from k10 (row 12). |
+| 6 | static dielectric constant | read from the 1-2 eV plateau of undamped `Re eps_z`: 5.8 to 5.9 (r32, k6 and k8); 5.808 as is and 5.897 with the baseline subtracted (r32, k6); not a converged value | provisional (AI assistant) — awaiting maintainer confirmation | `Re eps_z` at 0.5-2 eV, with and without the offline `yn_lr_w0_correction`; damped `Re eps_z` at 1 eV along both ladders | The value at 0.5 eV (5.11) is inside the low-frequency artifact; the correction moves the plateau mean by 1.5 %. The ladders show that this value depends on r (-3 % at r20, -14 % at r16 at 1 eV, damped) much more than on k (within 1 %); with the baseline subtracted the r dependence is within about 0.1 % of r32 (r16 to r32) and the k dependence is 1.3 % at k6, 0.8 % at k8 and within about 0.1 % of k24 from k10 (row 12). |
 | 7 | rebuilt spectra | first pass: spectra of the killed runs usable as diagnostics, not as official results; second pass: damped rebuild from `*_rt.data` used for every ladder comparison | provisional (AI assistant) — awaiting maintainer confirmation | rebuild against the official file of the finished runs; cut-off test | First pass: rebuild error 0.004 % of the peak; cut error 0.008 % and 0.038 %, 10 to 1000 times below the differences they were used for. Second pass: the undamped rebuild matches SALMON's own file to 3e-6 to 6e-6 relative on all eleven ladder runs, with the same fitted factor for all. |
 | 8 | intensity scaling and the hole number at 1e11 | exponents as in the table; `N_h` at 1e11 is at the projection floor | provisional (AI assistant) — awaiting maintainer confirmation | energy, `N_e`, `N_h` at three intensities | `N_h` is ten times `N_e` at 1e11 and the energy per hole is inconsistent with the other two intensities, so it is not used. Which multiphoton channel dominates was not tested. |
 | 9 | damping and comparison metric | tau = 10 fs (0.066 eV) as the main damping, 5 and 20 fs as checks; shift and shape after shift over 5-25 eV against the densest rung, plus `Re eps_z` at 1 eV and the pointwise maximum | provisional (AI assistant) — awaiting maintainer confirmation | undamped and damped overlays; the k conclusion at three tau | Undamped spectra on coarse meshes differ line by line and cannot be ranked ([SALMON-TS-012](../../troubleshooting/SALMON-TS-012-undamped-lr-spectrum-is-spiky-with-coarse-k.md)). A pointwise maximum alone mixes a shift with a shape change ([SALMON-TS-013](../../troubleshooting/SALMON-TS-013-pointwise-difference-overstates-a-small-shift.md)); here the k shifts are tens of meV and the shape dominates, so the two agree within a few %. The k conclusion depends on tau (k20: 1.3, 3.5, 8.5 % at 5, 10, 20 fs), so the resolution of the downstream use must be stated with the zone. |
 | 10 | zones by use | as in section 8 | provisional (AI assistant), consistent with the maintainer's judgment of 2026-10-14 | the r and k ladders, sections 6 and 7 | The r zones come from k6 and the k zones from r20; a combination was not run. The caution zone is where the difference is a few % (r) or about 10 % (k) and may or may not matter for the use. |
 | 11 | adopted (r, k) | r = 20, k = 20^3 (75 % time step, 50 fs, tau = 10 fs); no separate confirmation run | maintainer (2026-10-14) | sections 6 to 8 | The existing k-ladder run at r20 k20 is the adopted result. Alternatives offered and not taken: a confirmation run at r24 k20 (about 8e2 node-hours) and stating no adopted value. Known errors are stated in section 8. |
-| 12 | low-energy `Re eps_z` and the baseline of the post-kick current | `Re eps_z` at 1 eV must be read with the baseline of `Jm_z` subtracted (or `yn_lr_w0_correction = 'y'`); then r16 to r32 agree within 0.1 % and k12 to k20 within 0.1 % (k8 0.84 %, k6 1.29 %); the as-is r dependence of the 1 eV value is the baseline, and the as-is k dependence is mostly baseline too; a residual k dependence remains with it subtracted (k6 1.29 %, k8 0.84 % against k24) | provisional (AI assistant) — awaiting maintainer confirmation | baseline d of every ladder run (1.8e-4 to 9.9e-4 of the peak of `Jm_z`); 8 fs Hann running mean of `Jm_z` over 30 to 46 fs; `Re eps_z` at 1, 2 and 5 eV and 0.5 to 4 eV, as is and subtracted | The running mean is flat at the same value as d, so it is a baseline and not leakage of the oscillations. It is the constant that SALMON removes with `yn_lr_w0_correction = 'y'`; the subtraction here is offline, not a SALMON run. Supersedes the 1 eV reason of rows 3, 4, 6 and 10 and of section 8; the adopted point (row 11) is not changed. k32 was not part of the ladder script output, so the k statement stops at k20. |
+| 12 | low-energy `Re eps_z` and the baseline of the post-kick current | `Re eps_z` at 1 eV must be read with the baseline of `Jm_z` subtracted (or `yn_lr_w0_correction = 'y'`); then r16 to r32 are within about 0.1 % of r32 and k12 to k20 within about 0.1 % of k24 (k8 0.84 %, k6 1.29 %); the as-is r dependence of the 1 eV value is the baseline, and the as-is k dependence is mostly baseline too; a residual k dependence remains with it subtracted (k6 1.29 %, k8 0.84 % against k24) | provisional (AI assistant) — awaiting maintainer confirmation | baseline d of every ladder run (1.8e-4 to 9.9e-4 of the peak of `Jm_z`); 8 fs Hann running mean of `Jm_z` over 30 to 46 fs; `Re eps_z` at 1, 2 and 5 eV and 0.5 to 4 eV, as is and subtracted | The running mean is flat at the same value as d, so it is a baseline and not leakage of the oscillations. It is the constant that SALMON removes with `yn_lr_w0_correction = 'y'`; the subtraction here is offline, not a SALMON run. Supersedes the 1 eV reason of rows 3, 4, 6 and 10 and of section 8; the adopted point (row 11) is not changed. k32 was not part of the ladder script output, so the k statement stops at k20. |
 
 ## Assumptions made by the assistant
 
@@ -739,7 +739,7 @@ These were fixed by the drafting assistant, not varied, and are not convergence 
 - **A constant baseline of 1e-4 to 1e-3 of the peak in the post-kick current shifted `Re eps_z`
   below the gap by 3 to 16 % and mimicked a grid dependence.** The 1 eV value looked like the
   slowest-converging observable in r (-13.6 % at r16); with the baseline subtracted r16 to r32
-  agree within 0.1 % (section 4). It is the same baseline that produces the divergence below
+  are within about 0.1 % of r32 (section 4). It is the same baseline that produces the divergence below
   0.1 eV.
 - **The k mesh that serves the ground-state energy does not serve the spectrum**, in the same
   way as in the ground-state tutorial for the DOS: k6 and k8 differ by up to 48 % of the peak
