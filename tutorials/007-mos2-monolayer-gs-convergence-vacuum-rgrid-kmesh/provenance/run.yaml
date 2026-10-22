@@ -25,15 +25,20 @@ pseudopotentials:
     lloc_ps: 2
 representative_input:
   path: "inputs/mos2-gs-adopted.inp"
-  sha256: "d15c1b87b182f872ad4347b50d5fd98216eaa2d37e379dc5fa33bca3b5632482"
+  sha256: "afa28f8e18adf6cbf7d91e6afb5aabd5ddf284b6f281c459dd0ec6134f2a04e4"
   executed_as_is: false
-  note: "Deck of the (Lz 20, r24, k36) run with sysname, pseudopotential paths and comments changed; all physical and numerical keys are as executed."
+  note: "Deck of the (Lz 15, r24, k30) confirmation run with sysname, pseudopotential paths and comments changed; all physical and numerical keys are as executed."
+earlier_provisional_input:
+  path: "inputs/mos2-gs-L20-r24-k36.inp"
+  sha256: "dddfc3e135ae03b6ce021e11579a38d35469b2a9e724115af2c0aa12c8a0b1ea"
+  executed_as_is: false
+  note: "Deck of the (Lz 20, r24, k36) run, the earlier provisional point; header comment changed, all keys as executed."
 k_list_script:
   path: "scripts/make_kpoints.py"
   sha256: "9410b68011dd39dc11847e34947a246c1bba568afc7caf5307a0f1d712514e39"
   reproduces_executed_lists: "36 54 (reduced), 12 58 (reduced), 12 48 --full: SHA-256 of the output equals that of the executed list"
 runs:
-  dates: ["2026-10-05", "2026-10-06"]
+  dates: ["2026-10-05", "2026-10-06", "2026-10-22"]
   common: "hexagonal primitive cell a = 3.18 A, 3 atoms (Mo, 2 S at +-1.5638 A), xc PZ, nelec 18, nstate 24, fixed occupations, yn_symmetry n, method_init_wf random, ncg 5, nscf 500, threshold 1d-9, broyden alpha_mb 0.5 nmemory_mb 8, DOS -18..+5 eV 1841 points gaussian 0.1 eV, file_kw = time-reversal-reduced Gamma-centered mesh + Gamma-M-K-Gamma path of weight 1e-9"
   ladders:
     - name: "vacuum Lz (A) at num_rgrid xy 24, 12 x 12 x 1; z spacing 5/36 A fixed"
@@ -54,4 +59,22 @@ runs:
     direct_gap_at_K_ev: 1.721992196
     calculation_time_s: 271.8
     max_memory_per_node_mib: 10670.1
+confirmation_run:
+  description: "(Lz 15, r24, k30) = the point the maintainer adopted on 2026-10-22"
+  date: "2026-10-22"
+  nodes: 12
+  k_points: 528
+  k_list: "make_kpoints.py 30 76 (reduced); SHA-256 of the output equals that of the executed list"
+  gs_convergence_marker: "#GS converged at 111"
+  total_energy_ev: -782.1438872
+  direct_gap_at_K_ev: 1.7219918
+  calculation_time_s: 195
+  max_memory_per_node_mib: 8341.5
+  node_seconds: 2338
+  comparison_script:
+    path: "scripts/compare_confirmation.py"
+    sha256: "c4b5af2e7ba064f624ad65f17660889dd11d1f74f623946417f0a8ea0ebd35f0"
+  figure:
+    path: "figures/confirmation-L15-r24-k30.png"
+    sha256: "a5d8916a894e7275b8cedc758d40d94e1fb59893b92b0506311232c8e59c43f7"
 raw_outputs: "not committed; figures are derived from the *_dos.data files of the runs above"

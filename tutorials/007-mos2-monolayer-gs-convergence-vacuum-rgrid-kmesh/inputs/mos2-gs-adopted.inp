@@ -3,21 +3,21 @@
 ! Run in a directory that holds ./Mo.LDA.fhi, ./S.LDA.fhi and ./kmos_k.dat.
 !   Mo.LDA.fhi = ABINIT LDA_FHI 42-Mo.LDA.fhi  (6 valence electrons, no 4s4p semicore)
 !   S.LDA.fhi  = ABINIT LDA_FHI 16-S.LDA.fhi   (6 valence electrons)
-!   kmos_k.dat = python3 scripts/make_kpoints.py 36 54 > kmos_k.dat
-! Adopted (provisional) set: Lz = 20 Angstrom, num_rgrid = 24,24,144, 36 x 36 x 1 mesh.
+!   kmos_k.dat = python3 scripts/make_kpoints.py 30 76 > kmos_k.dat
+! Adopted set (maintainer): Lz = 15 Angstrom, num_rgrid = 24,24,108, 30 x 30 x 1 mesh.
 &calculation
   theory = 'dft'
 /
 
 &control
-  sysname = 'mos2_L20r24k36'
+  sysname = 'mos2_L15r24k30'
   write_gs_restart_data = 'no'
 /
 
 &parallel
   process_allocation = 'orbital_sequential'
-  ! 16 nodes x 4 MPI processes; nproc_k must divide the number of k points (704)
-  nproc_k = 64
+  ! 12 nodes x 4 MPI processes; nproc_k must divide the number of k points (528)
+  nproc_k = 48
   nproc_ob = 1
   nproc_rgrid = 1, 1, 1
 /
@@ -30,7 +30,7 @@
   yn_periodic = 'y'
   al_vec1 = 3.18d0, 0.0d0, 0.0d0
   al_vec2 = -1.59d0, 2.753960784d0, 0.0d0
-  al_vec3 = 0.0d0, 0.0d0, 20.0d0
+  al_vec3 = 0.0d0, 0.0d0, 15.0d0
   nstate = 24
   nelec = 18
   nelem = 2
@@ -52,12 +52,12 @@
 /
 
 &rgrid
-  num_rgrid = 24, 24, 144
+  num_rgrid = 24, 24, 108
 /
 
 &kgrid
   ! Descriptive only: SALMON ignores num_kgrid and dk_shift when file_kw is given.
-  num_kgrid = 36, 36, 1
+  num_kgrid = 30, 30, 1
   dk_shift = 0.5d0, 0.5d0, 0d0
   file_kw = 'kmos_k.dat'
 /
@@ -86,6 +86,6 @@
 
 &atomic_red_coor
   'Mo' 0.3333333333333333d0 0.6666666666666666d0 0.5d0 1
-  'S'  0.6666666666666666d0 0.3333333333333333d0 0.57819d0 2
-  'S'  0.6666666666666666d0 0.3333333333333333d0 0.42181d0 2
+  'S'  0.6666666666666666d0 0.3333333333333333d0 0.6042533333333333d0 2
+  'S'  0.6666666666666666d0 0.3333333333333333d0 0.3957466666666667d0 2
 /
