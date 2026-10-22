@@ -47,14 +47,14 @@ figure_script:
 ladder_scripts:
   rebuild:
     path: "scripts/rebuild_damped_spectrum.py"
-    sha256: "6a5a97067f3608cf4b4c3db6469885311bac88058d0471ca1aeb28f8a19740af"
-    note: "Damped rebuild from Jm_z of *_rt.data with SALMON's window times exp(-t/tau); the complex factor is fitted once per run against SALMON's own *_response.data over 2-25 eV. The npz files of the tutorial were made with the same transform and fit (an earlier, functionally equal version of this script); this version, rerun on the full r16 k6 rt.data, reproduces that npz to 1e-14."
+    sha256: "5b52d61558c3cf6f68460faeef4d23b5caaa3ffdca790cc64477bbb9331d1bda"
+    note: "Damped rebuild from Jm_z of *_rt.data with SALMON's window times exp(-t/tau); the complex factor is fitted once per run against SALMON's own *_response.data over 2-25 eV. The npz files of the tutorial were made with the same transform and fit (an earlier, functionally equal version of this script); this version, rerun on the full r16 k6 rt.data, reproduces that npz to 1e-14. The option --subtract-baseline (default off) removes the constant baseline of Jm_z that yn_lr_w0_correction subtracts in SALMON; plot_ladders.py applies it offline."
     check: "undamped rebuild vs *_response.data, max relative difference 2-25 eV: 3.1e-6 to 5.5e-6 on all eleven ladder runs; fitted factor 9575.53 (imaginary part below 0.03) for all"
   plot:
     path: "scripts/plot_ladders.py"
-    sha256: "5aeef4a9334733f891a813d847107fe8269402de2723a35dbd8196f31c507e24"
+    sha256: "6a7093fee180203b3b770b55507f5567449c7092f567dd7166692978a81fc9a3"
     output: "provenance/ladder-script-output.txt"
-    figures: ["figures/r-ladder-im-eps-z-tau10.png", "figures/k-ladder-im-eps-z-tau10.png"]
+    figures: ["figures/r-ladder-im-eps-z-tau10.png", "figures/k-ladder-im-eps-z-tau10.png", "figures/low-energy-baseline.png"]
 runs:
   dates: ["2026-10-05", "2026-10-06", "2026-10-14 (ladder outputs collected)"]
   common: "primitive 2-atom fcc cell a = 3.567 A (vectors (0,h,h),(h,0,h),(h,h,0), h = 1.7835 A), atoms at reduced (0.05,0.05,0.05) and (0.30,0.30,0.30), xc PZ, nelec 8, nstate 8, fixed occupations (temperature_k not set), yn_symmetry n, shifted Monkhorst-Pack mesh without symmetry reduction (time-dependent k mesh = ground-state k mesh), polarization z, de 0.01 eV, nenergy 3000"
