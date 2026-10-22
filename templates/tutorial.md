@@ -57,6 +57,34 @@ Record what actually happened, including the relevant output, error, numerical
 behavior, or performance observation. Do not replace observations with an
 expected result.
 
+For a tutorial that records convergence, use the layout of STYLE.md
+("Observed result of a convergence tutorial") with these subsections.
+
+### Convergence by observable
+
+One table: rows are the observables that were examined, columns are the varied
+parameters, each cell is where the observable converged and one number (for
+example `k24 (0.3 meV/atom)`, or `not converged at k24 (17 %)`). Leave out what
+was not examined. Add a short note on which observables converge early and
+which late.
+
+### Ladder: name of the varied parameter
+
+Repeat for each ladder, in this order.
+
+1. One figure: top, overlay for all rungs; bottom, difference between
+   neighboring rungs.
+2. One table: rows are neighbor pairs (`r16 to r20`); columns are the difference
+   of each examined observable, then the difference of each rung to the densest
+   rung where available. DOS and spectra as maximum difference in % of the peak,
+   scalars as absolute differences, energies in meV/atom.
+3. One judgment line: the pair where the change became small, the member taken,
+   and who judged it (link to the Judgment record row).
+
+### Recommended settings by use
+
+A table: use, setting, measure, evidence. The adopted point is one row.
+
 ## Judgment record
 
 Optional; include it when the tutorial records convergence or parameter

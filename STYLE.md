@@ -35,6 +35,18 @@ rule; the files in `templates/` already follow it.
 - Troubleshooting sections, in this order: Symptom; Trigger; Evidence; Diagnosis; Resolution; Applicability.
 - A short status banner (a blockquote after the Learning objective) is allowed; it must say the same thing as the Judgment record.
 
+## Observed result of a convergence tutorial
+
+A tutorial that records convergence puts these subsections in "Observed result", in this order. Judgments stay with whoever made them; this only fixes the layout.
+
+- First, "Convergence by observable": one table. Rows are only the observables that were examined (for example total energy, `E_F`, gap, DOS shape, DOS at `E_F`, bandwidth; Im eps shape, Re eps at 1 eV; R, T, absorbed energy, waveform). Columns are the varied parameters (r, k, smearing, `dt`, window). Each cell gives where the observable converged and one number (`k24 (0.3 meV/atom)`), or `not converged at k24 (17 %)`. An observable or parameter that was not examined is left out, not listed. A short note under the table says which observables converge early and which late.
+- Then one subsection per ladder, each with the same three parts in this order: (a) one figure, with the observable overlaid for all rungs on top and the difference between neighboring rungs below; (b) one table; (c) one judgment line.
+- The table has one row per neighbor pair (`r16 to r20`). Its columns are the difference of each examined observable for that pair, then a last group with the difference of each rung to the densest rung, where those numbers exist.
+- The judgment line states the pair at which the change became small, which member was taken (the maintainer prefers the looser member of the pair), and who judged it, linked to the row of the Judgment record.
+- No figure follows the table inside a ladder subsection. A quantity-against-parameter figure (for example gap and energy against k) goes in the ladder's figure position or in "Convergence by observable".
+- Measures: spectra and DOS as the maximum difference in % of the peak (add the shape after a rigid shift where a shift matters); scalars as absolute differences; energies in meV/atom (a value in meV/cell is divided by the number of atoms, stated once).
+- Last, "Recommended settings by use": a table with columns use, setting, measure, evidence. The adopted point is one row of it. It replaces any "Adopted set" table.
+
 ## Links
 
 - Link every `SALMON-TUTORIAL-NNN` or `SALMON-TS-NNN` that exists on `main` with a relative link (`../../troubleshooting/SALMON-TS-NNN-slug.md` from a tutorial, `../tutorials/NNN-slug/` from an entry); never leave a bare id.
