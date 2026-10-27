@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-001
 title: Reproducing the official silicon HHG exercise
-status: reviewed
+status: draft
 verification_level: tested
 learning_stage: foundation
 prerequisites: []
@@ -12,15 +12,17 @@ salmon_version: 2.3.0
 salmon_commit: unknown
 platforms: [A64FX]
 created_at: 2026-09-03
-updated_at: 2026-09-03
+updated_at: 2026-10-27
 contributors: []
-reviewed_by: [MZKC]
+reviewed_by: []
 ---
 
 # Learning objective
 
 Reproduce the official bulk-Si GS-to-RT HHG exercise without changing its
 inputs, and confirm the completion markers and essential physical diagnostics.
+For a first task, complete only the GS milestone and report its output.
+RT propagation is an optional later task with separate authorization.
 
 # Summary
 
@@ -32,6 +34,12 @@ to be converged for publication use; numerical convergence is covered by
 [SALMON-TUTORIAL-002](../002-si-hhg-convergence-and-restart-validation/).
 
 ## Context and objective
+
+Review history: the previous revision recorded `reviewed_by: [MZKC]`; its
+review date is unknown. The beginner procedure revised on 2026-10-27 awaits
+renewed human review. Historical observations below are preserved;
+`verification_level: tested` refers to the recorded calculation, not a new
+execution of these revised commands.
 
 The objective is to reproduce Exercise 6, "Electron dynamics in crystalline
 silicon under a pulsed electric field," using the SALMON 2.3.0 sample inputs.
@@ -59,24 +67,126 @@ that this tutorial tests reproducibility rather than model choices.
 
 ## Procedure
 
-1. Obtain the GS input and `Si_rps.dat` from the SALMON2 `v.2.3.0` sample
-   `samples/exercise_04_bulkSi_gs`.
-2. Run SALMON with the GS input and require the `#GS converged` marker.
-   Record the final density residual and band gap.
-3. Obtain the RT input from
-   `samples/exercise_06_bulkSi_rt`. Link or copy the GS
-   `data_for_restart` directory as `restart` in the RT run directory.
-4. Run SALMON with the RT input. Keep the official input unchanged for this
-   reproducibility check.
+### Prepare the environment and plan
 
-Minimal execution pattern (from the corresponding run directory):
+Start at the repository root in a POSIX-compatible shell. Follow the
+[environment route](../../workflows/basic-calculation.md#environment-and-installation-route)
+if no usable SALMON executable is available. The source checkout below provides
+sample files; cloning it does not build or install SALMON.
 
-```text
-mpiexec -n 4 salmon < input.dat > out.dat 2> stderr.log
+Before execution, establish the executable's version/build provenance, MPI
+compatibility, and the resource budget. The recorded layout is four MPI
+processes with 12 OpenMP threads each (48 threads in total). Do not assume
+that layout fits a laptop. If unavailable, propose a different layout and
+obtain approval; record it as an environment difference. No runtime estimate
+for another machine is established here. On a scheduled system, use its
+approved allocation and launcher rather than executing on a login node.
+
+### Obtain and stage the official GS sample
+
+Use a fresh run directory to avoid stale output. Run the following commands
+from the repository root; stop if any command fails. Keep the same shell for
+the subsequent steps, or restore the variables from this block.
+
+```sh
+repo_root="$PWD"
+work="$repo_root/.local/001-si-hhg-official-exercise-reproduction/first-run-01"
+test ! -e "$work" || { echo "Choose a new run directory; this one exists."; exit 1; }
+mkdir -p "$work/gs"
+git clone --no-checkout https://github.com/SALMON-TDDFT/SALMON2.git "$work/salmon2"
+git -C "$work/salmon2" checkout --detach 30ba64694ec761cdb6288f01a75b8bcabf05721f
+git -C "$work/salmon2" rev-parse HEAD
+cp "$work/salmon2/samples/exercise_04_bulkSi_gs/Si_gs.inp" "$work/gs/input.inp"
+cp "$work/salmon2/samples/exercise_04_bulkSi_gs/Si_rps.dat" "$work/gs/Si_rps.dat"
+cmp "$work/gs/input.inp" "$work/salmon2/samples/exercise_04_bulkSi_gs/Si_gs.inp"
 ```
 
-The launcher and executable path are platform dependent; use the SALMON 2.3.0
-installation available on the target system.
+The pinned source commit identifies the sample. It does not identify the
+installed executable's build commit; record that separately, or as `unknown`.
+The pseudopotential is next to `input.inp` because the sample specifies
+`file_pseudo(1)='./Si_rps.dat'`. Keep both files unchanged.
+
+### Run the GS calculation
+
+After the execution plan is approved, set `SALMON` to the absolute path of the
+MPI-enabled SALMON 2.3.0 executable. The placeholder is not a runnable path.
+The example below uses the recorded four-process, 12-thread layout and assumes
+that `mpiexec` is the compatible, approved launcher on this machine.
+
+```sh
+export SALMON="<absolute path to the SALMON executable>"
+test -x "$SALMON" || { echo "Set SALMON to an executable file."; exit 1; }
+export OMP_NUM_THREADS=12
+cd "$work/gs"
+if mpiexec -n 4 "$SALMON" < input.inp > stdout.log 2> stderr.log; then
+  run_status=0
+else
+  run_status=$?
+fi
+printf '%s\n' "$run_status" > exit-status.txt
+```
+
+Record a failed launcher or application exit rather than rerunning over these
+logs. If your launcher or scheduler differs, the assistant must present the
+concrete replacement before execution. An approved different layout must
+replace both the launcher process count and the thread setting as appropriate.
+
+### Inspect and report the first milestone
+
+From the GS run directory:
+
+```sh
+cat exit-status.txt
+rg -ni '#GS converged|end SALMON|Total energy|Fundamental gap' stdout.log
+cat stderr.log
+test -d data_for_restart
+test -s Si_info.data
+rg -n 'Total energy' Si_info.data
+```
+
+The search command uses `rg` (ripgrep); if unavailable, use
+`grep -niE '#GS converged|end SALMON|Total energy|Fundamental gap' stdout.log`
+and `grep -n 'Total energy' Si_info.data`.
+An absent match or restart directory is evidence to investigate, not a reason
+to silently change the sample. Inspect the final SCF values and the
+pseudopotential's valence count. Report electron count if printed; otherwise
+record it as unavailable rather than assuming it was measured.
+`Si_info.data` also records the configured number of electrons; that field is
+not an independent measurement of electron-number conservation.
+
+Report the exit status, completion markers, restart directory, warnings, final
+residual, energy, gap, and whether the inspected numbers are finite. Compare
+with the historical GS observations below, retaining their units. Report
+differences without a pass/fail tolerance. **Stop after this GS report for the
+first task.** Do not proceed automatically to RT or a convergence study.
+
+### Optional next task: RT propagation
+
+Only after separate authorization, keep the same cell, pseudopotential, grids,
+and compatible executable, and stage the official RT sample in a fresh directory.
+Run this block from the same shell with `work` and `SALMON` still defined:
+
+```sh
+test ! -e "$work/rt" || { echo "RT directory already exists."; exit 1; }
+mkdir -p "$work/rt"
+cp "$work/salmon2/samples/exercise_06_bulkSi_rt/Si_rt_pulse.inp" "$work/rt/input.inp"
+cp "$work/salmon2/samples/exercise_06_bulkSi_rt/Si_rps.dat" "$work/rt/Si_rps.dat"
+test -d "$work/gs/data_for_restart"
+ln -s ../gs/data_for_restart "$work/rt/restart"
+cd "$work/rt"
+if mpiexec -n 4 "$SALMON" < input.inp > stdout.log 2> stderr.log; then
+  run_status=0
+else
+  run_status=$?
+fi
+printf '%s\n' "$run_status" > exit-status.txt
+```
+
+Use the approved layout, including `OMP_NUM_THREADS`, in both stages. The
+official RT sample's comments specify a `restart` directory containing the GS
+`data_for_restart`. Check the GS report before using it; directory existence
+alone does not prove compatible or complete restart data. Completing this
+stage does not itself validate an HHG spectrum.
 
 ## Observed result
 
@@ -90,19 +200,48 @@ The official GS and RT samples completed successfully in the tested SALMON
 - Maximum electron-number deviation in printed RT samples: `2.1e-8`.
 - Final electronic excitation energy: `1.17316724 eV`.
 
+## Judgment record
+
+| Decision | Adopted scope | Decided by | Evidence or reason |
+|---|---|---|---|
+| First beginner milestone | Official Si GS only; RT is a later task | the maintainer, explicit instruction in this task (2026-10-27) | A bounded first execution and output report before further calculations |
+| Numerical agreement tolerance | Not selected; report measured differences without a verdict | the maintainer, explicit instruction in this task (2026-10-27) | No numerical acceptance tolerance is adopted at this stage |
+
+The official sample's fixed model and numerical settings are retained for
+reproduction. They are not newly recommended research settings. Each user's
+execution plan still needs approval for their environment and resource budget.
+
 ## Validation
 
-Treat the run as reproduced only when all of the following are satisfied:
+For the first GS milestone, check and report:
 
-- GS output contains `#GS converged`.
+- the launcher/application exit status and any warnings or errors;
+- `#GS converged` and `end SALMON` in GS standard output;
+- the presence of `Si_info.data` and `data_for_restart` for an optional later
+  RT task;
+- finite final SCF residual, total energy, and gap, and electron count where
+  available;
+- numerical differences from the historical values, with the agreement verdict
+  `not judged (no user-approved tolerance)`.
+
+The official GS input sets `threshold=1.0d-9` for its SCF iteration. Retaining
+that setting does not establish a tolerance for comparing energies, gaps, or
+electron counts between environments. Missing or nonfinite data must be
+reported explicitly. No agreement tolerance is chosen in this tutorial revision.
+
+For an authorized RT task, additionally check:
+
 - RT output reaches step 6000 and time `12.0 fs`.
-- Standard output contains `end SALMON`.
-- Electron number remains close to 32.
+- RT standard output contains `end SALMON`; record its exit status and warnings.
+- Report electron-number deviations from 32 without a numerical acceptance verdict.
 - Total and excitation energies are finite.
 - `Si_rt.data`, `Si_rt_energy.data`, and `Si_pulse.data` are present.
 
 The pseudopotential summary should be checked for its reported valence count;
 do not infer `nelec` only from the element name.
+
+The revised commands were checked against the fixed source sample paths and
+inputs. They have not been newly validated by a SALMON run on another platform.
 
 ## Lessons learned
 

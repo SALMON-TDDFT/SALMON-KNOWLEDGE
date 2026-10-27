@@ -4,6 +4,36 @@ Use this workflow to reproduce a tutorial or begin a SALMON calculation with an
 AI assistant. It defines operational steps; scientific choices and adoption of
 interpretations belong to the user under [AGENTS.md](../AGENTS.md).
 
+For a beginner, the first milestone is one official Si ground-state (GS) run
+from [tutorial 001](../tutorials/001-si-hhg-official-exercise-reproduction/),
+followed by inspection of its output. Do not start real-time (RT) propagation,
+convergence ladders, or a new material as part of that first task.
+
+## Environment and installation route
+
+Ask which operating system and architecture will run SALMON, whether it is a
+local machine or a scheduled computing resource, and whether a usable SALMON
+installation already exists. The assistant should inspect what it can before
+asking the user for missing facts.
+
+| Situation | Next action |
+|---|---|
+| SALMON is installed | Establish the executable's version/build provenance, compatible MPI launcher, and available processes/threads. Proceed to the sample plan. |
+| SALMON is absent on a local machine | Consult the official installation instructions for the selected version. Identify compilers, numerical libraries, build tools, MPI needs, and a proposed installation location before making environment changes. |
+| SALMON is absent or unknown on a shared system | Check the site's documented software/module and scheduler instructions or ask its support staff. Do not invent module names or run compute work on a login node. |
+| The platform or version differs from the recorded example | Explain the difference and propose the execution plan. Report it as a new environment check, without claiming the recorded environment was reproduced. |
+
+Use [SALMON-DOCS Install and Run at the recorded documentation commit](https://github.com/SALMON-TDDFT/SALMON-DOCS/blob/e4d97e0328a559f5f99c706260d9c63763be0dee/source/install_and_run.rst)
+and [SALMON2 build files at the sample commit](https://github.com/SALMON-TDDFT/SALMON2/tree/30ba64694ec761cdb6288f01a75b8bcabf05721f).
+Check the selected SALMON version's source configuration against the guide;
+do not silently apply instructions from a different release. This route is a
+handoff to formal installation documentation, not a verified cross-platform
+build recipe. Keep per-user downloads and builds under ignored `.local/`.
+
+Commands such as `command -v salmon` and `command -v mpiexec` can locate tools
+on `PATH`; their presence alone does not prove the version, MPI compatibility,
+or working execution. A missing build commit remains `unknown`.
+
 ## 1. Establish the task and evidence
 
 - Identify the requested observable and whether the task is reproduction,
@@ -65,6 +95,15 @@ Execution success and numerical checks alone do not establish physical validity,
 convergence for every observable, or suitability for publication. Record the
 user's explicit decisions without extending them beyond their approved scope.
 
+For the first GS task, no numerical acceptance tolerance has been selected.
+Report completion markers, the exit status, required restart data, warnings,
+and whether the inspected numerical quantities are finite. Report the final
+SCF residual, energy, gap, electron count where available, and differences
+from the tutorial's historical observations. Mark numerical agreement as
+`not judged (no user-approved tolerance)`; do not convert a small difference
+into a pass. The sample's existing SCF `threshold` is an input setting, not a
+newly approved tolerance for agreement between runs.
+
 ## 5. Propose reusable knowledge separately
 
 A calculation request does not authorize a repository addition. If a reusable
@@ -76,3 +115,17 @@ Only after the user approves the topic, destination, and scope, follow
 [CONTRIBUTING.md](../CONTRIBUTING.md) to prepare a draft and its small,
 reproducible supporting artifacts. Admission approval, scientific acceptance,
 human review, and permission to commit or push remain separate decisions.
+
+## Short glossary
+
+| Term | Meaning in this workflow |
+|---|---|
+| GS / DFT | Ground-state calculation: obtain a self-consistent electronic state for the fixed input system. |
+| SCF | Self-consistent field iteration used in the GS calculation. Its convergence marker concerns that iteration, not convergence of all physical observables. |
+| RT / TDDFT | Real-time propagation of electronic states, for example under a prescribed pulse. It follows the GS milestone. |
+| HHG | High-harmonic generation; interpreting a calculated response requires further analysis and validation. |
+| Pseudopotential | Element-specific input describing the effective ionic potential used for valence electrons. Preserve the sample's file for reproduction. |
+| Real-space grid | Spatial discretization controlled here by `num_rgrid`; changing it is a separate numerical study. |
+| k mesh | Sampling of crystal momentum controlled here by `num_kgrid`; it is distinct from the real-space grid. |
+| MPI / OpenMP | Process and thread parallelism. Their layout must match the executable, launcher, and allocated resources. |
+| Restart data | Saved computational state used to continue or initialize a compatible calculation. It is not interchangeable between arbitrary inputs. |

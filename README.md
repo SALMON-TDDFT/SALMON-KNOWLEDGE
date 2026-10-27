@@ -71,6 +71,36 @@ Read this README, [AGENTS.md](AGENTS.md), and
 relevant resource from [the learning paths](tutorials/README.md).
 Read [STYLE.md](STYLE.md) before drafting or editing knowledge resources.
 
+For a first calculation, start with **the official silicon ground state only**
+in [tutorial 001](tutorials/001-si-hhg-official-exercise-reproduction/).
+The revised beginner procedure is a draft awaiting renewed human review.
+The first goal is to run one fixed sample, inspect its completion and main
+outputs, and report numerical differences without an acceptance tolerance.
+Real-time propagation and HHG are a later, separately authorized step.
+
+If SALMON is not installed, first follow the
+[environment and installation route](workflows/basic-calculation.md#environment-and-installation-route).
+This repository links to the official build instructions; it does not promise
+a working build on every platform. A command-line environment, access to the
+sample sources, and an executable with a compatible launcher are needed.
+
+Example request to an AI assistant:
+
+```text
+Read README.md, AGENTS.md, and workflows/basic-calculation.md in this repository.
+Help me start with the official silicon GS sample in tutorial 001, without
+changing its scientific settings. Check my environment and propose the
+commands, MPI/thread layout, and execution budget before running anything.
+If SALMON is missing, guide me through the official installation instructions.
+Report completion checks and measured differences; do not choose numerical
+acceptance tolerances or declare scientific validity. Stop after the GS report.
+Do not add knowledge items, commit, or push without a separate instruction.
+```
+
+The assistant should explain unfamiliar terms using the
+[short glossary](workflows/basic-calculation.md#short-glossary) and distinguish
+questions about the user's machine from scientific decisions.
+
 The assistant may execute a user-approved plan and report evidence. Scientific
 choices and interpretations remain proposals until the user adopts them.
 Tutorial settings are examples within their recorded conditions, not automatic

@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-004
 title: 4H-SiC ground state from AFLOW CIF and FHI pseudopotentials
-status: reviewed
+status: draft
 verification_level: tested
 learning_stage: intermediate
 prerequisites: []
@@ -12,9 +12,9 @@ salmon_version: 2.3.0
 salmon_commit: 30ba64694ec761cdb6288f01a75b8bcabf05721f
 platforms: [macOS (arm64)]
 created_at: 2026-09-04
-updated_at: 2026-09-04
+updated_at: 2026-10-27
 contributors: []
-reviewed_by: [MZKC]
+reviewed_by: []
 ---
 
 # Learning objective
@@ -32,6 +32,12 @@ density cube file. This is a functional, low-cost example rather than a
 convergence result.
 
 ## Context and objective
+
+Review history: the previous revision recorded `reviewed_by: [MZKC]`; its
+review date is unknown. The explicit Python selection added on 2026-10-27
+awaits renewed human review. The historical run below is unchanged;
+`verification_level: tested` refers to that run, not a new calculation using
+the revised conversion command.
 
 The purpose is to provide a traceable path from an external 4H-SiC crystal
 structure and public FHI pseudopotentials to a small periodic SALMON GS run.
@@ -68,11 +74,16 @@ git -C /path/to/SALMON2 checkout b45cd8aa214ece58a30d63ae4c09021b83a1e9cf
 python3 -m venv .local/004-4h-sic-gs-from-cif-fhi/venv
 .local/004-4h-sic-gs-from-cif-fhi/venv/bin/pip install gemmi==0.7.5
 export CIF2SALMON=/path/to/SALMON2/utility/cif2salmon/cif2salmon.py
+export PYTHON="$PWD/.local/004-4h-sic-gs-from-cif-fhi/venv/bin/python"
 ```
 
 Then fetch the external files and convert the CIF with the tracked scripts.
 They write downloads and generated structure fragments only below the ignored
 local work directory:
+
+Run these commands from the repository root in the same shell. `PYTHON`
+selects the interpreter in which Gemmi was installed, so activation of the
+virtual environment is not required.
 
 ```text
 tutorials/004-4h-sic-gs-from-cif-fhi/scripts/fetch_sources.sh
