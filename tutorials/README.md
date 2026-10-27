@@ -11,7 +11,7 @@ For your first run, follow the
 [environment route](../workflows/basic-calculation.md#environment-and-installation-route)
 and complete **only the GS milestone** of
 [tutorial 001](001-si-hhg-official-exercise-reproduction/).
-Its revised beginner instructions are `draft`, awaiting renewed human review.
+Its revised beginner instructions were reviewed by the maintainer on 2026-10-27.
 Report the outputs before choosing another path; RT, HHG, and convergence
 ladders require a separate plan and resource budget.
 

@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-001
 title: Reproducing the official silicon HHG exercise
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: foundation
 prerequisites: []
@@ -14,7 +14,7 @@ platforms: [A64FX]
 created_at: 2026-09-03
 updated_at: 2026-10-27
 contributors: []
-reviewed_by: []
+reviewed_by: [maintainer]
 ---
 
 # Learning objective
@@ -36,8 +36,10 @@ to be converged for publication use; numerical convergence is covered by
 ## Context and objective
 
 Review history: the previous revision recorded `reviewed_by: [MZKC]`; its
-review date is unknown. The beginner procedure revised on 2026-10-27 awaits
-renewed human review. Historical observations below are preserved;
+review date is unknown. On 2026-10-27, the maintainer explicitly confirmed
+review of the beginner procedure in commit `f734eeb` and instructed the
+assistant in this conversation to mark it reviewed. Historical observations
+below are preserved;
 `verification_level: tested` refers to the recorded calculation, not a new
 execution of these revised commands.
 

@@ -1,7 +1,7 @@
 ---
 id: SALMON-TUTORIAL-004
 title: 4H-SiC ground state from AFLOW CIF and FHI pseudopotentials
-status: draft
+status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: []
@@ -14,7 +14,7 @@ platforms: [macOS (arm64)]
 created_at: 2026-09-04
 updated_at: 2026-10-27
 contributors: []
-reviewed_by: []
+reviewed_by: [maintainer]
 ---
 
 # Learning objective
@@ -34,8 +34,10 @@ convergence result.
 ## Context and objective
 
 Review history: the previous revision recorded `reviewed_by: [MZKC]`; its
-review date is unknown. The explicit Python selection added on 2026-10-27
-awaits renewed human review. The historical run below is unchanged;
+review date is unknown. On 2026-10-27, the maintainer explicitly confirmed
+review of the Python-selection correction in commit `f734eeb` and instructed
+the assistant in this conversation to mark it reviewed. The historical run
+below is unchanged;
 `verification_level: tested` refers to that run, not a new calculation using
 the revised conversion command.
 

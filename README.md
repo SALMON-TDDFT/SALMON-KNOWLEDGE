@@ -73,7 +73,7 @@ Read [STYLE.md](STYLE.md) before drafting or editing knowledge resources.
 
 For a first calculation, start with **the official silicon ground state only**
 in [tutorial 001](tutorials/001-si-hhg-official-exercise-reproduction/).
-The revised beginner procedure is a draft awaiting renewed human review.
+The maintainer reviewed the revised beginner procedure on 2026-10-27.
 The first goal is to run one fixed sample, inspect its completion and main
 outputs, and report numerical differences without an acceptance tolerance.
 Real-time propagation and HHG are a later, separately authorized step.
