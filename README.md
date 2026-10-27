@@ -58,15 +58,35 @@ templates/troubleshooting.md
 STYLE.md                Naming, front matter, section, link, and notation rules
 AGENTS.md               Instructions for AI coding tools
 CONTRIBUTING.md         Contribution and review rules
+workflows/              Shared calculation and reporting procedures
+templates/knowledge-proposal.md
+                        Proposal for user approval before adding knowledge
 ```
+
+## Start a calculation with an AI assistant
+
+Read this README, [AGENTS.md](AGENTS.md), and
+[CONTRIBUTING.md](CONTRIBUTING.md), then follow
+[the basic calculation workflow](workflows/basic-calculation.md) and choose a
+relevant resource from [the learning paths](tutorials/README.md).
+Read [STYLE.md](STYLE.md) before drafting or editing knowledge resources.
+
+The assistant may execute a user-approved plan and report evidence. Scientific
+choices and interpretations remain proposals until the user adopts them.
+Tutorial settings are examples within their recorded conditions, not automatic
+approval for a new research calculation. The user also decides whether a
+finding should become a repository item; running a calculation does not grant
+that permission.
 
 ## Contributing
 
-Create a branch, create a tutorial directory under `tutorials/`, and copy
+After the user approves an item's topic and scope, create a branch, create a
+tutorial directory under `tutorials/`, and copy
 `templates/tutorial.md` to its `README.md`; for a troubleshooting entry, copy
 `templates/troubleshooting.md` to `troubleshooting/SALMON-TS-NNN-short-title.md`.
 Follow [STYLE.md](STYLE.md). Add only small, relevant supporting
-figures or one representative input when needed. Complete the tutorial using
+figures and the small representative inputs needed to reproduce its procedure
+or comparisons. Complete the tutorial using
 evidence from actual work, and submit a pull request. AI tools may help
 organize or translate the material, but the contributor remains responsible
 for verifying every technical claim and removing sensitive information.

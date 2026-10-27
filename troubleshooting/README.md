@@ -7,6 +7,11 @@ relevant procedure or evidence.
 
 ## Entries
 
+Before adding an entry, obtain user approval of its topic and scope using the
+[knowledge proposal template](../templates/knowledge-proposal.md). AI diagnoses
+and recommendations remain proposals until the user accepts them. Follow
+[CONTRIBUTING.md](../CONTRIBUTING.md) for drafting and human review.
+
 Each entry is a Markdown file named `SALMON-TS-NNN-short-title.md`, created
 from [`templates/troubleshooting.md`](../templates/troubleshooting.md). Its
 front matter has, in this order: `id`, `title`, `status`,

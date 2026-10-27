@@ -92,7 +92,18 @@ troubleshooting entries:
 [SALMON-TS-009](../troubleshooting/SALMON-TS-009-multiscale-coarse-k-spurious-static-field.md),
 [SALMON-TS-010](../troubleshooting/SALMON-TS-010-fugaku-gs-killed-too-many-k-points-per-node.md).
 
+3. [012: Diamond linear response and a real-time pulse: time step, damped comparison, grid and k ladders, intensity scaling and cost](012-diamond-linear-response-and-pulse-dt-k-intensity-scaling/)
+
+Tutorial 012 builds on the diamond ground state of 010 and compares time
+steps, damped spectra, real-space grids, k meshes, and pulse intensities.
+Read its cost and applicability limits before planning a reproduction.
+
 ## Adding a tutorial
+
+Obtain explicit user approval of the topic and scope using the
+[knowledge proposal template](../templates/knowledge-proposal.md) before
+creating a tutorial or assigning its identifier. AI scientific proposals remain
+unadopted until the user accepts them. Follow [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 Create `tutorials/NNN-short-title/README.md` from
 `templates/tutorial.md`. Use lowercase ASCII words separated by hyphens in the

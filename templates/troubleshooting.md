@@ -14,7 +14,9 @@ reviewed_by: []
 ---
 
 <!-- Follow STYLE.md at the repository root. The H1 below must equal the
-front-matter title character for character. Delete this comment. -->
+front-matter title character for character. Obtain user approval of the topic
+and scope using knowledge-proposal.md before creating this resource. Delete
+this comment. -->
 
 # Replace with the same text as the front-matter title
 
@@ -39,6 +41,8 @@ procedure.
 
 The cause as far as it is established, separated from what is only probable.
 Name the source location when the behavior was traced in SALMON2.
+Any new AI interpretation is a proposal, not an adopted diagnosis; mark it
+`provisional (AI assistant)` until the user explicitly accepts it.
 
 ## Resolution
 

@@ -18,7 +18,8 @@ reviewed_by: []
 ---
 
 <!-- Follow STYLE.md at the repository root (naming, front matter, section
-order, links, notation). Delete this comment. -->
+order, links, notation). Obtain user approval of the topic and scope using
+knowledge-proposal.md before creating this resource. Delete this comment. -->
 
 # Learning objective
 
@@ -90,18 +91,24 @@ A table: use, setting, measure, evidence. The adopted point is one row.
 
 ## Judgment record
 
-Optional; include it when the tutorial records convergence or parameter
-choices, and keep it directly after Observed result. One table row per
+Required when the tutorial records convergence judgments or scientific
+parameter choices; otherwise optional. Keep it directly after Observed result.
+One table row per
 decision: what was judged, the conclusion, who judged it (the maintainer, or
-the AI assistant marked "provisional" until the maintainer confirms), what was
+the AI assistant marked "provisional (AI assistant)" and unadopted until the
+user explicitly accepts the proposal), what was
 looked at, and the reason including rejected alternatives. A superseded
-judgment stays in the table, marked as superseded.
+judgment stays in the table, marked as superseded. Record the date and a
+traceable, non-sensitive reference to explicit user acceptance when available;
+write `unknown` for unavailable details. Admission approval or a `reviewed`
+label alone must not be used to infer acceptance of an individual proposal.
 
 ## Assumptions made by the assistant
 
-Optional; include it when an AI assistant drafted the tutorial. List every
+Required when an AI assistant made assumptions; otherwise optional. List every
 setting that was fixed and not varied, so that it is not mistaken for a
-convergence result.
+convergence result. Distinguish approved settings from unaccepted proposals;
+do not execute a new scientific choice before user approval.
 
 ## Validation
 

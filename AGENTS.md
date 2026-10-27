@@ -10,6 +10,54 @@ resources about SALMON development and use. Optimize for technical accuracy,
 traceability, educational value, and future retrieval rather than document
 volume.
 
+## Human decision authority
+
+- The AI assistant may propose scientific choices and interpretations with
+  evidence, alternatives, and uncertainty. Only the user decides whether to
+  adopt them. An AI proposal is not an adopted conclusion.
+- Scientific choices include the research objective, physical model, structure,
+  functional, pseudopotentials, convergence criteria, adopted settings,
+  applicability, and suitability for publication.
+- Within a user-approved plan, prepare inputs, run calculations, extract
+  observations, and compare them with approved criteria without asking for the
+  same approval again. Approval must cover the settings, parameter ranges,
+  evaluation criteria, and computational budget relevant to the task.
+- When a new scientific choice or an expansion of that scope is needed, present
+  a concrete proposal and wait for the user's decision before dependent work.
+  Continue independent work within the approved scope.
+- Execution success, SCF convergence, or passing a numerical threshold alone
+  does not establish physical validity or suitability for research use.
+- Never infer approval from silence, calculation success, a previous tutorial's
+  settings, or another AI's assessment. Never invent a human approval record.
+
+## Starting a calculation
+
+- Read `workflows/basic-calculation.md` and select the relevant learning path
+  in `tutorials/README.md` before preparing a calculation.
+- Treat tutorial settings and judgments as evidence within their stated scope,
+  not automatic approval to adopt them for a new research task.
+
+## Knowledge admission
+
+- A request to run or analyze a calculation does not authorize adding a
+  tutorial, FAQ, or troubleshooting entry.
+- Before creating an item, present a proposal using
+  `templates/knowledge-proposal.md` and obtain explicit user approval for the
+  topic, destination, and scope. Apply the same rule to substantive changes to
+  existing conclusions, recommendations, or applicability, and to deprecation.
+- Before approval, keep proposals in the conversation or the ignored
+  `.local/<work-id>/` workspace. Do not assign a permanent catalog identifier,
+  create a resource in the curated directories, or update their indexes.
+- After approval, prepare a reviewable draft within that scope. Admission
+  approval does not confirm scientific claims or authorize `reviewed` status.
+- Pure spelling, formatting, and broken-link fixes that do not change technical
+  meaning may proceed within an authorized maintenance task.
+- Record a scientific proposal as `provisional (AI assistant)` and unadopted
+  until the user explicitly accepts it. Preserve superseded judgments and
+  distinguish approval to add an item from approval of its scientific content.
+- Follow `CONTRIBUTING.md` for human review. Do not independently promote an
+  item to `reviewed` or extend an earlier review to changed scientific content.
+
 ## Before making changes
 
 - Read `README.md`, `CONTRIBUTING.md`, and the relevant template and resources.
@@ -67,7 +115,10 @@ State the conflict and narrow the claim to what the evidence supports.
 - Separate observations, interpretations, and verified conclusions.
 - Preserve exact SALMON input-variable names, commands, units, and error text.
 - Prefer concise summaries and stable source links over copied logs or source.
-- Mark new tutorials `draft`. Do not set `reviewed` without human review.
+- Mark new tutorials `draft`. Keep substantively revised resources `draft`
+  pending renewed human review; preserve prior review history in the text and
+  do not present earlier reviewers as having reviewed the revision. An explicitly
+  approved deprecation uses `deprecated` instead.
 - When a tutorial becomes outdated, mark it `deprecated` and explain the replacement
   or changed behavior instead of deleting useful history.
 
@@ -77,9 +128,9 @@ State the conflict and narrow the claim to what the evidence supports.
   mailing-list ingestion unless a task explicitly requests it.
 - Do not duplicate complete inputs from SALMON-inputs, formal documentation from
   SALMON-DOCS, or implementation documentation that belongs in SALMON2. A
-  tutorial may include one small, representative input when it is necessary to
-  reproduce the tutorial's conclusion; link to SALMON-inputs for published input
-  collections and avoid copying multiple variants.
+  tutorial may include multiple small, representative inputs when necessary to
+  reproduce its procedure, comparisons, or conclusion. Include only the needed
+  cases; link to SALMON-inputs for published input collections.
 - Do not add large calculation outputs, build directories, binary artifacts, or
   generated caches.
 - Small derived figures that support a tutorial are allowed under that tutorial's

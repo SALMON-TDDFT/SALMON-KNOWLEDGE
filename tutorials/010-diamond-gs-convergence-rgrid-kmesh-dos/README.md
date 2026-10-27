@@ -5,7 +5,7 @@ status: reviewed
 verification_level: tested
 learning_stage: intermediate
 prerequisites: [SALMON-TUTORIAL-005]
-next_tutorials: []
+next_tutorials: [SALMON-TUTORIAL-012]
 estimated_cost: 13 runs of 6 to 24 nodes, each under 20 minutes (the finest-grid run, r48 at 6 nodes, took 16.5 minutes; the densest k run, k24 at 24 nodes, 8.6 minutes)
 topics: [diamond, carbon, ground-state, convergence, density-of-states, k-points, real-space-grid, primitive-cell, fhi-pseudopotential, band-gap]
 salmon_version: 2.3.0
